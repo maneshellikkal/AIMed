@@ -14,6 +14,8 @@ before_script:
   - composer install --dev --prefer-source --no-interaction
   - mv .env.example .env
   - php artisan key:generate
+  - nvm install node
+  - nvm use node
   - npm install --global npm@3.10.8
   - npm install --global gulp-cli
   - npm install
