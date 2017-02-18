@@ -46,7 +46,7 @@ return [
         /*
          * The domain that should be prepended when generating urls.
          */
-        'domain' => 'https://xxxxxxx.s3.amazonaws.com',
+        'domain' => 'aimed1.s3.ap-south-1.amazonaws.com',
     ],
 
     'remote' => [
