@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class Logintest extends TestCase
+class LoginTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
