@@ -1,15 +1,15 @@
 // Variables
 //@import "variables";
-
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
 
 html {
   position: relative;
   min-height: 100%;
 }
 
-body{
+body {
   background-color: #eceeef;
   margin-bottom: 60px;
 }
@@ -21,4 +21,27 @@ footer {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
   background-color: #f5f5f5;
+}
+
+.vote-button-container {
+  cursor: pointer;
+  z-index: 2;
+
+  .vote-button-count { margin-top: -12px; }
+  span { font-size: larger; }
+  &:hover {
+    span{
+      font-size: x-large;
+      color: $state-info-text;
+    }
+  }
+}
+
+.datasets-list {
+  .dataset-item {
+    cursor: pointer;
+    &:hover {
+      background-color: lighten($table-bg-hover, 20%);
+    }
+  }
 }
