@@ -28,4 +28,10 @@ class PredictionRequestService {
         $response = $this->client->post($this->urls['heart'], ['form_params' => $data]);
         return json_decode($response->getBody(), true);
     }
+
+    public function predictDiabetes ($data)
+    {
+        $response = $this->client->post($this->urls['diabetes'], ['form_params' => $data]);
+        return json_decode($response->getBody(), true);
+    }
 }

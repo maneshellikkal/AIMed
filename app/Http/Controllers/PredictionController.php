@@ -24,8 +24,11 @@ class PredictionController extends Controller
     {
         return view('predictions.diabetes');
     }
-    public function postDiabetes()
+    public function postDiabetes(PredictionRequestService $service)
     {
-        return view('predictions.diabetes')->withInput();
+        $data = request()->all();
+        $prediction = $service->predictDiabetes($data);
+        // TODO: Persist user input to database
+        return view('predictions.diabetes')->withResults($prediction);
     }
 }
