@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/datasets', 'DatasetController@index');
-Route::get('/predict/heart', 'PredictionController@getHeart');
-Route::post('/predict/heart', 'PredictionController@postHeart');
-Route::get('/predict/diabetes', 'PredictionController@getDiabetes');
-Route::post('/predict/diabetes', 'PredictionController@postDiabetes');
+Route::get('/predict/heart', 'HeartDiseasePredictionController@form');
+Route::post('/predict/heart', 'HeartDiseasePredictionController@predict');
+Route::get('/predict/diabetes', 'DiabetesPredictionController@form');
+Route::post('/predict/diabetes', 'DiabetesPredictionController@predict');
