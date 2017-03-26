@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    @if(auth()->check())
     <div class="container">
         <div class="row mt-3">
             <div class="col align-self-end">
@@ -12,6 +13,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     @component('layouts.card', [
         'cardTitle' => 'Datasets',

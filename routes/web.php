@@ -15,7 +15,6 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
 Route::get('/d/{dataset}', 'DatasetController@show');
 Route::get('/d/{dataset}/edit', 'DatasetController@edit');
 Route::put('/d/{dataset}', 'DatasetController@update');

@@ -25,7 +25,7 @@ class RegisterTest extends TestCase
     {
         $user     = factory(User::class)->make();
         $response = $this->register($user);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
     }
 
     public function test_i_should_see_user_in_database_after_registering ()
