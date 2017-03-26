@@ -32,4 +32,12 @@ class UserTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $this->user->datasets
         );
     }
+
+    /** @test */
+    function a_user_has_codes ()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->codes
+        );
+    }
 }

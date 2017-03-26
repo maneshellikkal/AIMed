@@ -60,4 +60,9 @@ class Dataset extends Model implements HasMedia
           'slug' => ['source' => 'name']
         ];
     }
+
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
+    }
 }

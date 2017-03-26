@@ -16,14 +16,14 @@ class LoginTest extends TestCase
         $this->get('/login')
              ->assertStatus(200);
 
-        $this->actingAs(factory(User::class)->create())
+        $this->signIn()
              ->get('/login')
              ->assertStatus(302);
     }
 
     public function test_i_should_not_be_logged_in_with_invalid_credentials()
     {
-        $user = factory(User::class)->create();
+        $user = create('App\User');
         $response = $this->post('/login', ['username' => $user->username, 'password' => 'wrongPassword']);
 
         while($response->isRedirect()){
@@ -35,7 +35,7 @@ class LoginTest extends TestCase
 
     public function test_i_should_be_logged_in_with_valid_credentials()
     {
-        $user = factory(User::class)->create();
+        $user = create('App\User');
         $response = $this->post('/login', ['username' => $user->username, 'password' => 'secret']);
 
         while($response->isRedirect()){

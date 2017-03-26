@@ -17,9 +17,9 @@ class PasswordResetTest extends TestCase
         $this->get('/password/reset')
              ->assertSee('Reset Password');
 
-        $this->actingAs(factory(User::class)->create())
+        $this->signIn()
              ->get('/password/reset')
-             ->assertRedirect('/home');
+             ->assertRedirect('/');
     }
 
     public function test_i_should_see_the_password_reset_page_only_if_i_am_not_logged_in ()
@@ -27,21 +27,21 @@ class PasswordResetTest extends TestCase
         $this->get('/password/reset/someToken')
              ->assertSee('Reset Password');
 
-        $this->actingAs(factory(User::class)->create())
+        $this->signIn()
              ->get('/password/reset/someToken')
-             ->assertRedirect('/home');
+             ->assertRedirect('/');
     }
 
     public function test_success_message_should_be_flashed_after_password_reset()
     {
-        $user = factory(User::class)->create();
+        $user = create('App\User');
         $response = $this->post('/password/email', ['email' => $user->email]);
         $response->assertSessionHas('status', 'We have e-mailed your password reset link!');
     }
 
     public function test_email_should_be_sent_on_password_reset()
     {
-        $user = factory(User::class)->create();
+        $user = create('App\User');
         $this->post('/password/email', ['email' => $user->email]);
 
         $this->assertEmailWasSent();
