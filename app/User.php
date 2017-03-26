@@ -27,6 +27,21 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Get a string path for the thread.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return "/u/{$this->username}";
+    }
+
+    /**
+     * A User may have multiple datasets.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function datasets()
     {
         return $this->hasMany(Dataset::class);

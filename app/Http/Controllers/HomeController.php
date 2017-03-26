@@ -10,6 +10,6 @@ class HomeController extends Controller
      */
     public function index ()
     {
-        return auth()->guest() ? view('index') : view('home');
+        return auth()->guest() ? view('index') : view('index');
     }
 }
