@@ -19,6 +19,7 @@
 
 <body>
     @include('layouts._nav')
+    @include('layouts._errors')
 
     @yield('content')
 

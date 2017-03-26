@@ -17,11 +17,12 @@ class CreateDatasetsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('overview');
-            $table->longText('description')->nullable();
+            $table->text('description');
             $table->string('slug')->unique();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('license')->nullable();
+            $table->boolean('featured')->default(false);
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }
