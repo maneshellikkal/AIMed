@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('title')
-    Publish Dataset
+    Publish Code - {{ $dataset->name }}
 @endsection
 
 @section('content')
     @component('layouts.card', [
-        'cardTitle' => 'Publish Dataset',
+        'cardTitle' => 'Publish Code for '. $dataset->name,
     ])
-        <form role="form" method="POST" action="/datasets">
+        <form role="form" method="POST" action="/codes">
             {{ csrf_field() }}
+
+            <input type="hidden" name="dataset_id" value="{{ $dataset->id }}">
 
             <div class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
                 <label for="name" class="col-4 form-control-label text-right">Name</label>
@@ -21,21 +23,6 @@
                     @if ($errors->has('name'))
                         <p class="form-text text-muted text-danger">
                             <strong>{{ $errors->first('name') }}</strong>
-                        </p>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
-                <label for="overview" class="col-4 form-control-label text-right">Overview</label>
-
-                <div class="col-6">
-                    <input id="overview" type="text" class="form-control" name="overview"
-                           value="{{ old('overview') }}" required>
-
-                    @if ($errors->has('overview'))
-                        <p class="form-text text-muted text-danger">
-                            <strong>{{ $errors->first('overview') }}</strong>
                         </p>
                     @endif
                 </div>
@@ -56,21 +43,28 @@
                 </div>
             </div>
 
+            <div class="form-group row{{ $errors->has('code') ? ' has-danger' : '' }}">
+                <label for="code" class="col-4 form-control-label text-right">Code</label>
+
+                <div class="col-6">
+                    <textarea rows="10" id="code" class="form-control" name="code"
+                              required>{{ old('code') }}</textarea>
+
+                    @if ($errors->has('code'))
+                        <p class="form-text text-muted text-danger">
+                            <strong>{{ $errors->first('code') }}</strong>
+                        </p>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-6 offset-4">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-arrow-right"> </i> Next
+                        <i class="fa fa-save"> </i> Save
                     </button>
                 </div>
             </div>
         </form>
     @endcomponent
 @endsection
-
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" />
-@endpush
-
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
-@endpush

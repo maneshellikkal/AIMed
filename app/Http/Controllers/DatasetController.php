@@ -19,26 +19,27 @@ class DatasetController extends Controller
      * Display a listing of the resource.
      *
      * @param DatasetFilters $filters
+     * @param Request        $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DatasetFilters $filters)
+    public function index (DatasetFilters $filters, Request $request)
     {
-        $datasets = Dataset::published()
-                           ->filter($filters)
+        $datasets = Dataset::filter($filters)
+                           ->published()
                            ->with('creator')
                            ->latest()
-                           ->paginate();
+                           ->paginate()
+                           ->appends($request->all());
 
         return view('datasets.index', compact('datasets'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create ()
     {
         return view('datasets.publish');
     }
@@ -47,72 +48,83 @@ class DatasetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param PublishDatasetRequest|Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(PublishDatasetRequest $request)
+    public function store (PublishDatasetRequest $request)
     {
         $dataset = Dataset::create([
-           'name' => $request->name,
-           'overview' => $request->overview,
-           'description' => $request->description,
-           'user_id' => auth()->id(),
+            'name'        => $request->input('name'),
+            'overview'    => $request->input('overview'),
+            'description' => $request->input('description'),
+            'user_id'     => auth()->id(),
         ]);
 
-        return redirect($dataset->path().'/edit');
+        return redirect($dataset->path() . '/edit');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param string    $slug
+     * @param string $slug
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show(string $slug)
+    public function show (string $slug)
     {
-        $dataset = Dataset::published()->whereSlug($slug)->firstOrFail();
+        $dataset = Dataset::published()
+                          ->with([
+                              'codes' => function ($query) {
+                                  $query->published();
+                              }
+                          ])->findBySlugOrFail($slug);
+
         return view('datasets.show', compact('dataset'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string   $slug
+     * @param  string $slug
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit ($slug)
     {
-        $dataset = auth()->user()->datasets()->whereSlug($slug)->firstOrFail();
+        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
+
         return view('datasets.edit', compact('dataset'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateDatasetRequest  $request
-     * @param string   $slug
+     * @param UpdateDatasetRequest $request
+     * @param string               $slug
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdateDatasetRequest $request, $slug)
+    public function update (UpdateDatasetRequest $request, $slug)
     {
-        $dataset = auth()->user()->datasets()->whereSlug($slug)->firstOrFail();
+        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $dataset->clearMediaCollection();
             $dataset->addMedia($request->file('image'))->preservingOriginal()->toMediaCollection();
         }
 
         $dataset->update([
-            'name' => $request->name,
-            'overview' => $request->overview,
-            'description' => $request->description,
-            'published' => $dataset->hasMedia() && $dataset->hasMedia('files')
+            'name'        => $request->input('name'),
+            'overview'    => $request->input('overview'),
+            'description' => $request->input('description'),
+            'published'   => $dataset->hasMedia() && $dataset->hasMedia('files')
         ]);
 
-        if(! $dataset->published){
-            return redirect($dataset->path().'/edit')
+        if ( ! $dataset->published) {
+            return redirect($dataset->path() . '/edit')
                 ->withErrors(['You need to add a display image and at least one file before publishing the dataset.']);
         }
+
         return redirect($dataset->path());
     }
 }
