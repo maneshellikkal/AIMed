@@ -27,7 +27,7 @@ class CodeController extends Controller
     public function index (CodeFilters $filters, Request $request)
     {
         $codes = Code::filter($filters)
-                     ->published()
+                     ->published(true)
                      ->with('creator', 'dataset')
                      ->latest()
                      ->paginate()
@@ -80,7 +80,7 @@ class CodeController extends Controller
      */
     public function show (string $slug)
     {
-        $code = Code::published()->findBySlugOrFail($slug);
+        $code = Code::published(true)->findBySlugOrFail($slug);
 
         return view('codes.show', compact('code'));
     }

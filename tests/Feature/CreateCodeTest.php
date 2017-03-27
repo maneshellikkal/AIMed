@@ -21,6 +21,17 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
+    function an_user_may_not_create_code_for_unpublished_datasets ()
+    {
+        $dataset = create('App\Dataset', ['published' => false]);
+
+        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->disableExceptionHandling()
+             ->signIn()
+             ->get("/c/{$dataset->slug}/publish")->assertSee('Fuck');
+    }
+
+    /** @test */
     function an_authenticated_user_can_create_codes ()
     {
         $user = create('App\User');

@@ -4,9 +4,9 @@ namespace App\Traits;
 
 trait Publishable
 {
-    public function scopePublished($query)
+    public function scopePublished($query, $force = false)
     {
-        if(auth()->check())
+        if(auth()->check() && $force)
         {
             return $query->wherePublished(true)
                          ->orWhere(function($query){

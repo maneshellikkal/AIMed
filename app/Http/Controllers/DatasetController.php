@@ -26,7 +26,7 @@ class DatasetController extends Controller
     public function index (DatasetFilters $filters, Request $request)
     {
         $datasets = Dataset::filter($filters)
-                           ->published()
+                           ->published(true)
                            ->with('creator')
                            ->latest()
                            ->paginate()
@@ -72,7 +72,7 @@ class DatasetController extends Controller
      */
     public function show (string $slug)
     {
-        $dataset = Dataset::published()
+        $dataset = Dataset::published(true)
                           ->with([
                               'codes' => function ($query) {
                                   $query->published();

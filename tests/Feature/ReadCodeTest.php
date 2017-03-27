@@ -17,14 +17,14 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_view_all_codes ()
+    public function an_user_can_view_codes ()
     {
         $this->get('/codes')
              ->assertSee($this->code->name);
     }
 
     /** @test */
-    public function a_user_cannot_view_unpublished_codes ()
+    public function an_user_cannot_view_unpublished_codes ()
     {
         $code = create('App\Code', ['published' => false]);
         $this->get('/codes')
@@ -32,17 +32,54 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_view_a_single_code ()
+    function a_creator_can_view_unpublished_codes ()
+    {
+        $user = create('App\User');
+        $code = create('App\Code', ['published' => false, 'user_id' => $user->id]);
+
+        $this->signIn($user)
+            ->get('/codes')
+            ->assertSee($code->name);
+    }
+
+    /** @test */
+    function an_user_can_view_published_code ()
     {
         $this->get($this->code->path())
              ->assertSee($this->code->name);
     }
 
     /** @test */
-    function a_user_cannot_view_unpublished_code ()
+    function an_user_cannot_view_unpublished_code ()
     {
         $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
         $code = create('App\Code', ['published' => false]);
         $this->disableExceptionHandling()->get($code->path());
+    }
+
+    /** @test */
+    function a_creator_can_view_unpublished_code ()
+    {
+        $user = create('App\User');
+        $code = create('App\Code', ['published' => false, 'user_id' => $user->id]);
+
+        $this->signIn($user)
+             ->get($code->path())
+             ->assertSee($code->name);
+    }
+
+    /** @test */
+    function an_authenticated_user_can_view_their_own_codes ()
+    {
+        $user = create('App\User');
+        $this->signIn($user);
+
+        $code = create('App\Code');
+        $this->get('/codes?show=my')
+             ->assertDontSee($code->name);
+
+        $code = create('App\Code', ['user_id' => $user->id]);
+        $this->get('/codes?show=my')
+             ->assertSee($code->name);
     }
 }
