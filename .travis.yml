@@ -1,12 +1,6 @@
 language: php
 php:
   - 7.0
-services:
-  - mysql
-before_install:
-  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS test;'
-  - mysql -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';"
-  - mysql -u root -e "GRANT ALL ON test.* TO 'homestead'@'localhost';"
 before_script:
   - composer self-update
   - composer install --dev --prefer-source --no-interaction
