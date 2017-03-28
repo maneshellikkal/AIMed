@@ -5,14 +5,14 @@
 @endsection
 
 @section('content')
-    @if(auth()->check() && auth()->id() == $dataset->user_id)
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col align-self-end">
-                <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+    @if(auth()->check() && $dataset->isOwnedBy(auth()->user()))
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col align-self-end">
+                    <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+                </div>
             </div>
         </div>
-    </div>
     @endif
 
     @component('layouts.card', [
@@ -60,11 +60,28 @@
                 <td>{{ $dataset->featured ? 'Yes' : 'No' }}</td>
             </tr>
         </table>
-
+        <hr>
 
         <h3>Files</h3>
-        @foreach($dataset->getMedia('files') as $file)
-            <a href="{{ $file->getUrl() }}">{{ $file->file_name }}</a> <br>
-        @endforeach
+        <div class="list-group">
+            @forelse($dataset->getMedia('files') as $file)
+                <a class="list-group-item" href="{{ $file->getUrl() }}">{{ $file->file_name }}</a> <br>
+            @empty
+                <a class="list-group-item">No Attached Files</a>
+            @endforelse
+        </div>
+        <hr>
+
+        <h3>Codes ({{ $dataset->codes->count() }})</h3>
+        <a class="pull-right btn btn-primary" href="/c/{{ $dataset->slug }}/publish">Add Code</a>
+
+        <div class="list-group">
+            @forelse($dataset->codes as $code)
+                <a class="list-group-item" href="{{ $code->path() }}">{{ $code->name }} &nbsp; <small>by {{ $code->creator->name }}</small></a> <br>
+            @empty
+                <a class="list-group-item">No Published Codes</a>
+            @endforelse
+        </div>
+
     @endcomponent
 @endsection

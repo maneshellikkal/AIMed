@@ -34,3 +34,14 @@ $factory->define(App\Dataset::class, function (Faker\Generator $faker) {
         'published'   => true,
     ];
 });
+
+$factory->define(App\Code::class, function (Faker\Generator $faker) {
+    return [
+        'user_id'     => function () { return factory(App\User::class)->create()->id; },
+        'dataset_id'     => function () { return factory(App\Dataset::class)->create()->id; },
+        'name'        => $faker->words(3, true),
+        'description' => $faker->paragraphs(3, true),
+        'code' => $faker->paragraphs(3, true),
+        'published'   => true,
+    ];
+});

@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Dataset::class);
     }
+
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
+    }
 }

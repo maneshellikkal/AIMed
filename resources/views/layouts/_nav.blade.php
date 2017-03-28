@@ -17,8 +17,8 @@
                 <li class="nav-item{{ request()->is('datasets') ? ' active' : '' }}">
                     <a class="nav-link" href="/datasets">Datasets</a>
                 </li>
-                <li class="nav-item{{ request()->is('code') ? ' active' : '' }}">
-                    <a class="nav-link" href="/code">Code</a>
+                <li class="nav-item{{ request()->is('codes') ? ' active' : '' }}">
+                    <a class="nav-link" href="/codes">Code</a>
                 </li>
                 <li class="nav-item{{ request()->is('forum') ? ' active' : '' }}">
                     <a class="nav-link" href="/forum">Forum</a>

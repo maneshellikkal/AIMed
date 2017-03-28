@@ -2,9 +2,12 @@
 
 namespace App;
 
-use App\Filters\QueryFilter;
+use App\Traits\Featureable;
+use App\Traits\Filterable;
+use App\Traits\Ownable;
+use App\Traits\Publishable;
+use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -12,23 +15,9 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 class Dataset extends Model implements HasMedia
 {
     use Sluggable, SluggableScopeHelpers, HasMediaTrait;
+    use Ownable, Featureable, Publishable, Filterable;
 
     protected $guarded = [];
-
-    public function scopePublished($query, $condition = true)
-    {
-        return $query->wherePublished($condition);
-    }
-
-    public function scopeFeatured($query, $condition = true)
-    {
-        return $query->whereFeatured($condition);
-    }
-
-    public function scopeFilter($query, QueryFilter $filter)
-    {
-        return $filter->apply($query);
-    }
 
     public function creator()
     {
@@ -45,19 +34,8 @@ class Dataset extends Model implements HasMedia
         return "/d/{$this->slug}";
     }
 
-    public function getRouteKeyName()
+    public function codes()
     {
-        return 'slug';
-    }
-
-    /**
-     * Return the sluggable configuration array for this model.
-     * @return array
-     */
-    public function sluggable ()
-    {
-        return [
-          'slug' => ['source' => 'name']
-        ];
+        return $this->hasMany(Code::class);
     }
 }

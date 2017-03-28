@@ -15,8 +15,7 @@ class DatasetFileController extends Controller
     {
         $dataset = auth()->user()
                          ->datasets()
-                         ->whereSlug($slug)
-                         ->firstOrFail();
+                         ->findBySlugOrFail($slug);
 
         if ($dataset->hasMedia('files') && count($dataset->getMedia('files')) >= config('settings.dataset.max_allowed_files')) {
             return response([

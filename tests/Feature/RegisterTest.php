@@ -16,21 +16,21 @@ class RegisterTest extends TestCase
         $this->get('/register')
              ->assertStatus(200);
 
-        $this->actingAs(factory(User::class)->create())
+        $this->signIn()
              ->get('/register')
              ->assertStatus(302);
     }
 
     public function test_i_should_be_on_home_page_after_registering()
     {
-        $user     = factory(User::class)->make();
+        $user     = make('App\User');
         $response = $this->register($user);
         $response->assertRedirect('/');
     }
 
     public function test_i_should_see_user_in_database_after_registering ()
     {
-        $user = factory(User::class)->make();
+        $user = make('App\User');
         $this->register($user);
         $this->assertDatabaseHas('users', ['email' => $user->email]);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PublishDatasetRequest extends FormRequest
+class PublishCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,11 @@ class PublishDatasetRequest extends FormRequest
     public function rules ()
     {
         return [
+            'dataset_id'  => 'required|exists:datasets,id,published,1',
             'name'        => 'required|string|between:6,50',
-            'overview'    => 'required|string|between:20,80',
-            'description' => 'required|max:20000'
+            'description' => 'required|max:20000',
+            'code'        => 'required|max:50000',
+            'publish'     => 'boolean',
         ];
     }
 }
