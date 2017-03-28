@@ -77,6 +77,9 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-save"> </i> Save
                     </button>
+                    <a href="{{ $dataset->path() }}" class="btn btn-warning">
+                        <i class="fa fa-chevron-left"> </i> Go back
+                    </a>
                 </div>
             </div>
         </form>

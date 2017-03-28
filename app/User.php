@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Facades\App\Helpers\Gravatar;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,6 +27,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $appends = [
+        'gravatar'
+    ];
+
+    public function getGravatarAttribute()
+    {
+        return Gravatar::src($this->email);
+    }
 
     /**
      * Get a string path for the thread.

@@ -62,7 +62,6 @@
                             <small class="text-muted d-block">Last Updated: {{ $dataset->updated_at->diffForHumans() }}</small>
                         </p>
                     </div>
-                    <div class="col-2">@mdo</div>
                 </div>
             @endforeach
         </div>

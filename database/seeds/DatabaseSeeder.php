@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 7; $i++) {
             $dataset = create('App\Dataset', ['user_id' => User::inRandomOrder()->first()->id]);
-            for ($j = 1; $j <= 5; $j++) {
+            for ($j = 1; $j <= 30; $j++) {
                 create('App\Code', ['dataset_id' => $dataset->id, 'user_id' => User::inRandomOrder()->first()->id]);
             }
         }

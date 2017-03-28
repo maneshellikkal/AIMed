@@ -75,13 +75,12 @@ class DatasetController extends Controller
     {
         $dataset = Dataset::published()
                           ->withUnpublishedFor(auth()->id())
-                          ->with([
-                              'codes' => function ($query) {
-                                  $query->published();
-                              }
-                          ])->findBySlugOrFail($slug);
+                          ->with('creator')
+                          ->findBySlugOrFail($slug);
 
-        return view('datasets.show', compact('dataset'));
+        $codes = $dataset->codes()->published()->latest()->paginate();
+
+        return view('datasets.show', compact('dataset', 'codes'));
     }
 
     /**
