@@ -28,7 +28,7 @@ class CreateCodeTest extends TestCase
         $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
         $this->disableExceptionHandling()
              ->signIn()
-             ->get("/c/{$dataset->slug}/publish")->assertSee('Fuck');
+             ->get("/c/{$dataset->slug}/publish");
     }
 
     /** @test */

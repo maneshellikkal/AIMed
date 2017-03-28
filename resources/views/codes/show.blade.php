@@ -32,7 +32,11 @@
             </tr>
             <tr>
                 <th>Code</th>
-                <td>{{ $code->code }}</td>
+                <td>
+                    <pre>
+                        <code>{{ $code->code }}</code>
+                    </pre>
+                </td>
             </tr>
             <tr>
                 <th>Published by</th>
@@ -57,3 +61,5 @@
         </table>
     @endcomponent
 @endsection
+
+@include('layouts._code_highlight')

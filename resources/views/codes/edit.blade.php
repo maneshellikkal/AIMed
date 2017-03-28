@@ -46,8 +46,8 @@
                 <label for="code" class="col-4 form-control-label text-right">Code</label>
 
                 <div class="col-6">
-                    <textarea rows="10" id="code" class="form-control" name="code"
-                              required>{{ old('code') ?: $code->code }}</textarea>
+                    <textarea name="code" id="code" hidden>{{ old('code') ?: $code->code }}</textarea>
+                    <div id="code-editor" class="form-control"></div>
 
                     @if ($errors->has('code'))
                         <p class="form-text text-muted text-danger">
@@ -83,3 +83,5 @@
         </form>
     @endcomponent
 @endsection
+
+@include('layouts._code_editor')

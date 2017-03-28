@@ -47,6 +47,17 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
+    function a_creator_can_view_unpublished_datasets ()
+    {
+        $user = create('App\User');
+        $dataset = create('App\Dataset', ['published' => false, 'user_id' => $user->id]);
+
+        $this->signIn($user)
+             ->get('/datasets')
+             ->assertSee($dataset->name);
+    }
+
+    /** @test */
     function an_user_can_view_featured_datasets ()
     {
         $dataset = create('App\Dataset', ['featured' => false]);

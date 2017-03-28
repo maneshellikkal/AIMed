@@ -26,7 +26,8 @@ class DatasetController extends Controller
     public function index (DatasetFilters $filters, Request $request)
     {
         $datasets = Dataset::filter($filters)
-                           ->published(true)
+                           ->published()
+                           ->withUnpublishedFor(auth()->id())
                            ->with('creator')
                            ->latest()
                            ->paginate()
@@ -72,7 +73,8 @@ class DatasetController extends Controller
      */
     public function show (string $slug)
     {
-        $dataset = Dataset::published(true)
+        $dataset = Dataset::published()
+                          ->withUnpublishedFor(auth()->id())
                           ->with([
                               'codes' => function ($query) {
                                   $query->published();
@@ -120,7 +122,7 @@ class DatasetController extends Controller
             'published'   => $dataset->hasMedia() && $dataset->hasMedia('files')
         ]);
 
-        if ( ! $dataset->published) {
+        if ( ! $dataset->isPublished()) {
             return redirect($dataset->path() . '/edit')
                 ->withErrors(['You need to add a display image and at least one file before publishing the dataset.']);
         }
