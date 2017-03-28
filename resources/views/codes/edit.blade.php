@@ -17,7 +17,7 @@
 
                 <div class="col-6">
                     <input id="name" type="text" class="form-control" name="name"
-                           value="{{ old('name') ?: $code->name }}" required autofocus>
+                           value="{{ old('name', $code->name) }}" required autofocus>
 
                     @if ($errors->has('name'))
                         <p class="form-text text-muted text-danger">
@@ -31,8 +31,7 @@
                 <label for="description" class="col-4 form-control-label text-right">Description</label>
 
                 <div class="col-6">
-                    <textarea rows="10" id="description" class="form-control" name="description"
-                              required>{{ old('description') ?: $code->description }}</textarea>
+                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description', $code->description) }}</textarea>
 
                     @if ($errors->has('description'))
                         <p class="form-text text-muted text-danger">
@@ -46,8 +45,7 @@
                 <label for="code" class="col-4 form-control-label text-right">Code</label>
 
                 <div class="col-6">
-                    <textarea name="code" id="code" hidden>{{ old('code') ?: $code->code }}</textarea>
-                    <div id="code-editor" class="form-control"></div>
+                    <textarea name="code" id="code" class="form-control" data-editor="python" rows="20">{{ old('code', $code->code) }}</textarea>
 
                     @if ($errors->has('code'))
                         <p class="form-text text-muted text-danger">
@@ -61,7 +59,7 @@
                 <div class="col-6 offset-4">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="1" name="publish" {{ (old('publish') ?: $code->published) ? 'checked' : '' }}> Publish Code
+                            <input class="form-check-input" type="checkbox" value="1" name="publish" {{ old('publish', $code->published) ? 'checked' : '' }}> Publish Code
                         </label>
                     </div>
 
@@ -85,3 +83,4 @@
 @endsection
 
 @include('layouts._code_editor')
+@include('layouts._markdown_editor')

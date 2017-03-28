@@ -32,8 +32,7 @@
                 <label for="description" class="col-4 form-control-label text-right">Description</label>
 
                 <div class="col-6">
-                    <textarea rows="10" id="description" class="form-control" name="description"
-                              required>{{ old('description') }}</textarea>
+                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description') }}</textarea>
 
                     @if ($errors->has('description'))
                         <p class="form-text text-muted text-danger">
@@ -47,12 +46,27 @@
                 <label for="code" class="col-4 form-control-label text-right">Code</label>
 
                 <div class="col-6">
-                    <textarea name="code" id="code" hidden>{{ old('code') }}</textarea>
-                    <div id="code-editor" class="form-control"></div>
+                    <textarea name="code" id="code" class="form-control" data-editor="python" rows="20">{{ old('code') }}</textarea>
 
                     @if ($errors->has('code'))
                         <p class="form-text text-muted text-danger">
                             <strong>{{ $errors->first('code') }}</strong>
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group row{{ $errors->has('publish') ? ' has-danger' : '' }}">
+                <div class="col-6 offset-4">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="1" name="publish" {{ old('publish') ? 'checked' : '' }}> Publish Code
+                        </label>
+                    </div>
+
+                    @if ($errors->has('publish'))
+                        <p class="form-text text-muted text-danger">
+                            <strong>{{ $errors->first('publish') }}</strong>
                         </p>
                     @endif
                 </div>
@@ -70,3 +84,4 @@
 @endsection
 
 @include('layouts._code_editor')
+@include('layouts._markdown_editor')

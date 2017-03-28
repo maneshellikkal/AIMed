@@ -18,7 +18,7 @@
 
                 <div class="col-6">
                     <input id="name" type="text" class="form-control" name="name"
-                           value="{{ old('name') ?: $dataset->name }}" required autofocus>
+                           value="{{ old('name', $dataset->name) }}" required autofocus>
 
                     @if ($errors->has('name'))
                         <p class="form-text text-muted text-danger">
@@ -33,7 +33,7 @@
 
                 <div class="col-6">
                     <input id="overview" type="text" class="form-control" name="overview"
-                           value="{{ old('overview') ?: $dataset->overview }}" required>
+                           value="{{ old('overview', $dataset->overview) }}" required>
 
                     @if ($errors->has('overview'))
                         <p class="form-text text-muted text-danger">
@@ -47,8 +47,7 @@
                 <label for="description" class="col-4 form-control-label text-right">Description</label>
 
                 <div class="col-6">
-                    <textarea rows="10" id="description" class="form-control" name="description"
-                              required>{{ old('description') ?: $dataset->description }}</textarea>
+                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description', $dataset->description) }}</textarea>
 
                     @if ($errors->has('description'))
                         <p class="form-text text-muted text-danger">
@@ -95,10 +94,5 @@
     @endcomponent
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" />
-@endpush
-
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
-@endpush
+@include('layouts._dropzone')
+@include('layouts._markdown_editor')

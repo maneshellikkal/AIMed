@@ -45,8 +45,7 @@
                 <label for="description" class="col-4 form-control-label text-right">Description</label>
 
                 <div class="col-6">
-                    <textarea rows="10" id="description" class="form-control" name="description"
-                              required>{{ old('description') }}</textarea>
+                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description') }}</textarea>
 
                     @if ($errors->has('description'))
                         <p class="form-text text-muted text-danger">
@@ -67,10 +66,4 @@
     @endcomponent
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css" />
-@endpush
-
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
-@endpush
+@include('layouts._markdown_editor')
