@@ -23,7 +23,7 @@
                 <div class="col-3">
                     <h2>Code</h2>
                     <p>Publish and find code through the community</p>
-                    <p><a class="btn btn-secondary" href="/code" role="button">Browse »</a></p>
+                    <p><a class="btn btn-secondary" href="/codes" role="button">Browse »</a></p>
                 </div>
                 <div class="col-3">
                     <h2>News</h2>

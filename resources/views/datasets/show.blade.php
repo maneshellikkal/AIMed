@@ -40,7 +40,7 @@
                         Description
                     </h3>
                     <div class="card-block">
-                        <p>{{ $dataset->description }}</p>
+                        {!! $dataset->description_html !!}
                     </div>
                 </div>
             </div>
