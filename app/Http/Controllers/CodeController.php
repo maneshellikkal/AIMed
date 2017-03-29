@@ -69,7 +69,7 @@ class CodeController extends Controller
             'published'   => $request->input('publish', false),
         ]);
 
-        return redirect($code->path() . '/edit');
+        return redirect($code->path());
     }
 
     /**
