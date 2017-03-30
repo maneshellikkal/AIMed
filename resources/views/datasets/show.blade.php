@@ -40,7 +40,7 @@
                         Description
                     </h3>
                     <div class="card-block">
-                        {!! $dataset->description_html !!}
+                        {!! markdownToDemotedHtml($dataset->description) !!}
                     </div>
                 </div>
             </div>

@@ -12,6 +12,7 @@
                 <a class="pull-right btn btn-primary" href="{{ $code->path() }}/edit">Edit Dataset</a>
             </div>
             @endif
+
             <div class="col-3">
                 <img class="img-fluid" src="{{ $code->dataset->getFirstMediaUrl() }}" alt="{{ $code->name }}" style="min-width: 200px;">
             </div>
@@ -38,7 +39,7 @@
                         Description
                     </h3>
                     <div class="card-block">
-                        {!! $code->description_html !!}
+                        {!! markdownToDemotedHtml($code->description) !!}
                     </div>
                 </div>
             </div>

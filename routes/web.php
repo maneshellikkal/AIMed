@@ -36,3 +36,11 @@ Route::get('/predict/heart', 'HeartDiseasePredictionController@form');
 Route::post('/predict/heart', 'HeartDiseasePredictionController@predict');
 Route::get('/predict/diabetes', 'DiabetesPredictionController@form');
 Route::post('/predict/diabetes', 'DiabetesPredictionController@predict');
+
+if (env('APP_ENV') == 'local') {
+    Route::get('/l', function () {
+        auth()->login(App\User::first());
+
+        return redirect('/');
+    });
+}

@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Code;
-use App\Dataset;
-use App\Observers\CodeObserver;
-use App\Observers\DatasetObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,8 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Schema::defaultStringLength(191);
-        Dataset::observe(DatasetObserver::class);
-        Code::observe(CodeObserver::class);
     }
 
     /**
