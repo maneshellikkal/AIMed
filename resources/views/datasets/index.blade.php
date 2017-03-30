@@ -25,18 +25,18 @@
         @slot('cardNavigation')
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link{{ request()->is('datasets') &&  !request('show') ? ' active' : '' }}"
+                    <a class="nav-link{{ request('featured') || request('user')  ? '' : ' active' }}"
                        href="/datasets">All</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{{ request()->is('datasets') && request('show') == 'featured' ? ' active' : '' }}"
-                       href="/datasets?show=featured">Featured</a>
+                    <a class="nav-link{{ request('featured') ? ' active' : '' }}"
+                       href="/datasets?featured=true">Featured</a>
                 </li>
 
                 @if(auth()->check())
                     <li class="nav-item">
-                        <a class="nav-link{{ request()->is('datasets') && request('show') == 'my' ? ' active' : '' }}"
-                           href="/datasets?show=my">My</a>
+                        <a class="nav-link{{ request('user') ? ' active' : '' }}"
+                           href="/datasets?user={{ auth()->user()->username }}">My</a>
                     </li>
                 @endif
             </ul>

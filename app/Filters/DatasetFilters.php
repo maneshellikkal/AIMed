@@ -2,6 +2,9 @@
 
 namespace App\Filters;
 
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
+
 class DatasetFilters extends Filters
 {
     /**
@@ -9,16 +12,30 @@ class DatasetFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['show'];
+    protected $filters = ['featured', 'user'];
 
-    public function show ($value)
+    /**
+     * Show only featured datasets.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function featured($value)
     {
-        if ($value == 'featured') {
-            return $this->builder->featured();
-        }
+        return $this->builder->featured();
+    }
 
-        if (auth()->check() && $value == 'my') {
-            return $this->builder->whereUserId(auth()->id());
-        }
+    /**
+     * Filter datasets by user.
+     *
+     * @param $username
+     *
+     * @return Builder
+     */
+    public function user($username)
+    {
+        $id = User::findByUsername($username, ['id'])->id ?? null;
+        return $id ? $this->builder->whereUserId($id) : $this->builder;
     }
 }

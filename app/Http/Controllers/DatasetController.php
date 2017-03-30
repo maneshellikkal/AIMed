@@ -29,8 +29,7 @@ class DatasetController extends Controller
     public function index (DatasetFilters $filters, Request $request)
     {
         $datasets = Dataset::filter($filters)
-                           ->published()
-                           ->withUnpublishedFor(auth()->id())
+                           ->publishedExceptOf(auth()->id())
                            ->with('creator')
                            ->latest()
                            ->paginate()

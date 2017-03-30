@@ -2,6 +2,9 @@
 
 namespace App\Filters;
 
+use App\User;
+use Illuminate\Database\Eloquent\Builder;
+
 class CodeFilters extends Filters
 {
     /**
@@ -9,17 +12,18 @@ class CodeFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['show'];
+    protected $filters = ['user'];
 
     /**
-     * @param $value
+     * Filter code by user.
      *
-     * @return mixed
+     * @param $username
+     *
+     * @return Builder
      */
-    public function show ($value)
+    public function user($username)
     {
-        if (auth()->check() && $value == 'my') {
-            return $this->builder->whereUserId(auth()->id());
-        }
+        $id = User::findByUsername($username, ['id'])->id ?? null;
+        return $id ? $this->builder->whereUserId($id) : $this->builder;
     }
 }

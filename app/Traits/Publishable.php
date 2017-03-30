@@ -64,15 +64,16 @@ trait Publishable
      *
      * @return Builder
      */
-    public function scopeWithUnpublishedFor (Builder $query, $id)
+    public function scopePublishedExceptOf (Builder $query, $id)
     {
         if ( ! $id) {
-            return $this->builder;
+            return $this->published();
         }
 
-        return $query->orWhere(function ($query) use ($id) {
-            $query->whereUserId($id);
-            $query->wherePublished(false);
-        });
+        return $query->published()
+                     ->orWhere(function ($query) use ($id) {
+                         $query->whereUserId($id);
+                         $query->wherePublished(false);
+                     });
     }
 }

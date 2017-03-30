@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\HasRole;
 use Facades\App\Helpers\Gravatar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -37,6 +38,20 @@ class User extends Authenticatable
     protected $appends = [
         'gravatar'
     ];
+
+    /**
+     * Find the user by its username.
+     *
+     * @param Builder $query
+     * @param         $username
+     * @param array   $columns
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public static function scopeFindByUsername(Builder $query, $username, array $columns = ['*'])
+    {
+        return $query->whereUsername($username)->first($columns);
+    }
 
     /**
      * Get the gravatar url for the user.

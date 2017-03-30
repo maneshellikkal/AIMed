@@ -29,8 +29,7 @@ class CodeController extends Controller
     public function index (CodeFilters $filters, Request $request)
     {
         $codes = Code::filter($filters)
-                     ->published()
-                     ->withUnpublishedFor(auth()->id())
+                     ->publishedExceptOf(auth()->id())
                      ->with('creator', 'dataset')
                      ->latest()
                      ->paginate()
