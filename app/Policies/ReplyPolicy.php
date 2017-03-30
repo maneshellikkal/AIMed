@@ -4,24 +4,9 @@ namespace App\Policies;
 
 use App\User;
 use App\Reply;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReplyPolicy
+class ReplyPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view the reply.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Reply  $reply
-     * @return mixed
-     */
-    public function view(User $user, Reply $reply)
-    {
-        //
-    }
-
     /**
      * Determine whether the user can create replies.
      *
@@ -30,7 +15,7 @@ class ReplyPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +27,7 @@ class ReplyPolicy
      */
     public function update(User $user, Reply $reply)
     {
-        //
+        return $reply->isOwnedBy($user);
     }
 
     /**
@@ -54,6 +39,6 @@ class ReplyPolicy
      */
     public function delete(User $user, Reply $reply)
     {
-        //
+        return false;
     }
 }

@@ -7,11 +7,23 @@ use Illuminate\Database\Eloquent\Builder;
 trait Publishable
 {
     /**
+     * Whether or not the item is published.
+     *
      * @return boolean
      */
     public function isPublished ()
     {
-        return $this->attributes['published'];
+        return $this->published;
+    }
+
+    /**
+     * Whether or not the item is not-published.
+     *
+     * @return boolean
+     */
+    public function isNotPublished ()
+    {
+        return !$this->published;
     }
 
     /**

@@ -4,56 +4,79 @@ namespace App\Policies;
 
 use App\User;
 use App\Dataset;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DatasetPolicy
+class DatasetPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view the dataset.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dataset  $dataset
-     * @return mixed
+     * @param  User  $user
+     * @param  Dataset  $dataset
+     * @return bool
      */
     public function view(User $user, Dataset $dataset)
     {
-        //
+        return $dataset->isOwnedBy($user);
     }
 
     /**
      * Determine whether the user can create datasets.
      *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param  User  $user
+     * @return bool
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can update the dataset.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dataset  $dataset
-     * @return mixed
+     * @param  User  $user
+     * @param  Dataset  $dataset
+     * @return bool
      */
     public function update(User $user, Dataset $dataset)
     {
-        //
+        return $dataset->isOwnedBy($user);
     }
 
     /**
      * Determine whether the user can delete the dataset.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dataset  $dataset
-     * @return mixed
+     * @param  User  $user
+     * @param  Dataset  $dataset
+     * @return bool
      */
     public function delete(User $user, Dataset $dataset)
     {
-        //
+        return false;
+    }
+
+    /**
+     * Determine whether the user can add code to the dataset.
+     *
+     * @param User    $user
+     * @param Dataset $dataset
+     *
+     * @return bool
+     */
+    public function addCode(User $user, Dataset $dataset)
+    {
+        return $dataset->isPublished();
+    }
+
+    /**
+     * Determine whether the user can upload files.
+     *
+     * @param User    $user
+     * @param Dataset $dataset
+     *
+     * @return bool
+     */
+    public function uploadFile(User $user, Dataset $dataset)
+    {
+        return $dataset->isOwnedBy($user);
     }
 }

@@ -4,12 +4,9 @@ namespace App\Policies;
 
 use App\User;
 use App\Thread;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ThreadPolicy
+class ThreadPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view the thread.
      *
@@ -19,7 +16,7 @@ class ThreadPolicy
      */
     public function view(User $user, Thread $thread)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +27,7 @@ class ThreadPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +39,7 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread)
     {
-        //
+        return $thread->isOwnedBy($user);
     }
 
     /**
@@ -54,6 +51,6 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread)
     {
-        //
+        return false;
     }
 }

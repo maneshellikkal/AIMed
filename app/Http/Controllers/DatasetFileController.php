@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Dataset;
 use Illuminate\Http\Request;
 
 class DatasetFileController extends Controller
 {
     public function __construct ()
     {
-        $this->middleware('auth')->only('upload');
+        $this->middleware('can:upload-file,dataset')->only('upload');
     }
 
-    public function upload ($slug, Request $request)
+    public function upload (Dataset $dataset, Request $request)
     {
-        $dataset = auth()->user()
-                         ->datasets()
-                         ->findBySlugOrFail($slug);
-
         if ($dataset->hasMedia('files') && count($dataset->getMedia('files')) >= config('settings.dataset.max_allowed_files')) {
             return response([
                 'error' => sprintf('Maximum of %d files are allowed.', config('settings.dataset.max_allowed_files'))

@@ -12,7 +12,7 @@ class UpdateCodeRequest extends FormRequest
      */
     public function authorize ()
     {
-        return auth()->check() && auth()->user()->codes()->whereSlug($this->route('code'))->count();
+        return true;
     }
 
     /**

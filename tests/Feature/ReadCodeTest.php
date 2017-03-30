@@ -52,7 +52,7 @@ class ReadCodeTest extends TestCase
     /** @test */
     function an_user_cannot_view_unpublished_code ()
     {
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $code = create('App\Code', ['published' => false]);
         $this->disableExceptionHandling()->get($code->path());
     }

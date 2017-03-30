@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Ownable;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+    use Ownable;
+
     /**
      * The attributes that are not mass assignable.
      *
@@ -21,15 +24,5 @@ class Reply extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
-    }
-
-    /**
-     * A reply is created by an user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class);
     }
 }
