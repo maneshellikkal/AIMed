@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i <= 19; $i++) {
             $dataset = create('App\Dataset', ['user_id' => User::inRandomOrder()->first()->id]);
-//            $dataset->addMediaFromUrl($images[$i])->toMediaCollection();
+            $dataset->addMediaFromUrl($images[$i])->toMediaCollection();
         }
 
         for ($j = 1; $j <= 100; $j++) {

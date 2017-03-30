@@ -32,6 +32,9 @@ Route::get('/c/{code}', 'CodeController@show');
 Route::get('/c/{code}/edit', 'CodeController@edit');
 Route::put('/c/{code}', 'CodeController@update');
 
+// News Related Routes
+Route::get('/news', 'NewsController@index');
+
 Route::get('/predict/heart', 'HeartDiseasePredictionController@form');
 Route::post('/predict/heart', 'HeartDiseasePredictionController@predict');
 Route::get('/predict/diabetes', 'DiabetesPredictionController@form');

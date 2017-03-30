@@ -170,6 +170,7 @@ return [
         Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -229,6 +230,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Markdown'     => GrahamCampbell\Markdown\Facades\Markdown::class,
+        'TwitterStreamingApi' => Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiFacade::class,
     ],
 
 ];
