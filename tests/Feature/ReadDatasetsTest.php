@@ -41,7 +41,7 @@ class ReadDatasetsTest extends TestCase
     /** @test */
     function an_user_cannot_view_unpublished_dataset ()
     {
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $dataset = create('App\Dataset', ['published' => false]);
         $this->disableExceptionHandling()->get($dataset->path());
     }

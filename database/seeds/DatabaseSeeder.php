@@ -40,9 +40,15 @@ class DatabaseSeeder extends Seeder
             $users = factory('App\User', 10)->create();
         }
 
+        $role = \App\Role::create([
+            'name' => 'Admin'
+        ]);
+
+        User::first()->attachRole($role);
+
         for ($i = 0; $i <= 19; $i++) {
             $dataset = create('App\Dataset', ['user_id' => User::inRandomOrder()->first()->id]);
-            $dataset->addMediaFromUrl($images[$i])->toMediaCollection();
+//            $dataset->addMediaFromUrl($images[$i])->toMediaCollection();
         }
 
         for ($j = 1; $j <= 100; $j++) {

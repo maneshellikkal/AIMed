@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Ownable;
 use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     use Sluggable, SluggableScopeHelpers;
+    use Ownable;
 
     /**
      * The attributes that are not mass assignable.
@@ -16,16 +18,6 @@ class Thread extends Model
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * A thread is created by an user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     /**
      * A thread belongs to a category.

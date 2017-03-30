@@ -24,16 +24,6 @@ class Dataset extends Model implements HasMedia
     protected $guarded = [];
 
     /**
-     * Code is created by an user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
      * A thread may have many codes.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

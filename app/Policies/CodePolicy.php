@@ -4,12 +4,9 @@ namespace App\Policies;
 
 use App\User;
 use App\Code;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CodePolicy
+class CodePolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view the code.
      *
@@ -19,7 +16,7 @@ class CodePolicy
      */
     public function view(User $user, Code $code)
     {
-        //
+        return $code->isOwnedBy($user);
     }
 
     /**
@@ -30,7 +27,7 @@ class CodePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +39,7 @@ class CodePolicy
      */
     public function update(User $user, Code $code)
     {
-        //
+        return $code->isOwnedBy($user);
     }
 
     /**
@@ -54,6 +51,6 @@ class CodePolicy
      */
     public function delete(User $user, Code $code)
     {
-        //
+        return false;
     }
 }

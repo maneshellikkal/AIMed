@@ -33,10 +33,9 @@ class UpdateCodeTest extends TestCase
     {
         $this->disableExceptionHandling()->signIn();
 
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-        $this->get($this->code->path() . '/edit')
-             ->assertStatus(404);
+        $this->get($this->code->path() . '/edit');
     }
 
     /** @test */
@@ -46,8 +45,7 @@ class UpdateCodeTest extends TestCase
 
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-        $this->put($this->code->path())
-             ->assertStatus(403);
+        $this->put($this->code->path());
     }
 
     /** @test */
@@ -59,8 +57,7 @@ class UpdateCodeTest extends TestCase
              ->assertStatus(200);
 
         $this->expectException('Illuminate\Validation\ValidationException');
-        $this->put($this->code->path())
-             ->assertStatus(302);
+        $this->put($this->code->path());
     }
 
     /** @test */

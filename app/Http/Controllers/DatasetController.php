@@ -6,13 +6,16 @@ use App\Dataset;
 use App\Filters\DatasetFilters;
 use App\Http\Requests\PublishDatasetRequest;
 use App\Http\Requests\UpdateDatasetRequest;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class DatasetController extends Controller
 {
     public function __construct ()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('can:create,App\Dataset')->only(['create', 'store']);
+        $this->middleware('can:update,dataset')->only(['edit', 'update']);
+        $this->middleware('can:delete,dataset')->only(['destroy']);
     }
 
     /**
@@ -38,6 +41,7 @@ class DatasetController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function create ()
@@ -67,17 +71,17 @@ class DatasetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param string $slug
+     * @param Dataset $dataset
      *
      * @return \Illuminate\Http\Response
      */
-    public function show (string $slug)
+    public function show (Dataset $dataset)
     {
-        $dataset = Dataset::published()
-                          ->withUnpublishedFor(auth()->id())
-                          ->with('creator')
-                          ->findBySlugOrFail($slug);
+        if($dataset->isNotPublished()){
+            $this->authorize($dataset);
+        }
 
+        $dataset->load('creator');
         $codes = $dataset->codes()->published()->latest()->paginate();
 
         return view('datasets.show', compact('dataset', 'codes'));
@@ -86,14 +90,12 @@ class DatasetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $slug
+     * @param Dataset $dataset
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit ($slug)
+    public function edit (Dataset $dataset)
     {
-        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
-
         return view('datasets.edit', compact('dataset'));
     }
 
@@ -101,14 +103,12 @@ class DatasetController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateDatasetRequest $request
-     * @param string               $slug
+     * @param Dataset              $dataset
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update (UpdateDatasetRequest $request, $slug)
+    public function update (UpdateDatasetRequest $request, Dataset $dataset)
     {
-        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
-
         if ($request->hasFile('image')) {
             $dataset->clearMediaCollection();
             $dataset->addMedia($request->file('image'))->preservingOriginal()->toMediaCollection();

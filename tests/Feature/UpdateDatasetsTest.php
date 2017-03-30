@@ -37,10 +37,9 @@ class UpdateDatasetsTest extends TestCase
     {
         $this->disableExceptionHandling()->signIn();
 
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-        $this->get($this->dataset->path() . '/edit')
-             ->assertStatus(404);
+        $this->get($this->dataset->path() . '/edit');
     }
 
     /** @test */
@@ -50,8 +49,7 @@ class UpdateDatasetsTest extends TestCase
 
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-        $this->put($this->dataset->path())
-             ->assertStatus(403);
+        $this->put($this->dataset->path());
     }
 
     /** @test */
@@ -59,10 +57,9 @@ class UpdateDatasetsTest extends TestCase
     {
         $this->disableExceptionHandling()->signIn();
 
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-        $this->post($this->dataset->path() . '/file', ['file' => UploadedFile::fake()->create('file.pdf')])
-             ->assertStatus(200);
+        $this->post($this->dataset->path() . '/file', ['file' => UploadedFile::fake()->create('file.pdf')]);
     }
 
     /** @test */
@@ -74,8 +71,7 @@ class UpdateDatasetsTest extends TestCase
              ->assertStatus(200);
 
         $this->expectException('Illuminate\Validation\ValidationException');
-        $this->put($this->dataset->path())
-             ->assertStatus(302);
+        $this->put($this->dataset->path());
     }
 
     /** @test */

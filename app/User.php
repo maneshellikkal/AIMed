@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Traits\HasRole;
 use Facades\App\Helpers\Gravatar;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRole;
 
     /**
      * The attributes that are mass assignable.

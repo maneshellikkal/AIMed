@@ -22,16 +22,6 @@ class Code extends Model
     protected $guarded = [];
 
     /**
-     * Code is created by an user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
      * Code must belong to a dataset.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

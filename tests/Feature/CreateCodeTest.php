@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class CreateCodeTest extends TestCase
 {
@@ -25,7 +25,7 @@ class CreateCodeTest extends TestCase
     {
         $dataset = create('App\Dataset', ['published' => false]);
 
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $this->disableExceptionHandling()
              ->signIn()
              ->get("/c/{$dataset->slug}/publish");
@@ -38,22 +38,22 @@ class CreateCodeTest extends TestCase
         $this->signIn($user);
 
         $dataset = create('App\Dataset');
-        $code = make('App\Code', ['dataset_id' => $dataset->id]);
+        $code    = make('App\Code', ['dataset_id' => $dataset->id]);
 
         $this->post('/codes', $code->toArray());
 
         $this->assertDatabaseHas('codes', [
-            'name' => $code->name,
+            'name'        => $code->name,
             'description' => $code->description,
-            'code' => $code->code,
-            'user_id' => $user->id,
-            'dataset_id' => $dataset->id,
-            'published' => false,
+            'code'        => $code->code,
+            'user_id'     => $user->id,
+            'dataset_id'  => $dataset->id,
+            'published'   => false,
         ]);
     }
 
     /** @test */
-    function a_code_requires_a_valid_name()
+    function a_code_requires_a_valid_name ()
     {
         $this->publishCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -66,7 +66,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_description()
+    function a_code_requires_a_valid_description ()
     {
         $this->publishCode(['description' => null])
              ->assertSessionHasErrors('description');
@@ -76,7 +76,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_valid_code()
+    function a_code_requires_valid_code ()
     {
         $this->publishCode(['code' => null])
              ->assertSessionHasErrors('code');
@@ -86,9 +86,13 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_valid_dataset()
+    function a_code_requires_valid_dataset ()
     {
         $this->publishCode(['dataset_id' => 0])
+             ->assertSessionHasErrors('dataset_id');
+
+        $dataset = create('App\Dataset', ['published' => false]);
+        $this->publishCode(['dataset_id' => $dataset->id])
              ->assertSessionHasErrors('dataset_id');
 
         $dataset = create('App\Dataset');
@@ -96,10 +100,11 @@ class CreateCodeTest extends TestCase
              ->assertSessionMissing('dataset_id');
     }
 
-    protected function publishCode($overrides = [])
+    protected function publishCode ($overrides = [])
     {
         $this->signIn();
         $code = make('App\Code', $overrides);
+
         return $this->post('/codes', $code->toArray());
     }
 }
