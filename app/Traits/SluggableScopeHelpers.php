@@ -31,6 +31,16 @@ trait SluggableScopeHelpers
     }
 
     /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return $this->getSlugKeyName();
+    }
+
+    /**
      * Primary slug value of this model.
      *
      * @return string

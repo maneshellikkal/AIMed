@@ -14,20 +14,40 @@ class Code extends Model
     use Sluggable, SluggableScopeHelpers;
     use Ownable, Publishable, Filterable;
 
+    /**
+     * The attributes that are not mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
-    public function path ()
-    {
-        return "/c/{$this->slug}";
-    }
-
+    /**
+     * Code is created by an user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Code must belong to a dataset.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function dataset ()
     {
         return $this->belongsTo(Dataset::class);
+    }
+
+    /**
+     * Get a string path for the code.
+     *
+     * @return string
+     */
+    public function path ()
+    {
+        return "/c/{$this->slug}";
     }
 }

@@ -79,3 +79,5 @@
         </div>
     </div>
 @endsection
+
+@include('layouts._code_highlight')

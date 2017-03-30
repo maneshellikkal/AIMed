@@ -2,8 +2,15 @@
 
 namespace App\Filters;
 
-class DatasetFilters extends QueryFilter
+class DatasetFilters extends Filters
 {
+    /**
+     * Registered filters to operate upon.
+     *
+     * @var array
+     */
+    protected $filters = ['show'];
+
     public function show ($value)
     {
         if ($value == 'featured') {
