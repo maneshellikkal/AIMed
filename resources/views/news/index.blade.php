@@ -9,6 +9,18 @@
         @slot('cardTitle')
             <h5><i class="fa fa-twitter"></i> Twitter Feed</h5>
         @endslot
+        @slot('cardNavigation')
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link{{ request('tailored') ? '' : ' active' }}"
+                       href="/news">Everything</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{{ request('tailored') ? ' active' : '' }}"
+                       href="/news?tailored=true">Medicine</a>
+                </li>
+            </ul>
+        @endslot
         @slot('block')
             <div class="list-group list-group-flush">
                 @foreach($twitterFeeds as $feed)

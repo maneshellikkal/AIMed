@@ -16,8 +16,8 @@ class CreateTwitterFeedsTable extends Migration
         Schema::create('twitter_feeds', function (Blueprint $table) {
             $table->increments('id');
             $table->string('twitter_id');
-            $table->string('body');
-            $table->string('full_body');
+            $table->text('body');
+            $table->text('full_body');
             $table->string('media')->nullable();
             $table->string('user_id');
             $table->string('author_name');

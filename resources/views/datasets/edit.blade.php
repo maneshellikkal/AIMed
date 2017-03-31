@@ -6,7 +6,7 @@
 
 @section('content')
     @component('layouts.card', [
-        'cardTitle' => 'Edit Dataset',
+        'cardTitle' => $dataset->isPublished() ? 'Edit Dataset' : 'Publish Dataset',
     ])
         <form id="edit-dataset-form" role="form" method="POST" action="{{ $dataset->path() }}"
               enctype="multipart/form-data">
@@ -87,7 +87,7 @@
             <div class="col-6 offset-4">
                 <a href="#" onclick="event.preventDefault();document.getElementById('edit-dataset-form').submit();"
                    class="btn btn-primary">
-                    <i class="fa fa-save"> </i> Publish
+                    <i class="fa fa-save"> </i> {{ $dataset->isPublished() ? 'Update' : 'Publish' }}
                 </a>
             </div>
         </div>
