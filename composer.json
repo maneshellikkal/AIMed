@@ -9,6 +9,7 @@
         "cviebrock/eloquent-sluggable": "^4.2",
         "graham-campbell/markdown": "^7.1",
         "laravel/framework": "5.4.*",
+        "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "spatie/laravel-medialibrary": "^5.3",

@@ -171,6 +171,8 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
