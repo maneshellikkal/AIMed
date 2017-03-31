@@ -17,7 +17,7 @@ class NewsController extends Controller
     {
         $twitterFeeds = TwitterFeed::latest()
                                    ->where(function($query){
-                                        $keywords = ['medicine', 'cancer', 'disease', 'diagnosis', 'medical', 'doctor', 'hospital', 'treatment', 'diabetes', 'breast', 'lung', 'brain', 'tumor'];
+                                        $keywords = ['medicine', 'cancer', 'disease', 'diagnosis', 'medical', 'doctor', 'hospital', 'treatment', 'diabetes', 'breast', 'lung', 'brain', 'tumor', 'health', 'health care'    ];
                                         foreach($keywords as $word){
                                             $query->orWhere(\DB::raw('lower(full_body)'), 'like', "%{$word}%");
                                         }

@@ -25,7 +25,7 @@
         @slot('cardNavigation')
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link{{ request('featured') || request('user')  ? '' : ' active' }}"
+                    <a class="nav-link{{ request('featured') || request('author')  ? '' : ' active' }}"
                        href="/datasets">All</a>
                 </li>
                 <li class="nav-item">
@@ -35,8 +35,8 @@
 
                 @if(auth()->check())
                     <li class="nav-item">
-                        <a class="nav-link{{ request('user') ? ' active' : '' }}"
-                           href="/datasets?user={{ auth()->user()->username }}">My</a>
+                        <a class="nav-link{{ request('author') ? ' active' : '' }}"
+                           href="/datasets?author={{ auth()->user()->username }}">My</a>
                     </li>
                 @endif
             </ul>

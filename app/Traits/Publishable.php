@@ -67,7 +67,7 @@ trait Publishable
     public function scopePublishedExceptOf (Builder $query, $id)
     {
         if ( ! $id) {
-            return $this->published();
+            return $query->published();
         }
 
         return $query->published()

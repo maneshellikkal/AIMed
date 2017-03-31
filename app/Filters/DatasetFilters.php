@@ -12,7 +12,7 @@ class DatasetFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['featured', 'user'];
+    protected $filters = ['featured', 'author'];
 
     /**
      * Show only featured datasets.
@@ -33,7 +33,7 @@ class DatasetFilters extends Filters
      *
      * @return Builder
      */
-    public function user($username)
+    public function author($username)
     {
         $id = User::findByUsername($username, ['id'])->id ?? null;
         return $id ? $this->builder->whereUserId($id) : $this->builder;

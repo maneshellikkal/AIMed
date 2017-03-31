@@ -15,14 +15,14 @@
         @slot('cardNavigation')
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link{{ request('user') ? '' : ' active' }}"
+                    <a class="nav-link{{ request('author') ? '' : ' active' }}"
                        href="/codes">All</a>
                 </li>
 
                 @if(auth()->check())
                     <li class="nav-item">
-                        <a class="nav-link{{ request('user') ? ' active' : '' }}"
-                           href="/codes?user={{ auth()->user()->username }}">My</a>
+                        <a class="nav-link{{ request('author') ? ' active' : '' }}"
+                           href="/codes?author={{ auth()->user()->username }}">My</a>
                     </li>
                 @endif
             </ul>

@@ -12,7 +12,7 @@ class CodeFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['user'];
+    protected $filters = ['author'];
 
     /**
      * Filter code by user.
@@ -21,7 +21,7 @@ class CodeFilters extends Filters
      *
      * @return Builder
      */
-    public function user($username)
+    public function author($username)
     {
         $id = User::findByUsername($username, ['id'])->id ?? null;
         return $id ? $this->builder->whereUserId($id) : $this->builder;

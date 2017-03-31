@@ -75,11 +75,11 @@ class ReadCodeTest extends TestCase
         $this->signIn($user);
 
         $code = create('App\Code');
-        $this->get('/codes?show=my')
+        $this->get('/codes?author='.$user->username)
              ->assertDontSee($code->name);
 
         $code = create('App\Code', ['user_id' => $user->id]);
-        $this->get('/codes?show=my')
+        $this->get('/codes?author='.$user->username)
              ->assertSee($code->name);
     }
 }
