@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Filterable;
 use App\Traits\Ownable;
 use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     use Sluggable, SluggableScopeHelpers;
-    use Ownable;
+    use Ownable, Filterable;
 
     /**
      * The attributes that are not mass assignable.

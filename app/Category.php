@@ -28,16 +28,6 @@ class Category extends Model
     }
 
     /**
-     * A category may have many replies through threads.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function replies()
-    {
-        return $this->hasManyThrough(Reply::class, Thread::class);
-    }
-
-    /**
      * Get a string path for the category.
      *
      * @return string
