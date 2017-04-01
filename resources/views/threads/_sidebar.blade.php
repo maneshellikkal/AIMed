@@ -35,11 +35,11 @@
                     <a class="nav-link{{ request('author') ? ' active' : '' }}"
                        href="/discuss?author={{ auth()->user()->username }}"><i class="fa fa-lightbulb-o text-info"></i> My Threads</a>
                 </li>
-            @endif
             <li class="nav-item">
                 <a class="nav-link{{ request('contributor') ? ' active' : '' }}"
                    href="/discuss?contributor={{ auth()->user()->username }}"><i class="fa fa-code-fork text-info"></i> My Participation</a>
             </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link{{ request('trending') ? ' active' : '' }}"
                    href="/discuss?trending=1"><i class="fa fa-fire text-danger"></i> Popular This Week</a>
