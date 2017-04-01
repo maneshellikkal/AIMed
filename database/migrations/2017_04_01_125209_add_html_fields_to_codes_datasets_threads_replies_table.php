@@ -14,19 +14,19 @@ class AddHtmlFieldsToCodesDatasetsThreadsRepliesTable extends Migration
     public function up()
     {
         Schema::table('datasets', function (Blueprint $table) {
-            $table->text('description_html')->after('description');
+            $table->text('description_html')->nullable()->after('description');
         });
 
         Schema::table('codes', function (Blueprint $table) {
-            $table->text('description_html')->after('description');
+            $table->text('description_html')->nullable()->after('description');
         });
 
         Schema::table('threads', function (Blueprint $table) {
-            $table->text('body_html')->after('body');
+            $table->text('body_html')->nullable()->after('body');
         });
 
         Schema::table('replies', function (Blueprint $table) {
-            $table->text('body_html')->after('body');
+            $table->text('body_html')->nullable()->after('body');
         });
 
     }
