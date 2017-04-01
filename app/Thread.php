@@ -6,6 +6,7 @@ use App\Traits\Filterable;
 use App\Traits\Ownable;
 use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -29,6 +30,19 @@ class Thread extends Model
         static::addGlobalScope('replyCount', function ($builder) {
             return $builder->withCount('replies');
         });
+    }
+
+    /**
+     * Scope for answered and unanswered threads.
+     *
+     * @param Builder $query
+     * @param bool    $value
+     *
+     * @return Builder
+     */
+    public function scopeAnswered(Builder $query, $value = true)
+    {
+        return $query->where('answered', '=', $value);
     }
 
     /**

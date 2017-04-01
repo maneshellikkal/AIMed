@@ -23,7 +23,7 @@
                                 <select name="category_id" id="category_id" class="form-control">
                                     <option value="">Choose One</option>
 
-                                    @foreach ($categories as $name => $value)
+                                    @foreach ($categoryList as $name => $value)
                                         <option value="{{ $value }}" {{ old('category_id') == $value ? 'selected' : '' }}>
                                             {{ $name }}
                                         </option>
