@@ -9,7 +9,7 @@
         </div>
 
         <div class="align-self-center w-25">
-            @if(!$dataset->isPublished()) <div class="w-100"><span class="badge badge-warning">Not Published</span></div> @endif
+            @if($dataset->isNotPublished()) <div class="w-100"><span class="badge badge-warning">Not Published</span></div> @endif
             <small class="w-100">Updated {{ $dataset->updated_at->diffForHumans() }}</small>
         </div>
     </div>
