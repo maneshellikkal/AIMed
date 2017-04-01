@@ -5,9 +5,12 @@
 @endsection
 
 @section('content')
+    <div class="bg-inverse text-white text-center py-5">
+        <h1 class="display-4">News</h1>
+    </div>
     <div class="container">
         <div class="row justify-content-md-center mt-3">
-            <div class="col-3">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-header">
                         Filter
@@ -24,13 +27,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-twitter"></i> Twitter Feed
                     </div>
                     <div class="list-group list-group-flush">
-                        @each('news._flex_item', $twitterFeeds, 'feed', 'datasets._empty_flex_item')
+                        @each('news._flex_item', $twitterFeeds, 'feed', 'news._empty_flex_item')
                     </div>
                 </div>
             </div>

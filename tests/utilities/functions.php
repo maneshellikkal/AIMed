@@ -1,16 +1,23 @@
 <?php
 
-function create($class, $attributes = [])
+function create($class, $attributes = [], $times = 1)
 {
-    return factory($class)->create($attributes);
+    return callFactory('create', $class, $attributes, $times);
 }
 
-function make($class, $attributes = [])
+function make($class, $attributes = [], $times = 1)
 {
-    return factory($class)->make($attributes);
+    return callFactory('make', $class, $attributes, $times);
 }
 
-function raw($class, $attributes = [])
+function raw($class, $attributes = [], $times = 1)
 {
-    return factory($class)->raw($attributes);
+    return callFactory('raw', $class, $attributes, $times);
+}
+
+function callFactory($method, $class, $attributes, $times)
+{
+    $collection = factory($class, $times)->{$method}($attributes);
+
+    return $times == 1 ? $collection[0] : $collection;
 }

@@ -21,6 +21,17 @@ class Thread extends Model
     protected $guarded = [];
 
     /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('replyCount', function ($builder) {
+            return $builder->withCount('replies');
+        });
+    }
+
+    /**
      * A thread belongs to a category.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

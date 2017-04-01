@@ -1,97 +1,114 @@
 @extends('layouts.app')
 
 @section('title')
-    Edit Dataset
+    {{ $dataset->isNotPublished() ?  'Publish New Dataset' : 'Update Dataset'}}
 @endsection
 
 @section('content')
-    @component('layouts.card', [
-        'cardTitle' => $dataset->isPublished() ? 'Edit Dataset' : 'Publish Dataset',
-    ])
-        <form id="edit-dataset-form" role="form" method="POST" action="{{ $dataset->path() }}"
-              enctype="multipart/form-data">
-            {{ csrf_field() }}
-            {{ method_field('PUT') }}
-
-            <div class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
-                <label for="name" class="col-4 form-control-label text-right">Name</label>
-
-                <div class="col-6">
-                    <input id="name" type="text" class="form-control" name="name"
-                           value="{{ old('name', $dataset->name) }}" required autofocus>
-
-                    @if ($errors->has('name'))
-                        <p class="form-text text-muted text-danger">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </p>
-                    @endif
-                </div>
+    <div class="bg-inverse text-white text-center py-5">
+        <h1 class="display-4">
+            {{ $dataset->isNotPublished() ?  'Publish New Dataset' : 'Update Dataset'}}
+        </h1>
+        @if($dataset->isNotPublished())
+            <div>
+                <p class="lead">
+                    Almost there! Now you need to upload an image and dataset files to publish the dataset.
+                </p>
             </div>
+        @endif
+    </div>
+    <div class="container">
+        <div class="row mt-3">
+            @include('datasets._sidebar')
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-block">
+                        <form id="edit-dataset-form" role="form" method="POST" action="{{ $dataset->path() }}"
+                              enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
 
-            <div class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
-                <label for="overview" class="col-4 form-control-label text-right">Overview</label>
+                            <div class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label for="name" class="col-md-12 form-control-label">Give it a name</label>
 
-                <div class="col-6">
-                    <input id="overview" type="text" class="form-control" name="overview"
-                           value="{{ old('overview', $dataset->overview) }}" required>
+                                <div class="col-md-12">
+                                    <input id="name" type="text" class="form-control" name="name"
+                                           value="{{ old('name', $dataset->name) }}" required>
 
-                    @if ($errors->has('overview'))
-                        <p class="form-text text-muted text-danger">
-                            <strong>{{ $errors->first('overview') }}</strong>
-                        </p>
-                    @endif
+                                    @if ($errors->has('name'))
+                                        <p class="form-text text-muted text-danger">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
+                                <label for="overview" class="col-md-12 form-control-label">Overview</label>
+
+                                <div class="col-md-12">
+                                    <input id="overview" type="text" class="form-control" name="overview"
+                                           value="{{ old('overview', $dataset->overview) }}" required>
+
+                                    @if ($errors->has('overview'))
+                                        <p class="form-text text-muted text-danger">
+                                            <strong>{{ $errors->first('overview') }}</strong>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
+                                <label for="description" class="col-md-12 form-control-label">Description</label>
+
+                                <div class="col-md-12">
+                                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description', $dataset->description) }}</textarea>
+
+                                    @if ($errors->has('description'))
+                                        <p class="form-text text-muted text-danger">
+                                            <strong>{{ $errors->first('description') }}</strong>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row{{ $errors->has('image') ? ' has-danger' : '' }}">
+                                <label for="image" class="col-md-12 form-control-label">Dataset Image</label>
+
+                                <div class="col-md-12">
+                                    <input id="image" type="file" class="form-control-file" name="image">
+
+                                    @if ($errors->has('image'))
+                                        <p class="form-text text-muted text-danger">
+                                            <strong>{{ $errors->first('image') }}</strong>
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-group row">
+                            <label class="col-md-12 form-control-label">Dataset Files</label>
+                            <div class="col-md-12">
+                                <form action="{{ $dataset->path() }}/file"
+                                      class="dropzone">
+                                    {{ csrf_field() }}
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <a href="#" onclick="event.preventDefault();document.getElementById('edit-dataset-form').submit();"
+                                   class="btn btn-primary">
+                                    {{ $dataset->isPublished() ? 'Update Dataset' : 'Publish Dataset' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
-                <label for="description" class="col-4 form-control-label text-right">Description</label>
-
-                <div class="col-6">
-                    <textarea name="description" id="description" class="form-control" data-markdown>{{ old('description', $dataset->description) }}</textarea>
-
-                    @if ($errors->has('description'))
-                        <p class="form-text text-muted text-danger">
-                            <strong>{{ $errors->first('description') }}</strong>
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <hr/>
-
-            <div class="form-group row{{ $errors->has('image') ? ' has-danger' : '' }}">
-                <label for="image" class="col-4 form-control-label text-right">Image</label>
-
-                <div class="col-6">
-                    <input id="image" type="file" class="form-control-file" name="image">
-
-                    @if ($errors->has('image'))
-                        <p class="form-text text-muted text-danger">
-                            <strong>{{ $errors->first('image') }}</strong>
-                        </p>
-                    @endif
-                </div>
-            </div>
-        </form>
-
-        <div class="form-group row">
-            <label class="col-4 form-control-label text-right">Files</label>
-            <div class="col-6 offset-4">
-                <form action="{{ $dataset->path() }}/file"
-                      class="dropzone">
-                    {{ csrf_field() }}
-                </form>
             </div>
         </div>
-
-        <div class="form-group row">
-            <div class="col-6 offset-4">
-                <a href="#" onclick="event.preventDefault();document.getElementById('edit-dataset-form').submit();"
-                   class="btn btn-primary">
-                    <i class="fa fa-save"> </i> {{ $dataset->isPublished() ? 'Update' : 'Publish' }}
-                </a>
-            </div>
-        </div>
-    @endcomponent
+    </div>
 @endsection
 
 @include('layouts._dropzone')

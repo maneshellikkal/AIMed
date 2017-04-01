@@ -16,9 +16,9 @@ class CreateCodesTable extends Migration
         Schema::create('codes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('dataset_id');
-            $table->foreign('dataset_id')->references('id')->on('datasets');
+            $table->foreign('dataset_id')->references('id')->on('datasets')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->text('code');

@@ -36,9 +36,9 @@
                     <p><a class="btn btn-secondary" href="/news" role="button">Browse »</a></p>
                 </div>
                 <div class="w-25">
-                    <h2>Forum</h2>
+                    <h2>Discussions</h2>
                     <p>Discuss about datasets, code and find new ways to help the community through data science</p>
-                    <p><a class="btn btn-secondary" href="/forum" role="button">Browse »</a></p>
+                    <p><a class="btn btn-secondary" href="/discuss" role="button">Browse »</a></p>
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-center">

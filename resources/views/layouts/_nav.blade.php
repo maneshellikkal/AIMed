@@ -20,8 +20,8 @@
                 <li class="nav-item{{ request()->is('codes') ? ' active' : '' }}">
                     <a class="nav-link" href="/codes">Code</a>
                 </li>
-                <li class="nav-item{{ request()->is('forum') ? ' active' : '' }}">
-                    <a class="nav-link" href="/forum">Forum</a>
+                <li class="nav-item{{ request()->is('discuss') ? ' active' : '' }}">
+                    <a class="nav-link" href="/discuss">Discussions</a>
                 </li>
             </ul>
 

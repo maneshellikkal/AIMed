@@ -15,7 +15,7 @@ function demoteHtmlHeaderTags($html)
 
 function markdownToDemotedHtml($markdown)
 {
-    return demoteHtmlHeaderTags(\Markdown::convertToHtml($markdown));
+    return \Markdown::convertToHtml($markdown);
 }
 
 function makeLinksClickable($string , $tags = [])

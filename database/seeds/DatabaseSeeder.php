@@ -1,8 +1,11 @@
 <?php
 
+use App\Category;
 use App\Code;
 use App\Dataset;
 use App\User;
+use App\Thread;
+use App\Reply;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -37,7 +40,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         if ( ! App\User::count()) {
-            $users = factory('App\User', 10)->create();
+            $users = create('App\User', [], 10);
         }
 
         $role = \App\Role::create([
@@ -51,8 +54,12 @@ class DatabaseSeeder extends Seeder
             try{ $dataset->addMediaFromUrl($images[$i])->toMediaCollection(); }catch(Exception $e) {}
         }
 
-        for ($j = 1; $j <= 100; $j++) {
-            create('App\Code', ['dataset_id' => Dataset::inRandomOrder()->first()->id, 'user_id' => User::inRandomOrder()->first()->id]);
+        create('App\Code', ['dataset_id' => function() { return Dataset::inRandomOrder()->first()->id; }, 'user_id' => function() { return User::inRandomOrder()->first()->id; }], 100);
+        $names = ['General', 'Questions and Answers', 'News', 'Datasets', 'Code'];
+        foreach($names as $name){
+            create('App\Category', ['name' => $name]);
         }
+        create('App\Thread', ['category_id' => function() { return Category::inRandomOrder()->first()->id; }, 'user_id' => function() { return User::inRandomOrder()->first()->id; }], 30);
+        create('App\Reply', ['thread_id' => function() { return Thread::inRandomOrder()->first()->id; }, 'user_id' => function() { return User::inRandomOrder()->first()->id; }], 200);
     }
 }

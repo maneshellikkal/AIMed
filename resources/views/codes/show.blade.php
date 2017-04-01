@@ -39,7 +39,7 @@
                         Description
                     </h3>
                     <div class="card-block">
-                        {!! markdownToDemotedHtml($code->description) !!}
+                        {!! $code->description_html !!}
                     </div>
                 </div>
             </div>

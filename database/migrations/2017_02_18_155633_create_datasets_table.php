@@ -20,7 +20,7 @@ class CreateDatasetsTable extends Migration
             $table->text('description');
             $table->string('slug')->unique();
             $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('featured')->default(false);
             $table->boolean('published')->default(false);
             $table->timestamps();

@@ -39,8 +39,8 @@
                     <h3 class="card-header">
                         Description
                     </h3>
-                    <div class="card-block">
-                        {!! markdownToDemotedHtml($dataset->description) !!}
+                    <div class="card-block user-content">
+                        {!! $dataset->description_html !!}
                     </div>
                 </div>
             </div>
