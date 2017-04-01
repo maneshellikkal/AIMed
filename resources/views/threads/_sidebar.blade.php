@@ -28,33 +28,33 @@
         <ul class="nav stacked-tabs flex-column">
             <li class="nav-item">
                 <a class="nav-link{{ request()->url() == request()->fullUrl() ? ' active' : '' }}"
-                   href="/discuss"><i class="fa fa-globe text-info"></i> All Threads</a>
+                   href="{{ request()->url() }}"><i class="fa fa-globe text-info"></i> All Threads</a>
             </li>
             @if(auth()->check())
                 <li class="nav-item">
                     <a class="nav-link{{ request('author') ? ' active' : '' }}"
-                       href="/discuss?author={{ auth()->user()->username }}"><i class="fa fa-lightbulb-o text-info"></i> My Threads</a>
+                       href="{{ request()->url() }}?author={{ auth()->user()->username }}"><i class="fa fa-lightbulb-o text-info"></i> My Threads</a>
                 </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('contributor') ? ' active' : '' }}"
-                   href="/discuss?contributor={{ auth()->user()->username }}"><i class="fa fa-code-fork text-info"></i> My Participation</a>
+                   href="{{ request()->url() }}?contributor={{ auth()->user()->username }}"><i class="fa fa-code-fork text-info"></i> My Participation</a>
             </li>
             @endif
             <li class="nav-item">
                 <a class="nav-link{{ request('trending') ? ' active' : '' }}"
-                   href="/discuss?trending=1"><i class="fa fa-fire text-danger"></i> Popular This Week</a>
+                   href="{{ request()->url() }}?trending=1"><i class="fa fa-fire text-danger"></i> Popular This Week</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('popular') ? ' active' : '' }}"
-                   href="/discuss?popular=1"><i class="fa fa-fire text-danger"></i> Popular All Time</a>
+                   href="{{ request()->url() }}?popular=1"><i class="fa fa-fire text-danger"></i> Popular All Time</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('answered') == 'true' ? ' active' : '' }}"
-                   href="/discuss?answered=true"><i class="fa fa-thumbs-o-up text-success"></i> Answered Threads</a>
+                   href="{{ request()->url() }}?answered=true"><i class="fa fa-thumbs-o-up text-success"></i> Answered Threads</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('answered') == 'false' ? ' active' : '' }}"
-                   href="/discuss?answered=false"><i class="fa fa-frown-o text-danger"></i> Unanswered Threads</a>
+                   href="{{ request()->url() }}?answered=false"><i class="fa fa-frown-o text-danger"></i> Unanswered Threads</a>
             </li>
         </ul>
     </div>
@@ -64,10 +64,14 @@
             Categories
         </div>
         <ul class="nav stacked-tabs flex-column">
+            <li class="nav-item">
+                <a class="nav-link{{ request()->is('discuss') ? ' active' : '' }}"
+                   href="/discuss?{{ request()->getQueryString() }}"><i class="fa fa-circle-o{{ request()->is('discuss') ? ' text-success' : ' text-muted' }}"></i> All Categories</a>
+            </li>
             @foreach($categories as $category)
             <li class="nav-item">
                 <a class="nav-link{{ request()->is('t/'.$category->slug) ? ' active' : '' }}"
-                   href="/t/{{ $category->slug }}"><i class="fa fa-circle-o{{ request()->is('t/'.$category->slug) ? ' text-success' : ' text-muted' }}"></i> {{ $category->name }}</a>
+                   href="/t/{{ $category->slug }}?{{ request()->getQueryString() }}"><i class="fa fa-circle-o{{ request()->is('t/'.$category->slug) ? ' text-success' : ' text-muted' }}"></i> {{ $category->name }}</a>
             </li>
             @endforeach
         </ul>
