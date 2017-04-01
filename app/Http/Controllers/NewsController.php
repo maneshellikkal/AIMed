@@ -40,12 +40,8 @@ class NewsController extends Controller
                             TwitterFeed::search(implode(' ', $keywords)) :
                             new TwitterFeed()
                         )->orderBy('created_at', 'desc')
-                         ->take(20)
-                         ->get();
+                         ->paginate(20);
 
-        $category   = Category::findBySlug('news');
-        $forumItems = $category instanceof Category ? $category->threads()->latest()->take(15) : [];
-
-        return view('news.index', compact('twitterFeeds', 'forumItems'));
+        return view('news.index', compact('twitterFeeds'));
     }
 }

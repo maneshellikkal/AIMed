@@ -35,6 +35,11 @@
                     <div class="list-group list-group-flush">
                         @each('news._flex_item', $twitterFeeds, 'feed', 'news._empty_flex_item')
                     </div>
+                    @if($twitterFeeds->hasPages())
+                        <div class="card-block">
+                            {{ $twitterFeeds->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
