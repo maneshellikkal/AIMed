@@ -172,6 +172,7 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
 
         /*
          * Application Service Providers...

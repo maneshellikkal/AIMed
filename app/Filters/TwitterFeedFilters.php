@@ -8,7 +8,7 @@ class TwitterFeedFilters extends Filters
      * Registered filters to operate upon.
      * @var array
      */
-    protected $filters = ['tailored'];
+    protected $filters = [];
 
     public function tailored ($value)
     {
@@ -32,7 +32,6 @@ class TwitterFeedFilters extends Filters
             'prescription',
             'drugs',
             'pacemaker',
-            'digitalhealth',
             'digitalhealth',
         ];
 

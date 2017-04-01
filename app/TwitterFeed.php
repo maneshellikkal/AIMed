@@ -17,4 +17,9 @@ class TwitterFeed extends Model
     protected $casts = [
         'tags' => 'array',
     ];
+
+    public function toSearchableArray()
+    {
+        return array_only($this->toArray(), ['id', 'body', 'tags']);
+    }
 }

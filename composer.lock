@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d721500273baafa2ed0d4d980ce48638",
-    "content-hash": "ae94e367fdffdc6055002e59d2eaa5f2",
+    "hash": "6ded3adc2e71f405aec180be0eaf43b9",
+    "content-hash": "3e79f54e8d98393048ac4857378405f4",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -202,6 +202,44 @@
                 "slug"
             ],
             "time": "2017-03-23 19:14:22"
+        },
+        {
+            "name": "damiantw/laravel-scout-mysql-driver",
+            "version": "v1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/damiantw/laravel-scout-mysql-driver.git",
+                "reference": "46feb2909b9d51a9e2d9fec63aeebd6dbf021b16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/damiantw/laravel-scout-mysql-driver/zipball/46feb2909b9d51a9e2d9fec63aeebd6dbf021b16",
+                "reference": "46feb2909b9d51a9e2d9fec63aeebd6dbf021b16",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "5.3.*|5.4.*",
+                "laravel/scout": "^2.0|^3.0",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DamianTW\\MySQLScout\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Damian Crisafulli",
+                    "email": "damian.crisafulli@troyweb.com"
+                }
+            ],
+            "description": "MySQL driver for Laravel Scout.",
+            "time": "2017-03-07 17:54:30"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2961,6 +2999,120 @@
                 "dump"
             ],
             "time": "2017-02-20 13:45:48"
+        },
+        {
+            "name": "teamtnt/laravel-scout-tntsearch-driver",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teamtnt/laravel-scout-tntsearch-driver.git",
+                "reference": "1e2906e84e1b3beadb938859b5692013f75cb14a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teamtnt/laravel-scout-tntsearch-driver/zipball/1e2906e84e1b3beadb938859b5692013f75cb14a",
+                "reference": "1e2906e84e1b3beadb938859b5692013f75cb14a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "~5.3",
+                "illuminate/database": "~5.3",
+                "illuminate/support": "~5.3",
+                "laravel/scout": "*",
+                "teamtnt/tntsearch": "1.0.*"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~5.0"
+            },
+            "suggest": {
+                "teamtnt/tntsearch": "Required to use the TNTSearch engine."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TeamTNT\\Scout\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TNT Studio",
+                    "email": "info@tntstudio.hr"
+                }
+            ],
+            "description": "Driver for Laravel Scout search package based on https://github.com/teamtnt/tntsearch",
+            "keywords": [
+                "laravel",
+                "scout",
+                "search",
+                "tntsearch"
+            ],
+            "time": "2017-03-09 20:33:03"
+        },
+        {
+            "name": "teamtnt/tntsearch",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teamtnt/tntsearch.git",
+                "reference": "412d38bef3656734d4eb2435deb62f3cdf9edc4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/412d38bef3656734d4eb2435deb62f3cdf9edc4f",
+                "reference": "412d38bef3656734d4eb2435deb62f3cdf9edc4f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-sqlite3": "*",
+                "php": "~5.5|~7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TeamTNT\\TNTSearch\\": "src"
+                },
+                "files": [
+                    "helper/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nenad Tičarić",
+                    "email": "nticaric@gmail.com",
+                    "homepage": "http://www.tntstudio.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fully featured full text search engine written in PHP",
+            "homepage": "https://github.com/teamtnt/tntsearch",
+            "keywords": [
+                "Fuzzy search",
+                "fulltext",
+                "geosearch",
+                "search",
+                "teamtnt",
+                "tntsearch"
+            ],
+            "time": "2017-03-09 20:26:08"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
