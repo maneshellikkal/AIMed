@@ -22,13 +22,13 @@
         <ul class="nav stacked-tabs flex-column">
             <li class="nav-item">
                 <a class="nav-link{{ !request()->is('codes') || request('author') ? '' : ' active' }}"
-                   href="/codes">All <span class="hidden-md-down">Codes</span></a>
+                   href="/codes"><i class="fa fa-code"></i> All Codes</a>
             </li>
 
             @if(auth()->check())
                 <li class="nav-item">
                     <a class="nav-link{{ request('author') ? ' active' : '' }}"
-                       href="/codes?author={{ auth()->user()->username }}">My <span class="hidden-md-down">Codes</span></a>
+                       href="/codes?author={{ auth()->user()->username }}"><i class="fa fa-lightbulb-o text-info"></i> My Codes</a>
                 </li>
             @endif
         </ul>

@@ -14,7 +14,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-code"> </i>  {{ $codes->total() }} {{ str_plural('Code', $codes->total()) }}
+                        {{ $codes->total() }} {{ str_plural('Code', $codes->total()) }}
                     </div>
                     <div class="list-group list-group-flush">
                         @each('codes._flex_item', $codes, 'code', 'codes._empty_flex_item')

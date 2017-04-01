@@ -1,7 +1,7 @@
 <div class="col-md-3">
     <div class="mb-3">
         @if(auth()->check())
-            <a class="btn btn-block btn-lg btn-primary" href="/datasets/publish"><i class="fa fa-database"></i> Publish Dataset</a>
+            <a class="btn btn-block btn-lg btn-primary" href="/datasets/publish">Publish Dataset</a>
         @endif
     </div>
     <div class="card mb-3">
@@ -31,17 +31,17 @@
         <ul class="nav stacked-tabs flex-column">
             <li class="nav-item">
                 <a class="nav-link{{ !request()->is('datasets') || request('featured') || request('author')  ? '' : ' active' }}"
-                   href="/datasets">All <span class="hidden-md-down">Datasets</span></a>
+                   href="/datasets"><i class="fa fa-database"></i> All Datasets</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('featured') ? ' active' : '' }}"
-                   href="/datasets?featured=true">Featured <span class="hidden-md-down">Datasets</span></a>
+                   href="/datasets?featured=true"><i class="fa fa-fire text-danger"></i> Featured Datasets</a>
             </li>
 
             @if(auth()->check())
                 <li class="nav-item">
                     <a class="nav-link{{ request('author') ? ' active' : '' }}"
-                       href="/datasets?author={{ auth()->user()->username }}">My <span class="hidden-md-down">Datasets</span></a>
+                       href="/datasets?author={{ auth()->user()->username }}"><i class="fa fa-lightbulb-o text-info"></i> My <span class="hidden-md-down">Datasets</span></a>
                 </li>
             @endif
         </ul>

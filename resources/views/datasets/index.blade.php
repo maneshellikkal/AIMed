@@ -14,7 +14,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-database"> </i>  {{ $datasets->total() }} {{ str_plural('Dataset', $datasets->total()) }}
+                        {{ $datasets->total() }} {{ str_plural('Dataset', $datasets->total()) }}
                     </div>
                     <div class="list-group list-group-flush">
                         @each('datasets._flex_item', $datasets, 'dataset', 'datasets._empty_flex_item')
