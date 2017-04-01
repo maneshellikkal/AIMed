@@ -8,14 +8,10 @@
         <div class="card-header">
             Search
         </div>
-        <form method="GET" action="/datasets" class="card-block">
-            @if(request('featured'))
-                <input type="hidden" name="featured" value="true">
-            @endif
-
-            @if($author = request('author'))
-                <input type="hidden" name="author" value="{{ $author }}">
-            @endif
+        <form method="GET" action="{{ request()->url() }}" class="card-block">
+            @foreach(request()->all() as $name => $value)
+                <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+            @endforeach
             <div class="input-group">
                 <input name="search" type="text" class="form-control" placeholder="Search for..." value="{{ request('search') }}">
                 <span class="input-group-btn">

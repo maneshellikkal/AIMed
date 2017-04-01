@@ -8,10 +8,10 @@
         <div class="card-header">
             Search
         </div>
-        <form method="GET" action="/discuss" class="card-block">
-            @if($author = request('author'))
-                <input type="hidden" name="author" value="{{ $author }}">
-            @endif
+        <form method="GET" action="{{ request()->url() }}" class="card-block">
+            @foreach(request()->all() as $name => $value)
+                <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+            @endforeach
             <div class="input-group">
                 <input name="search" type="text" class="form-control" placeholder="Search for..." value="{{ request('search') }}">
                 <span class="input-group-btn">
