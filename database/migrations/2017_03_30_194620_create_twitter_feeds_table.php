@@ -17,11 +17,12 @@ class CreateTwitterFeedsTable extends Migration
             $table->increments('id');
             $table->string('twitter_id');
             $table->text('body');
-            $table->text('full_body');
+            $table->text('data');
             $table->string('media')->nullable();
             $table->string('user_id');
             $table->string('author_name');
             $table->string('author_screen_name');
+            $table->boolean('author_verified');
             $table->timestamp('twitter_timestamp');
             $table->json('tags');
             $table->timestamps();
