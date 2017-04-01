@@ -4,7 +4,7 @@
         <a class="btn btn-block btn-lg btn-primary" href="/discuss/create">New Discussion</a>
     </div>
     @endif
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header">
             Search
         </div>
@@ -21,7 +21,7 @@
         </form>
     </div>
 
-    <div class="card mt-3">
+    <div class="card mb-3">
         <div class="card-header">
             Filter
         </div>
@@ -59,7 +59,7 @@
         </ul>
     </div>
 
-    <div class="card mt-3">
+    <div class="card mb-3">
         <div class="card-header">
             Categories
         </div>

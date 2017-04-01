@@ -1,15 +1,18 @@
-<a href="{{ $code->path() }}" class="list-group-item list-group-item-action flex-column align-items-start">
+<a href="{{ $code->path() }}" class="list-group-item list-group-item-action flex-column align-items-start pb-4">
     <div class="d-flex justify-content-left w-100">
-        <div class="d-inline-flex">
-            <div class="d-inline-flex">
-                <img class="img-responsive" src="{{ $code->dataset->getFirstMediaUrl() }}" style="height: 100px;">
+        <div class="d-flex flex-row">
+            <div class="align-self-center">
+                <div>
+                    <img class="img-fluid" src="{{ $code->dataset->getFirstMediaUrl('default', 'thumb') }}">
+                </div>
             </div>
-            <div class="d-inline-flex align-self-end h-50">
-                <img class="img-responsive rounded-circle" src="{{ $code->creator->gravatar }}" style="height: 50px; margin-left: -25px;">
+            <div class="align-self-end h-25 hidden-md-down">
+                <img class="rounded-circle" src="{{ $code->creator->gravatar }}" style="width: 50px; height: 50px; margin-left: -25px;">
             </div>
         </div>
-        <div class="align-self-center ml-5 w-50">
+        <div class="align-self-center pl-5 w-50">
             <h5>{{ $code->name }}</h5>
+            <p class="small">Using Dataset: <span class="text-primary">{{ $code->dataset->name }}</span></p>
             <small>By {{ $code->creator->name }}</small>
         </div>
 

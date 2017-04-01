@@ -7,16 +7,16 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center mt-3">
-            @if(auth()->check() && $code->isOwnedBy(auth()->user()))
+            @can('edit', $code)
             <div class="col-12 align-self-end">
-                <a class="pull-right btn btn-primary" href="{{ $code->path() }}/edit">Edit Dataset</a>
+                <a class="pull-right btn btn-primary" href="{{ $code->path() }}/edit">Edit Code</a>
             </div>
-            @endif
+            @endcan
 
-            <div class="col-3">
-                <img class="img-fluid" src="{{ $code->dataset->getFirstMediaUrl() }}" alt="{{ $code->name }}" style="min-width: 200px;">
+            <div class="col-lg-3">
+                <img class="img-fluid" src="{{ $code->dataset->getFirstMediaUrl('default', 'big') }}" alt="{{ $code->name }}">
             </div>
-            <div class="col-9">
+            <div class="col-lg-9">
                 <h1 class="display-3">{{ $code->name }}</h1>
                 <div class="lead">
                     <ul class="list-inline">
@@ -24,10 +24,10 @@
                             For dataset: <a href="{{ $code->dataset->path() }}">{{ $code->dataset->name }}</a>
                         </li>
                         <li class="list-inline-item">
-                            By <a href="{{ $code->creator->path() }}">{{ $code->creator->name }}</a>
+                            &bull; By <a href="{{ $code->creator->path() }}">{{ $code->creator->name }}</a>
                         </li>
                         <li class="list-inline-item">
-                            <small class="text-muted">Last updated {{ $code->updated_at->diffForHumans() }}</small>
+                            &bull; <small class="text-muted">Last updated {{ $code->updated_at->diffForHumans() }}</small>
                         </li>
                     </ul>
                 </div>

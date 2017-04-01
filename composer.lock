@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ded3adc2e71f405aec180be0eaf43b9",
-    "content-hash": "3e79f54e8d98393048ac4857378405f4",
+    "hash": "12105b0ae377cf0155cc0487e57bdac1",
+    "content-hash": "bfe0f51478df0ccda9e80fe33cec153c",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.24.9",
+            "version": "3.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "26212252dcd0f9b9b7b19702577d0b0b364888df"
+                "reference": "cd362e4dda55d6c3466e60070dad6527f6938d5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/26212252dcd0f9b9b7b19702577d0b0b364888df",
-                "reference": "26212252dcd0f9b9b7b19702577d0b0b364888df",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cd362e4dda55d6c3466e60070dad6527f6938d5d",
+                "reference": "cd362e4dda55d6c3466e60070dad6527f6938d5d",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-03-28 20:19:24"
+            "time": "2017-03-31 19:42:09"
         },
         {
             "name": "cocur/slugify",

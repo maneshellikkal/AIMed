@@ -5,22 +5,17 @@
 @endsection
 
 @section('content')
-    @if(auth()->check() && $dataset->isOwnedBy(auth()->user()))
-        <div class="container">
-            <div class="row mt-3">
-                <div class="col align-self-end">
-                    <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
-                </div>
-            </div>
-        </div>
-    @endif
-
     <div class="container">
         <div class="row justify-content-md-center mt-3">
-            <div class="col-3">
-                <img class="img-fluid" src="{{ $dataset->getFirstMediaUrl() }}" alt="{{ $dataset->name }}" style="min-width: 200px;">
+            @can('edit', $dataset)
+                <div class="col-lg-12 align-self-end">
+                    <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+                </div>
+            @endcan
+            <div class="col-lg-3">
+                <img class="img-fluid" src="{{ $dataset->getFirstMediaUrl('default', 'big') }}" alt="{{ $dataset->name }}" style="min-width: 200px;">
             </div>
-            <div class="col-9">
+            <div class="col-lg-9">
                 <h1 class="display-3">{{ $dataset->name }}</h1>
                 <p class="lead">{{ $dataset->overview }}</p>
                 <ul class="list-inline">
@@ -34,7 +29,7 @@
                 <p>
             </div>
 
-            <div class="col-12 mt-3">
+            <div class="col-lg-12 mt-3">
                 <div class="card">
                     <h3 class="card-header">
                         Description
@@ -45,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-3">
+            <div class="col-lg-12 mt-3">
                 <div class="card">
                     <h3 class="card-header">
                         Files
@@ -60,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-3" id="dataset-codes">
+            <div class="col-lg-12 mt-3" id="dataset-codes">
                 <div class="card">
                     <div class="card-header">
                         <a class="pull-right btn btn-primary" href="/c/{{ $dataset->slug }}/publish"><i class="fa fa-code"></i> Publish</a>

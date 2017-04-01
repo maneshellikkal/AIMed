@@ -27,8 +27,7 @@
                               enctype="multipart/form-data">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
-
-                            <div class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label for="name" class="col-md-12 form-control-label">Give it a name</label>
 
                                 <div class="col-md-12">
@@ -43,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
                                 <label for="overview" class="col-md-12 form-control-label">Overview</label>
 
                                 <div class="col-md-12">
@@ -58,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
                                 <label for="description" class="col-md-12 form-control-label">Description</label>
 
                                 <div class="col-md-12">
