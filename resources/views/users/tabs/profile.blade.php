@@ -131,6 +131,16 @@
 
         <div class="form-group row">
             <div class="col-md-12">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="newsletter" value="1" {{ old('newsletter', $user->newsletter) ? 'checked' : '' }}> Subscribe to Newsletter
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-save"> </i> Save
                 </button>

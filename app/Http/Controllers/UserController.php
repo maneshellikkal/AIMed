@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserUpdated;
 use Validator;
 use App\Aimed;
 use Carbon\Carbon;
@@ -31,9 +32,9 @@ class UserController extends Controller
         return view('users.edit', $data);
     }
 
-    public function update (User $user)
+    public function update (User $user, Request $request)
     {
-        $this->validate(request(), [
+        $this->validate($request, [
             'name'              => 'required|max:255',
             'username'          => 'sometimes|alpha_num|min:4|max:30|unique:users',
             'email'             => 'sometimes|email|max:255|unique:users',
@@ -43,28 +44,28 @@ class UserController extends Controller
             'github_username'   => 'nullable|string|max:255',
             'linkedin_username' => 'nullable|string|max:255',
             'website'           => 'nullable|active_url|max:255',
+            'newsletter'        => 'boolean',
         ]);
 
-        $user = auth()->user()->isAdmin() ? $user : auth()->user();
-        $data = request()->intersect([
-            'name',
-            'dob',
-            'occupation',
-            'organization',
-            'github_username',
-            'linkedin_username',
-            'website'
+        $isAdmin = auth()->user()->isAdmin();
+        $user = $isAdmin ? $user : auth()->user();
+
+        $user->update([
+            'name'              => $request->input('name'),
+            'dob'               => $request->input('dob'),
+            'occupation'        => $request->input('occupation'),
+            'organization'      => $request->input('organization'),
+            'github_username'   => $request->input('github_username'),
+            'linkedin_username' => $request->input('linkedin_username'),
+            'website'           => $request->input('website'),
+            'newsletter'        => $request->has('newsletter'),
+            'username'          => $isAdmin ? $request->input('username', $user->username) : $user->username,
+            'email'             => $isAdmin ? $request->input('email', $user->email) : $user->email,
         ]);
 
-        if (auth()->user()->isAdmin()) {
-            $data += request()->intersect(['email', 'username']);
-        }
-
-        $user->update($data);
-
+        event(new UserUpdated($user));
 
         alert()->success('Profile Updated');
-
         return redirect($user->path() . '/edit?tab=profile');
     }
 
@@ -74,16 +75,15 @@ class UserController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        if($validator->fails()) {
-            return redirect($user->path() . '/edit?tab=security')->withErrors($validator);
+        if ($validator->fails()) {
+            return redirect($user->path() . '/edit?tab=security')
+                ->withErrors($validator);
         }
 
         $user = auth()->user()->isAdmin() ? $user : auth()->user();
-
         $user->update(['password' => bcrypt(request('password'))]);
 
         alert()->success('Password Changed');
-
         return redirect($user->path() . '/edit?tab=security');
     }
 }
