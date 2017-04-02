@@ -45,6 +45,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (! class_exists('Aimed')) {
+            class_alias('App\Aimed', 'Aimed');
+        }
     }
 }

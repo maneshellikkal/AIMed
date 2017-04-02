@@ -5,7 +5,7 @@
   a {
     border-bottom: 1px solid lighten($laravel-border-color, 5%);
     border-left: 3px solid transparent;
-    color: $text-color;
+    color: $body-color;
   }
 
   li:last-child a {

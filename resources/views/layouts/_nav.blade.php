@@ -38,6 +38,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="userMenu">
+                            <a href="{{ auth()->user()->path() }}/edit" class="dropdown-item">Update Profile</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

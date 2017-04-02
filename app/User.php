@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password',
+        'name', 'username', 'email', 'password', 'dob', 'occupation', 'organization', 'github_username', 'linkedin_username', 'website'
     ];
 
     /**
@@ -64,16 +64,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get a string path for the user.
-     *
-     * @return string
-     */
-    public function path()
-    {
-        return "/u/{$this->username}";
-    }
-
-    /**
      * A User may have multiple datasets.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -111,5 +101,25 @@ class User extends Authenticatable
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Get a string path for the user.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return "/u/{$this->username}";
+    }
+
+    /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'username';
     }
 }

@@ -15,6 +15,11 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
+// User Related Routes
+Route::get('u/{user}/edit', 'UserController@edit');
+Route::put('u/{user}/edit', 'UserController@update');
+Route::put('u/{user}/password', 'UserController@password');
+
 // Datasets Related Routes
 Route::get('datasets', 'DatasetController@index');
 Route::get('datasets/publish', 'DatasetController@create');
@@ -50,7 +55,7 @@ Route::get('predict/diabetes', 'DiabetesPredictionController@form');
 Route::post('predict/diabetes', 'DiabetesPredictionController@predict');
 
 if (env('APP_DEBUG')) {
-    Route::get('/l', function () {
+    Route::get('l', function () {
         auth()->login(App\User::first());
 
         return redirect('/');
