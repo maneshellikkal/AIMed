@@ -40,7 +40,8 @@ class NewsController extends Controller
                             TwitterFeed::search(implode(' ', $keywords)) :
                             new TwitterFeed()
                         )->orderBy('created_at', 'desc')
-                         ->paginate(20);
+                         ->paginate(20)
+                         ->appends(request()->all());
 
         return view('news.index', compact('twitterFeeds'));
     }
