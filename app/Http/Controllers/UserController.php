@@ -62,6 +62,9 @@ class UserController extends Controller
 
         $user->update($data);
 
+
+        alert()->success('Profile Updated');
+
         return redirect($user->path() . '/edit?tab=profile');
     }
 
@@ -78,6 +81,8 @@ class UserController extends Controller
         $user = auth()->user()->isAdmin() ? $user : auth()->user();
 
         $user->update(['password' => bcrypt(request('password'))]);
+
+        alert()->success('Password Changed');
 
         return redirect($user->path() . '/edit?tab=security');
     }

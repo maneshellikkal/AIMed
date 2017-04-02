@@ -9,6 +9,7 @@ window._ = require('lodash');
 
 window.$ = window.jQuery = require('jquery');
 window.Tether = require('Tether');
+window.swal = require('sweetalert');
 
 require('bootstrap/js/src/alert');
 require('bootstrap/js/src/button');
