@@ -33,7 +33,7 @@ class ReplyController extends Controller
         if(request()->wantsJson()){
             return $reply;
         }
-
-        return back();
+        alert()->success('Success');
+        return redirect($thread->path());
     }
 }

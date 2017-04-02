@@ -70,6 +70,7 @@ class CodeController extends Controller
             'published'   => $request->input('publish', false),
         ]);
 
+        alert()->success('Success');
         return redirect($code->path());
     }
 
@@ -118,6 +119,22 @@ class CodeController extends Controller
             'published'   => $request->input('publish', false),
         ]);
 
+        alert()->success('Success');
         return redirect($code->path());
+    }
+
+    /**
+     *
+     * Delete the specified resource.
+     *
+     * @param Code $code
+     *
+     * @return mixed
+     */
+    public function destroy(Code $code)
+    {
+        $code->delete();
+
+        return redirect('/codes')->withSuccess('Success');
     }
 }

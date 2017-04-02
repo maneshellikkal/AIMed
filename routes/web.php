@@ -28,6 +28,7 @@ Route::get('d/{dataset}', 'DatasetController@show');
 Route::get('d/{dataset}/edit', 'DatasetController@edit');
 Route::put('d/{dataset}', 'DatasetController@update');
 Route::post('d/{dataset}/file', 'DatasetFileController@upload');
+Route::delete('d/{dataset}', 'DatasetController@destroy');
 
 // Code Related Routes
 Route::get('codes', 'CodeController@index');
@@ -36,6 +37,7 @@ Route::post('codes', 'CodeController@store');
 Route::get('c/{code}', 'CodeController@show');
 Route::get('c/{code}/edit', 'CodeController@edit');
 Route::put('c/{code}', 'CodeController@update');
+Route::delete('c/{code}', 'CodeController@destroy');
 
 // News Related Routes
 Route::get('news', 'NewsController@index');

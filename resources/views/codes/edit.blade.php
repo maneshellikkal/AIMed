@@ -78,6 +78,12 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
+                                @can('delete', $code)
+                                <a href="#" class="btn btn-danger pull-right" onclick="event.preventDefault(); document.getElementById('delete-code-form').submit();">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                                @endcan
+
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"> </i> Save
                                 </button>
@@ -86,6 +92,10 @@
                                 </a>
                             </div>
                         </div>
+                    </form>
+                    <form hidden id="delete-code-form" action="{{ $code->path() }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
                     </form>
                 </div>
             </div>

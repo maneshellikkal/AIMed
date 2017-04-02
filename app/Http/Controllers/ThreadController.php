@@ -61,7 +61,7 @@ class ThreadController extends Controller
             'body'        => $request->input('body'),
             'category_id' => $request->input('category_id'),
         ]);
-
+        alert()->success('Success');
         return redirect($thread->path());
     }
 
@@ -108,7 +108,7 @@ class ThreadController extends Controller
             'body'        => $request->input('body'),
             'category_id' => $request->input('category_id'),
         ]);
-
+        alert()->success('Success');
         return redirect($thread->path());
     }
 

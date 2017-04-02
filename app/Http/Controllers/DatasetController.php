@@ -64,6 +64,7 @@ class DatasetController extends Controller
             'user_id'     => auth()->id(),
         ]);
 
+        alert()->info('You need to upload an image and dataset files to publish the dataset.', 'Almost There!')->confirmButton();
         return redirect($dataset->path() . '/edit');
     }
 
@@ -125,6 +126,22 @@ class DatasetController extends Controller
                 ->withErrors(['You need to add a display image and at least one file before publishing the dataset.']);
         }
 
+        alert()->success('Success');
         return redirect($dataset->path());
+    }
+
+    /**
+     *
+     * Delete the specified resource.
+     *
+     * @param Dataset $dataset
+     *
+     * @return mixed
+     */
+    public function destroy(Dataset $dataset)
+    {
+        $dataset->delete();
+
+        return redirect('/datasets')->withSuccess('Dataset Deleted');
     }
 }

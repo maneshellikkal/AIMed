@@ -97,12 +97,22 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
+                                @can('delete', $dataset)
+                                    <a href="#" class="btn btn-danger pull-right" onclick="event.preventDefault(); document.getElementById('delete-dataset-form').submit();">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                @endcan
+
                                 <a href="#" onclick="event.preventDefault();document.getElementById('edit-dataset-form').submit();"
                                    class="btn btn-primary">
                                     {{ $dataset->isPublished() ? 'Update Dataset' : 'Publish Dataset' }}
                                 </a>
                             </div>
                         </div>
+                        <form hidden id="delete-dataset-form" action="{{ $dataset->path() }}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                        </form>
                     </div>
                 </div>
             </div>
