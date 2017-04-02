@@ -173,6 +173,7 @@ return [
         Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
+        Spatie\Newsletter\NewsletterServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -235,6 +236,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Markdown'     => GrahamCampbell\Markdown\Facades\Markdown::class,
         'TwitterStreamingApi' => Spatie\LaravelTwitterStreamingApi\TwitterStreamingApiFacade::class,
+        'Newsletter' => Spatie\Newsletter\NewsletterFacade::class,
     ],
 
 ];
