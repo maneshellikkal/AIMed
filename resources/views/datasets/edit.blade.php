@@ -27,7 +27,7 @@
                               enctype="multipart/form-data">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
-                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() && !$dataset->hasMedia() ? 'hidden' : '' }} class="form-group row{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label for="name" class="col-md-12 form-control-label">Give it a name</label>
 
                                 <div class="col-md-12">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() && !$dataset->hasMedia() ? 'hidden' : '' }} class="form-group row{{ $errors->has('overview') ? ' has-danger' : '' }}">
                                 <label for="overview" class="col-md-12 form-control-label">Overview</label>
 
                                 <div class="col-md-12">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div {{ $dataset->isNotPublished() ? 'hidden' : '' }} class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
+                            <div {{ $dataset->isNotPublished() && !$dataset->hasMedia() ? 'hidden' : '' }} class="form-group row{{ $errors->has('description') ? ' has-danger' : '' }}">
                                 <label for="description" class="col-md-12 form-control-label">Description</label>
 
                                 <div class="col-md-12">
@@ -97,11 +97,23 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
-                                @can('delete', $dataset)
-                                    <a href="#" class="btn btn-danger pull-right" onclick="event.preventDefault(); document.getElementById('delete-dataset-form').submit();">
-                                        <i class="fa fa-trash"></i> Delete
-                                    </a>
-                                @endcan
+                                <div class="pull-right">
+                                    @can('publish', $dataset)
+                                        <a class="btn btn-secondary" href="{{ $dataset->path() }}/publish">
+                                            {{ $dataset->isPublished() ? 'Un-Publish Dataset' : 'Publish Dataset' }}
+                                        </a>
+                                    @endcan
+                                    @can('feature', $dataset)
+                                        <a class="btn btn-success" href="{{ $dataset->path() }}/feature">
+                                            <i class="fa fa-star"></i> {{ $dataset->isFeatured() ? 'Un-Feature Dataset' : 'Feature Dataset' }}
+                                        </a>
+                                    @endcan
+                                    @can('delete', $dataset)
+                                        <a href="#" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-dataset-form').submit();">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                    @endcan
+                                </div>
 
                                 <a href="#" onclick="event.preventDefault();document.getElementById('edit-dataset-form').submit();"
                                    class="btn btn-primary">

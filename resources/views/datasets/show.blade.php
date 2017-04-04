@@ -9,7 +9,19 @@
         <div class="row justify-content-md-center mt-3">
             @can('edit', $dataset)
                 <div class="col-lg-12 align-self-end">
-                    <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+                        @can('publish', $dataset)
+                            <a class="btn btn-secondary" href="{{ $dataset->path() }}/publish">
+                                {{ $dataset->isPublished() ? 'Un-Publish Dataset' : 'Publish Dataset' }}
+                            </a>
+                        @endcan
+                        @can('feature', $dataset)
+                            <a class="btn btn-success" href="{{ $dataset->path() }}/feature">
+                                <i class="fa fa-star"></i> {{ $dataset->isFeatured() ? 'Un-Feature Dataset' : 'Feature Dataset' }}
+                            </a>
+                        @endcan
+                    </div>
                 </div>
             @endcan
             <div class="col-lg-3">

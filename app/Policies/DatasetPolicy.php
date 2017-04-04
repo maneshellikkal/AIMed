@@ -79,4 +79,30 @@ class DatasetPolicy extends BasePolicy
     {
         return $dataset->isOwnedBy($user);
     }
+
+    /**
+     * Determine whether the user can publish and un-publish datasets.
+     *
+     * @param User    $user
+     * @param Dataset $dataset
+     *
+     * @return bool
+     */
+    public function publish(User $user, Dataset $dataset)
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can feature and remove featured datasets.
+     *
+     * @param User    $user
+     * @param Dataset $dataset
+     *
+     * @return bool
+     */
+    public function feature(User $user, Dataset $dataset)
+    {
+        return false;
+    }
 }
