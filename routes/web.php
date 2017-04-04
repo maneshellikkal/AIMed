@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index');
 
 Auth::routes();
+Route::get('activation/{token}', 'Auth\LoginController@activate')->name('auth.activate');
 
 // User Related Routes
 Route::get('u/{user}/edit', 'UserController@edit');

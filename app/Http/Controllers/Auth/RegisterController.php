@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Activation;
 use App\Events\UserRegistered;
 use Illuminate\Http\Request;
 use App\User;
@@ -73,9 +74,17 @@ class RegisterController extends Controller
         ]);
     }
 
-    protected function registered (Request $request, $user)
+    protected function registered (Request $request, User $user)
     {
         event(new UserRegistered($user));
+
+        if (config('settings.user.activation.enabled') && !$user->activated) {
+            Activation::createTokenAndSendEmail($user);
+            auth()->logout();
+            return redirect(route('login'))
+                ->withInfo('You need to confirm your email address before logging in. We have sent you an email.')
+                ->withAlertHeading('Confirmation Required');
+        }
 
         return redirect($this->redirectPath());
     }

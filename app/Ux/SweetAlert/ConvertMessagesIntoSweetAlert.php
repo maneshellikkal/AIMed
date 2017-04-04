@@ -17,23 +17,23 @@ class ConvertMessagesIntoSweetAlert
     public function handle($request, Closure $next)
     {
         if ($request->session()->has('success')) {
-            alert()->success($request->session()->get('success'))->persistent();
+            alert()->success($request->session()->get('success'), $request->session()->get('alert_heading', ''))->persistent();
         }
 
         if ($request->session()->has('warning')) {
-            alert()->warning($request->session()->get('warning'))->persistent();
+            alert()->warning($request->session()->get('warning'), $request->session()->get('alert_heading', ''))->persistent();
         }
 
         if ($request->session()->has('info')) {
-            alert()->info($request->session()->get('info'))->persistent();
+            alert()->info($request->session()->get('info'), $request->session()->get('alert_heading', ''))->persistent();
         }
 
         if ($request->session()->has('message')) {
-            alert()->message($request->session()->get('message'))->persistent();
+            alert()->message($request->session()->get('message'), $request->session()->get('alert_heading', ''))->persistent();
         }
 
         if ($request->session()->has('basic')) {
-            alert()->basic($request->session()->get('basic'));
+            alert()->basic($request->session()->get('basic'), $request->session()->get('alert_heading', ''));
         }
 
         if ($request->session()->has('errors')) {
