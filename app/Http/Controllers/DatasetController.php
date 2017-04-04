@@ -6,13 +6,16 @@ use App\Dataset;
 use App\Filters\DatasetFilters;
 use App\Http\Requests\PublishDatasetRequest;
 use App\Http\Requests\UpdateDatasetRequest;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class DatasetController extends Controller
 {
     public function __construct ()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('can:create,App\Dataset')->only(['create', 'store']);
+        $this->middleware('can:update,dataset')->only(['edit', 'update']);
+        $this->middleware('can:delete,dataset')->only(['destroy']);
     }
 
     /**
@@ -26,8 +29,7 @@ class DatasetController extends Controller
     public function index (DatasetFilters $filters, Request $request)
     {
         $datasets = Dataset::filter($filters)
-                           ->published()
-                           ->withUnpublishedFor(auth()->id())
+                           ->publishedExceptOf(auth()->id())
                            ->with('creator')
                            ->latest()
                            ->paginate()
@@ -38,6 +40,7 @@ class DatasetController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function create ()
@@ -61,40 +64,38 @@ class DatasetController extends Controller
             'user_id'     => auth()->id(),
         ]);
 
+        alert()->info('You need to upload an image and dataset files to publish the dataset.', 'Almost There!')->confirmButton();
         return redirect($dataset->path() . '/edit');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param string $slug
+     * @param Dataset $dataset
      *
      * @return \Illuminate\Http\Response
      */
-    public function show (string $slug)
+    public function show (Dataset $dataset)
     {
-        $dataset = Dataset::published()
-                          ->withUnpublishedFor(auth()->id())
-                          ->with([
-                              'codes' => function ($query) {
-                                  $query->published();
-                              }
-                          ])->findBySlugOrFail($slug);
+        if($dataset->isNotPublished()){
+            $this->authorize($dataset);
+        }
 
-        return view('datasets.show', compact('dataset'));
+        $dataset->load('creator');
+        $codes = $dataset->codes()->published()->latest()->paginate();
+
+        return view('datasets.show', compact('dataset', 'codes'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $slug
+     * @param Dataset $dataset
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit ($slug)
+    public function edit (Dataset $dataset)
     {
-        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
-
         return view('datasets.edit', compact('dataset'));
     }
 
@@ -102,14 +103,12 @@ class DatasetController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateDatasetRequest $request
-     * @param string               $slug
+     * @param Dataset              $dataset
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update (UpdateDatasetRequest $request, $slug)
+    public function update (UpdateDatasetRequest $request, Dataset $dataset)
     {
-        $dataset = auth()->user()->datasets()->findBySlugOrFail($slug);
-
         if ($request->hasFile('image')) {
             $dataset->clearMediaCollection();
             $dataset->addMedia($request->file('image'))->preservingOriginal()->toMediaCollection();
@@ -127,6 +126,22 @@ class DatasetController extends Controller
                 ->withErrors(['You need to add a display image and at least one file before publishing the dataset.']);
         }
 
+        alert()->success('Success');
         return redirect($dataset->path());
+    }
+
+    /**
+     *
+     * Delete the specified resource.
+     *
+     * @param Dataset $dataset
+     *
+     * @return mixed
+     */
+    public function destroy(Dataset $dataset)
+    {
+        $dataset->delete();
+
+        return redirect('/datasets')->withSuccess('Dataset Deleted');
     }
 }

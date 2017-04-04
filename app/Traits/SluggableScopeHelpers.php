@@ -31,6 +31,16 @@ trait SluggableScopeHelpers
     }
 
     /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return $this->getSlugKeyName();
+    }
+
+    /**
      * Primary slug value of this model.
      *
      * @return string
@@ -60,7 +70,7 @@ trait SluggableScopeHelpers
      * @param string  $slug
      * @param array   $columns
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @return \Illuminate\Database\Eloquent\Model|null|static
      */
     public static function scopeFindBySlug(Builder $query, $slug, array $columns = ['*'])
     {

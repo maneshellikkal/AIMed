@@ -13,7 +13,9 @@ class CodeController extends Controller
 {
     public function __construct ()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('can:create,App\Code')->only(['create', 'store']);
+        $this->middleware('can:update,code')->only(['edit', 'update']);
+        $this->middleware('can:delete,code')->only(['destroy']);
     }
 
     /**
@@ -27,8 +29,7 @@ class CodeController extends Controller
     public function index (CodeFilters $filters, Request $request)
     {
         $codes = Code::filter($filters)
-                     ->published()
-                     ->withUnpublishedFor(auth()->id())
+                     ->publishedExceptOf(auth()->id())
                      ->with('creator', 'dataset')
                      ->latest()
                      ->paginate()
@@ -40,13 +41,13 @@ class CodeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param $slug
+     * @param Dataset $dataset
      *
      * @return \Illuminate\Http\Response
      */
-    public function create ($slug)
+    public function create (Dataset $dataset)
     {
-        $dataset = Dataset::published()->findBySlugOrFail($slug);
+        $this->authorize('add-code', $dataset);
 
         return view('codes.publish', compact('dataset'));
     }
@@ -69,19 +70,22 @@ class CodeController extends Controller
             'published'   => $request->input('publish', false),
         ]);
 
-        return redirect($code->path() . '/edit');
+        alert()->success('Success');
+        return redirect($code->path());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param string $slug
+     * @param Code $code
      *
      * @return \Illuminate\Http\Response
      */
-    public function show (string $slug)
+    public function show (Code $code)
     {
-        $code = Code::published()->withUnpublishedFor(auth()->id())->findBySlugOrFail($slug);
+        if($code->isNotPublished()){
+            $this->authorize($code);
+        }
 
         return view('codes.show', compact('code'));
     }
@@ -89,29 +93,25 @@ class CodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $slug
+     * @param Code $code
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit ($slug)
+    public function edit (Code $code)
     {
-        $code = auth()->user()->codes()->with('dataset')->findBySlugOrFail($slug);
-
         return view('codes.edit', compact('code'));
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param Code              $code
      * @param UpdateCodeRequest $request
-     * @param string            $slug
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update (UpdateCodeRequest $request, $slug)
+    public function update (Code $code, UpdateCodeRequest $request)
     {
-        $code = auth()->user()->codes()->findBySlugOrFail($slug);
-
         $code->update([
             'name'        => $request->input('name'),
             'description' => $request->input('description'),
@@ -119,6 +119,22 @@ class CodeController extends Controller
             'published'   => $request->input('publish', false),
         ]);
 
+        alert()->success('Success');
         return redirect($code->path());
+    }
+
+    /**
+     *
+     * Delete the specified resource.
+     *
+     * @param Code $code
+     *
+     * @return mixed
+     */
+    public function destroy(Code $code)
+    {
+        $code->delete();
+
+        return redirect('/codes')->withSuccess('Success');
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App;
 
+use App\Traits\HasRole;
+use Facades\App\Helpers\Gravatar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRole;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password',
+        'name', 'username', 'email', 'password', 'dob', 'occupation', 'organization', 'github_username', 'linkedin_username', 'website', 'newsletter', 'activated'
     ];
 
     /**
@@ -28,13 +31,36 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get a string path for the thread.
+     * The attributes that should be appended to arrays.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'gravatar'
+    ];
+
+    /**
+     * Find the user by its username.
+     *
+     * @param Builder $query
+     * @param         $username
+     * @param array   $columns
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public static function scopeFindByUsername(Builder $query, $username, array $columns = ['*'])
+    {
+        return $query->whereUsername($username)->first($columns);
+    }
+
+    /**
+     * Get the gravatar url for the user.
      *
      * @return string
      */
-    public function path()
+    public function getGravatarAttribute()
     {
-        return "/u/{$this->username}";
+        return Gravatar::src($this->email);
     }
 
     /**
@@ -47,8 +73,53 @@ class User extends Authenticatable
         return $this->hasMany(Dataset::class);
     }
 
+    /**
+     * A User may have multiple codes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function codes()
     {
         return $this->hasMany(Code::class);
+    }
+
+    /**
+     * A User may have multiple threads.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    /**
+     * A User may have multiple replies.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Get a string path for the user.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return "/u/{$this->username}";
+    }
+
+    /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'username';
     }
 }

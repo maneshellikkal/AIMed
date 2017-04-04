@@ -1,19 +1,27 @@
-@push('styles')
-<style type="text/css">#code-editor {position: relative; height: 400px;}</style>
-@endpush
-
 @push('scripts')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/theme-pastel_on_dark.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        var textarea = $('textarea[name="code"]');
-        var editor = ace.edit("code-editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/python");
-        editor.getSession().setValue(textarea.val());
-        editor.getSession().on('change', function(){
-            textarea.val(editor.getSession().getValue());
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/theme-monokai.js"></script>
+<script>
+    $(function () {
+        $('textarea[data-editor]').each(function () {
+            var textarea = $(this);
+            var mode = textarea.data('editor');
+            var editDiv = $('<div>', {
+                position: 'absolute',
+                width: textarea.width(),
+                height: textarea.height(),
+                'class': textarea.attr('class')
+            }).insertBefore(textarea);
+            textarea.attr('hidden', 'true');
+            textarea.after('<p class="help-block"><small>Python language is only supported for now.</small></p>');
+            var editor = ace.edit(editDiv[0]);
+            editor.getSession().setValue(textarea.val());
+            editor.getSession().setMode("ace/mode/" + mode);
+            editor.setTheme("ace/theme/monokai");
+
+            textarea.closest('form').submit(function () {
+                textarea.val(editor.getSession().getValue());
+            })
         });
     });
 </script>

@@ -1,5 +1,10 @@
 @if ($paginator->hasPages())
-    <ul class="pagination">
+    <div class="text-center text-muted mb-2">
+        <small>
+            Showing {{ ($paginator->currentpage()-1) * $paginator->perpage() + 1 }} to {{ $paginator->currentpage() * $paginator->perpage() }} of  {{ $paginator->total() }} entries
+        </small>
+    </div>
+    <ul class="pagination justify-content-center">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>

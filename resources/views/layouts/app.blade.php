@@ -19,7 +19,6 @@
 
 <body>
     @include('layouts._nav')
-    @include('layouts._errors')
 
     @yield('content')
 
@@ -27,5 +26,6 @@
 
     <script src="{{ mix('/js/app.js') }}"></script>
     @stack('scripts')
+    @include('layouts._errors')
 </body>
 </html>

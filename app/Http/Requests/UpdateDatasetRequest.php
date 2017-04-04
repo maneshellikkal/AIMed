@@ -12,7 +12,7 @@ class UpdateDatasetRequest extends FormRequest
      */
     public function authorize ()
     {
-        return auth()->check() && auth()->user()->datasets()->whereSlug($this->route('dataset'))->count();
+        return true;
     }
 
     /**

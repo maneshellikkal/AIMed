@@ -9,19 +9,47 @@ use App\Traits\Publishable;
 use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
-class Dataset extends Model implements HasMedia
+class Dataset extends Model implements HasMedia, HasMediaConversions
 {
     use Sluggable, SluggableScopeHelpers, HasMediaTrait;
     use Ownable, Featureable, Publishable, Filterable;
 
+    /**
+     * The attributes that are not mass assignable.
+     * @var array
+     */
     protected $guarded = [];
 
-    public function creator()
+    /**
+     * Register the conversions that should be performed.
+     */
+    public function registerMediaConversions()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        $this->addMediaConversion('thumb')
+            ->crop(Manipulations::CROP_TOP_LEFT, 134, 134)
+            ->format(Manipulations::FORMAT_PNG)
+            ->performOnCollections('default');
+
+        $this->addMediaConversion('big')
+            ->crop(Manipulations::CROP_TOP_LEFT, 240, 240)
+            ->format(Manipulations::FORMAT_PNG)
+            ->performOnCollections('default');
+    }
+
+
+    /**
+     * A thread may have many codes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
     }
 
     /**
@@ -32,10 +60,5 @@ class Dataset extends Model implements HasMedia
     public function path()
     {
         return "/d/{$this->slug}";
-    }
-
-    public function codes()
-    {
-        return $this->hasMany(Code::class);
     }
 }

@@ -41,7 +41,7 @@ class ReadDatasetsTest extends TestCase
     /** @test */
     function an_user_cannot_view_unpublished_dataset ()
     {
-        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $dataset = create('App\Dataset', ['published' => false]);
         $this->disableExceptionHandling()->get($dataset->path());
     }
@@ -61,11 +61,11 @@ class ReadDatasetsTest extends TestCase
     function an_user_can_view_featured_datasets ()
     {
         $dataset = create('App\Dataset', ['featured' => false]);
-        $this->get('/datasets?show=featured')
+        $this->get('/datasets?featured=true')
              ->assertDontSee($dataset->name);
 
         $dataset = create('App\Dataset', ['featured' => true]);
-        $this->get('/datasets?show=featured')
+        $this->get('/datasets?featured=true')
              ->assertSee($dataset->name);
     }
 
@@ -76,11 +76,11 @@ class ReadDatasetsTest extends TestCase
         $this->signIn($user);
 
         $dataset = create('App\Dataset');
-        $this->get('/datasets?show=my')
+        $this->get('/datasets?author='.$user->username)
              ->assertDontSee($dataset->name);
 
         $dataset = create('App\Dataset', ['user_id' => $user->id]);
-        $this->get('/datasets?show=my')
+        $this->get('/datasets?author='.$user->username)
              ->assertSee($dataset->name);
     }
 }

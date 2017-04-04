@@ -5,83 +5,86 @@
 @endsection
 
 @section('content')
-    @if(auth()->check() && $dataset->isOwnedBy(auth()->user()))
-        <div class="container">
-            <div class="row mt-3">
-                <div class="col align-self-end">
-                    <a class="pull-right btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+    <div class="container">
+        <div class="row justify-content-md-center mt-3">
+            @can('edit', $dataset)
+                <div class="col-lg-12 align-self-end">
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>
+                        @can('publish', $dataset)
+                            <a class="btn btn-secondary" href="{{ $dataset->path() }}/publish">
+                                {{ $dataset->isPublished() ? 'Un-Publish Dataset' : 'Publish Dataset' }}
+                            </a>
+                        @endcan
+                        @can('feature', $dataset)
+                            <a class="btn btn-success" href="{{ $dataset->path() }}/feature">
+                                <i class="fa fa-star"></i> {{ $dataset->isFeatured() ? 'Un-Feature Dataset' : 'Feature Dataset' }}
+                            </a>
+                        @endcan
+                    </div>
+                </div>
+            @endcan
+            <div class="col-lg-3">
+                <img class="img-fluid" src="{{ $dataset->getFirstMediaUrl('default', 'big') }}" alt="{{ $dataset->name }}" style="min-width: 200px;">
+            </div>
+            <div class="col-lg-9">
+                <h1 class="display-3">{{ $dataset->name }}</h1>
+                <p class="lead">{{ $dataset->overview }}</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        By <a href="{{ $dataset->creator->path() }}">{{ $dataset->creator->name }}</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <small class="text-muted">Last updated {{ $dataset->updated_at->diffForHumans() }}</small></p>
+                    </li>
+                </ul>
+                <p>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <h3 class="card-header">
+                        Description
+                    </h3>
+                    <div class="card-block user-content">
+                        {!! $dataset->description_html !!}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+                <div class="card">
+                    <h3 class="card-header">
+                        Files
+                    </h3>
+                    <div class="list-group list-group-flush">
+                        @forelse($dataset->getMedia('files') as $file)
+                            <a class="list-group-item" href="{{ $file->getUrl() }}">{{ $file->file_name }}</a>
+                        @empty
+                            <a class="list-group-item">No Attached Files</a>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 mt-3" id="dataset-codes">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="pull-right btn btn-primary" href="/c/{{ $dataset->slug }}/publish"><i class="fa fa-code"></i> Publish</a>
+                        <h3>Codes ({{ $codes->total() }})</h3>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        @each('codes._flex_item', $codes, 'code', 'codes._empty_flex_item')
+                    </div>
+                    @if($codes->hasPages())
+                    <div class="card-block">
+                        {{ $codes->fragment('dataset-codes')->links() }}
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
-    @endif
-
-    @component('layouts.card', [
-        'cardTitle' => $dataset->name,
-        'cardHeadingColor' => '',
-        'cardHeadingTextColor' => '',
-    ])
-
-        <hr>
-        @foreach($dataset->getMedia() as $file)
-            <img src="{{ $file->getUrl() }}" class="img-responsive" width="200px">
-        @endforeach
-
-        <table class="table table-bordered">
-            <tr>
-                <th>Name</th>
-                <td>{{ $dataset->name }}</td>
-            </tr>
-            <tr>
-                <th>Overview</th>
-                <td>{{ $dataset->overview }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ $dataset->description }}</td>
-            </tr>
-            <tr>
-                <th>Published by</th>
-                <td>
-                    <a href="{{ $dataset->creator->path() }}">
-                        {{ $dataset->creator->name }}
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <th>Published On</th>
-                <td>{{ $dataset->created_at->diffForHumans() }}</td>
-            </tr>
-            <tr>
-                <th>Last Updated</th>
-                <td>{{ $dataset->updated_at->diffForHumans() }}</td>
-            </tr>
-            <tr>
-                <th>Featured</th>
-                <td>{{ $dataset->featured ? 'Yes' : 'No' }}</td>
-            </tr>
-        </table>
-        <hr>
-
-        <h3>Files</h3>
-        <div class="list-group">
-            @forelse($dataset->getMedia('files') as $file)
-                <a class="list-group-item" href="{{ $file->getUrl() }}">{{ $file->file_name }}</a> <br>
-            @empty
-                <a class="list-group-item">No Attached Files</a>
-            @endforelse
-        </div>
-        <hr>
-
-        <h3>Codes ({{ $dataset->codes->count() }})</h3>
-        <a class="pull-right btn btn-primary" href="/c/{{ $dataset->slug }}/publish">Add Code</a>
-
-        <div class="list-group">
-            @forelse($dataset->codes as $code)
-                <a class="list-group-item" href="{{ $code->path() }}">{{ $code->name }} &nbsp; <small>by {{ $code->creator->name }}</small></a> <br>
-            @empty
-                <a class="list-group-item">No Published Codes</a>
-            @endforelse
-        </div>
-
-    @endcomponent
+    </div>
 @endsection
+
+@include('layouts._code_highlight')
