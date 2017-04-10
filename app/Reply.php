@@ -25,4 +25,19 @@ class Reply extends Model
     {
         return $this->belongsTo(Thread::class);
     }
+
+    /**
+     * Get a string path for the reply.
+     *
+     * @return string
+     */
+    public function path ()
+    {
+        return "{$this->thread->path()}/{$this->id}";
+    }
+
+    public function isBestAnswer()
+    {
+        return $this->best_answer;
+    }
 }

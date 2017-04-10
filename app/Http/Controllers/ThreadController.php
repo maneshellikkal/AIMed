@@ -77,18 +77,20 @@ class ThreadController extends Controller
     {
         return view('threads.show', [
             'thread'  => $thread,
-            'replies' => $thread->replies()->paginate(20)
+            'replies' => $thread->replies()->paginate(20),
+            'best_reply' => $thread->replies()->where('best_answer', true)->first()
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param string $categorySlug
      * @param Thread $thread
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit (Thread $thread)
+    public function edit (string $categorySlug, Thread $thread)
     {
         return view('threads.edit', compact('thread'));
     }
@@ -96,12 +98,13 @@ class ThreadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateThreadRequest $request
+     * @param string              $categorySlug
      * @param Thread              $thread
+     * @param UpdateThreadRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update (UpdateThreadRequest $request, Thread $thread)
+    public function update (string $categorySlug, Thread $thread, UpdateThreadRequest $request)
     {
         $thread->update([
             'name'        => $request->input('name'),

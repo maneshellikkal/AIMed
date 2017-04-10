@@ -50,8 +50,11 @@ Route::get('discuss', 'ThreadController@index');
 Route::get('discuss/create', 'ThreadController@create');
 Route::post('discuss', 'ThreadController@store');
 Route::get('t/{category}/{thread}', 'ThreadController@show');
+Route::get('t/{category}/{thread}/edit', 'ThreadController@edit');
+Route::put('t/{category}/{thread}', 'ThreadController@update');
 Route::get('t/{category}', 'ThreadController@index');
 Route::post('t/{category}/{thread}/replies', 'ReplyController@store');
+Route::put('t/{category}/{thread}/{reply}', 'ReplyController@bestAnswer');
 
 // Prediction Related Routes
 Route::get('predict/heart', 'HeartDiseasePredictionController@form');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Reply;
 use App\Thread;
 
 class ReplyController extends Controller
@@ -11,7 +12,8 @@ class ReplyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('can:add-reply,thread')->only('store');
+        $this->middleware('can:select-best-answer,thread')->only('bestAnswer');
     }
     /**
      * Persist a new reply.
@@ -33,6 +35,23 @@ class ReplyController extends Controller
         if(request()->wantsJson()){
             return $reply;
         }
+        alert()->success('Success');
+        return redirect($thread->path());
+    }
+
+    /**
+     * Select the best reply for a thread.
+     *
+     * @param string $categorySlug
+     * @param Thread $thread
+     * @param Reply  $reply
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function bestAnswer(string $categorySlug, Thread $thread, Reply $reply)
+    {
+        $thread->selectBestReply($reply);
+
         alert()->success('Success');
         return redirect($thread->path());
     }

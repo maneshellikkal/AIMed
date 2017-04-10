@@ -4,9 +4,12 @@ namespace App\Policies;
 
 use App\User;
 use App\Reply;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReplyPolicy extends BasePolicy
+class ReplyPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can create replies.
      *
