@@ -105,4 +105,17 @@ class DatasetPolicy extends BasePolicy
     {
         return false;
     }
+
+    /**
+     * Determine whether the user can vote the dataset.
+     *
+     * @param User    $user
+     * @param Dataset $dataset
+     *
+     * @return bool
+     */
+    public function vote(User $user, Dataset $dataset)
+    {
+        return true;
+    }
 }

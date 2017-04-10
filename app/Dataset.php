@@ -7,6 +7,7 @@ use App\Traits\Filterable;
 use App\Traits\Ownable;
 use App\Traits\Publishable;
 use App\Traits\SluggableScopeHelpers;
+use App\Traits\Votable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Image\Manipulations;
@@ -17,7 +18,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 class Dataset extends Model implements HasMedia, HasMediaConversions
 {
     use Sluggable, SluggableScopeHelpers, HasMediaTrait;
-    use Ownable, Featureable, Publishable, Filterable;
+    use Ownable, Featureable, Publishable, Filterable, Votable;
 
     /**
      * The attributes that are not mass assignable.

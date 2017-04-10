@@ -10,8 +10,10 @@ use App\Policies\CodePolicy;
 use App\Policies\DatasetPolicy;
 use App\Policies\ReplyPolicy;
 use App\Policies\ThreadPolicy;
+use App\Policies\TwitterFeedPolicy;
 use App\Reply;
 use App\Thread;
+use App\TwitterFeed;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,11 +23,12 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Category::class => CategoryPolicy::class,
-        Code::class     => CodePolicy::class,
-        Dataset::class  => DatasetPolicy::class,
-        Reply::class    => ReplyPolicy::class,
-        Thread::class   => ThreadPolicy::class,
+        Category::class    => CategoryPolicy::class,
+        Code::class        => CodePolicy::class,
+        Dataset::class     => DatasetPolicy::class,
+        Reply::class       => ReplyPolicy::class,
+        Thread::class      => ThreadPolicy::class,
+        TwitterFeed::class => TwitterFeedPolicy::class,
     ];
 
     /**

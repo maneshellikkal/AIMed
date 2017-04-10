@@ -33,6 +33,7 @@ Route::post('d/{dataset}/file', 'DatasetFileController@upload');
 Route::delete('d/{dataset}', 'DatasetController@destroy');
 Route::get('d/{dataset}/publish', 'PublishDatasetController@toggle');
 Route::get('d/{dataset}/feature', 'FeatureDatasetController@toggle');
+Route::post('d/{dataset}/vote', 'VoteController@dataset');
 
 // Code Related Routes
 Route::get('codes', 'CodeController@index');
@@ -42,9 +43,11 @@ Route::get('c/{code}', 'CodeController@show');
 Route::get('c/{code}/edit', 'CodeController@edit');
 Route::put('c/{code}', 'CodeController@update');
 Route::delete('c/{code}', 'CodeController@destroy');
+Route::post('c/{code}/vote', 'VoteController@code');
 
 // News Related Routes
 Route::get('news', 'NewsController@index');
+Route::post('news/{twitter_feed}/vote', 'VoteController@news');
 
 // Forum Related Routes
 Route::get('discuss', 'ThreadController@index');

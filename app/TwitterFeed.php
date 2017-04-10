@@ -3,12 +3,13 @@
 namespace App;
 
 use App\Traits\Filterable;
+use App\Traits\Votable;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 class TwitterFeed extends Model
 {
-    use Filterable, Searchable;
+    use Filterable, Searchable, Votable;
 
     protected $guarded = [];
 
@@ -21,5 +22,15 @@ class TwitterFeed extends Model
     public function toSearchableArray()
     {
         return array_only($this->toArray(), ['id', 'body', 'tags']);
+    }
+
+    /**
+     * Get a string path for the news.
+     *
+     * @return string
+     */
+    public function path ()
+    {
+        return "/news/{$this->id}";
     }
 }

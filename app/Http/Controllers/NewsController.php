@@ -43,6 +43,8 @@ class NewsController extends Controller
                          ->paginate(20)
                          ->appends(request()->all());
 
+        $twitterFeeds->load('votes');
+
         return view('news.index', compact('twitterFeeds'));
     }
 }

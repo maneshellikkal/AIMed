@@ -6,13 +6,14 @@ use App\Traits\Filterable;
 use App\Traits\Ownable;
 use App\Traits\Publishable;
 use App\Traits\SluggableScopeHelpers;
+use App\Traits\Votable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Code extends Model
 {
     use Sluggable, SluggableScopeHelpers;
-    use Ownable, Publishable, Filterable;
+    use Ownable, Publishable, Filterable, Votable;
 
     /**
      * The attributes that are not mass assignable.
