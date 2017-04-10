@@ -7,16 +7,16 @@
             <p class="lead">{!! makeLinksClickable($feed->body, $feed->tags)  !!}</p>
             <ul class="list-inline">
                 <li class="list-inline-item">
+                    <a class="btn btn-sm btn-outline-info" href="https://twitter.com/{{ $feed->author_screen_name }}/status/{{ $feed->twitter_id}}" target="_blank">
+                        <i class="fa fa-twitter"></i> Twitter
+                    </a>
+                </li>
+                <li class="list-inline-item">
                     <a class="btn btn-sm btn-outline-primary" href="https://twitter.com/{{ $feed->author_screen_name }}" title="{{ $feed->author_name }}" target="_blank">
                         By <img class="img-responsive rounded-circle" src="https://twitter.com/{{ $feed->author_screen_name }}/profile_image?size=mini"> {{ '@'.$feed->author_screen_name }}
                         @if($feed->author_verified)
                             <span class="fa fa-stack" style="font-size: 60%;"> <i class="fa fa-certificate fa-stack-2x"></i> <i class="fa fa-check fa-stack-1x fa-inverse"></i> </span>
                         @endif
-                    </a>
-                </li>
-                <li class="list-inline-item">
-                    <a class="btn btn-sm btn-outline-info" href="https://twitter.com/{{ $feed->author_screen_name }}/status/{{ $feed->twitter_id}}" target="_blank">
-                        <i class="fa fa-twitter"></i> Twitter
                     </a>
                 </li>
             </ul>

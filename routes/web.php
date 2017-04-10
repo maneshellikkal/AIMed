@@ -17,6 +17,7 @@ Auth::routes();
 Route::get('activation/{token}', 'Auth\LoginController@activate')->name('auth.activate');
 
 // User Related Routes
+Route::get('u/{user}', 'ProfileController@show');
 Route::get('u/{user}/edit', 'UserController@edit');
 Route::put('u/{user}/edit', 'UserController@update');
 Route::put('u/{user}/password', 'UserController@password');

@@ -35,10 +35,9 @@
                         By <a href="{{ $dataset->creator->path() }}">{{ $dataset->creator->name }}</a>
                     </li>
                     <li class="list-inline-item">
-                        <small class="text-muted">Last updated {{ $dataset->updated_at->diffForHumans() }}</small></p>
+                        <small class="text-muted">Last updated {{ $dataset->updated_at->diffForHumans() }}</small>
                     </li>
                 </ul>
-                <p>
             </div>
 
             <div class="col-lg-12 mt-3">
