@@ -13,7 +13,7 @@
             @include('threads._sidebar')
             <div class="col-md-9">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ $reply->path() }}/edit" class="card-block">
+                    <form role="form" method="POST" action="{{ $reply->path() }}" class="card-block">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
 

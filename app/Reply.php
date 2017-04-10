@@ -33,7 +33,7 @@ class Reply extends Model
      */
     public function path ()
     {
-        return "{$this->thread->path()}/{$this->id}";
+        return "/replies/{$this->id}";
     }
 
     public function isBestAnswer()
