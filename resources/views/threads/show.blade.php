@@ -6,20 +6,44 @@
 @section('content')
     <div class="container">
         <div class="row mt-3">
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <a class="text-white" href="{{ $thread->creator->path() }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->name }}
-                    </div>
+            @include('threads._sidebar')
+            <div class="col-md-9">
+                <div class="card mb-3">
                     <div class="card-block">
-                        {!! $thread->body_html !!}
+                        @can('edit', $thread)
+                        <div class="pull-right">
+                            <a href="{{ $thread->path() }}/edit" class="btn btn-primary">Edit Thread</a>
+                        </div>
+                        @endcan
+                        <h1 class="display-4">{{ $thread->name }}</h1>
+                        <small class="text-muted">
+                            Published {{ $thread->created_at->diffForHumans() }} by
+                            <a class="btn px-0" href="{{ $thread->creator->path() }}">
+                                <img class="rounded-circle" src="{{ $thread->creator->gravatar }}" style="max-height: 25px;">
+                                {{ $thread->creator->name }}
+                            </a>
+                        </small>
+
+                        <hr />
+
+                        <div class="user-content">
+                            {!! $thread->body_html !!}
+                        </div>
+
+                        @if($thread->isAnswered() && $best_reply)
+                        <div class="card">
+                            <div class="card-header card-success text-white">
+                                Best Reply
+                            </div>
+                            <div class="card-content">
+                                @include('threads.reply', ['reply' => $best_reply, 'embeded' => true])
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
 
-                @foreach ($replies as $reply)
-                    @include ('threads.reply')
-                @endforeach
+                @each('threads.reply', $replies , 'reply')
 
                 {{ $replies->links() }}
 
@@ -34,18 +58,10 @@
                         <button type="submit" class="btn btn-default">Reply</button>
                     </form>
                 @else
-                    <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate in this
-                        discussion.</p>
+                    <p class="text-center my-2">
+                        Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.
+                    </p>
                 @endif
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-block">
-                        <p>This thread was published {{ $thread->created_at->diffForHumans() }} by
-                            <a href="#">{{ $thread->creator->name }}</a>, and currently
-                            has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

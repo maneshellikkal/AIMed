@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Reply;
 use App\Thread;
 
 class ReplyController extends Controller
@@ -11,8 +12,11 @@ class ReplyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('can:add-reply,thread')->only('store');
+        $this->middleware('can:select-best-answer,thread')->only('bestAnswer');
+        $this->middleware('can:update,reply')->only(['edit', 'update']);
     }
+
     /**
      * Persist a new reply.
      *
@@ -33,6 +37,58 @@ class ReplyController extends Controller
         if(request()->wantsJson()){
             return $reply;
         }
+        alert()->success('Success');
+        return redirect($thread->path());
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param string $categorySlug
+     * @param Thread $thread
+     * @param Reply  $reply
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit (string $categorySlug, Thread $thread, Reply $reply)
+    {
+        return view('replies.edit', compact('thread', 'reply'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param string $categorySlug
+     * @param Thread $thread
+     * @param Reply  $reply
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update (string $categorySlug, Thread $thread, Reply $reply)
+    {
+        $this->validate(request(), ['body' => 'required']);
+
+        $reply->update([
+            'body'        => request('body'),
+        ]);
+
+        alert()->success('Success');
+        return redirect($thread->path());
+    }
+
+    /**
+     * Select the best reply for a thread.
+     *
+     * @param string $categorySlug
+     * @param Thread $thread
+     * @param Reply  $reply
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function bestAnswer(string $categorySlug, Thread $thread, Reply $reply)
+    {
+        $thread->selectBestReply($reply);
+
         alert()->success('Success');
         return redirect($thread->path());
     }

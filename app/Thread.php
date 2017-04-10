@@ -13,10 +13,8 @@ class Thread extends Model
 {
     use Sluggable, SluggableScopeHelpers;
     use Ownable, Filterable;
-
     /**
      * The attributes that are not mass assignable.
-     *
      * @var array
      */
     protected $guarded = [];
@@ -24,7 +22,7 @@ class Thread extends Model
     /**
      * Boot the model.
      */
-    protected static function boot()
+    protected static function boot ()
     {
         parent::boot();
         static::addGlobalScope('replyCount', function ($builder) {
@@ -40,27 +38,25 @@ class Thread extends Model
      *
      * @return Builder
      */
-    public function scopeAnswered(Builder $query, $value = true)
+    public function scopeAnswered (Builder $query, $value = true)
     {
         return $query->where('answered', '=', $value);
     }
 
     /**
      * A thread belongs to a category.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    public function category ()
     {
         return $this->belongsTo(Category::class);
     }
 
     /**
      * A thread may have many replies.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function replies()
+    public function replies ()
     {
         return $this->hasMany(Reply::class);
     }
@@ -72,14 +68,48 @@ class Thread extends Model
      *
      * @return Model
      */
-    public function addReply(array $reply)
+    public function addReply (array $reply)
     {
         return $this->replies()->create($reply);
     }
 
     /**
-     * Get a string path for the thread.
+     * Add a reply to the thread.
      *
+     * @param Reply $reply
+     */
+    public function selectBestReply (Reply $reply)
+    {
+        if ($reply->thread_id != $this->id) {
+            return;
+        }
+
+        $this->update(['answered' => true]);
+        $reply->update(['best_answer' => true]);
+    }
+
+    /**
+     * Whether or not the thread is answered.
+     *
+     * @return bool
+     */
+    public function isAnswered()
+    {
+        return $this->answered;
+    }
+
+    /**
+     * Whether or not the thread is not-answered.
+     *
+     * @return bool
+     */
+    public function isNotAnswered()
+    {
+        return !$this->answered;
+    }
+
+    /**
+     * Get a string path for the thread.
      * @return string
      */
     public function path ()
