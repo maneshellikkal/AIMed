@@ -15,9 +15,14 @@ class VoteController extends Controller
         $this->middleware('can:vote,code')->only('code');
         $this->middleware('can:vote,twitter_feed')->only('news');
     }
+
     public function dataset(Dataset $dataset)
     {
         $dataset->isVoted() ? $dataset->abstain() : $dataset->vote();
+
+        if(request()->ajax()){
+            return $dataset->votes()->count();
+        }
 
         return back();
     }
@@ -26,6 +31,10 @@ class VoteController extends Controller
     {
         $code->isVoted() ? $code->abstain() : $code->vote();
 
+        if(request()->ajax()){
+            return $code->votes()->count();
+        }
+
         return back();
     }
 
@@ -33,7 +42,10 @@ class VoteController extends Controller
     {
         $twitterFeed->isVoted() ? $twitterFeed->abstain() : $twitterFeed->vote();
 
+        if(request()->ajax()){
+            return $twitterFeed->votes()->count();
+        }
+
         return back();
     }
-
 }

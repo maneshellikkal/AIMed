@@ -29,14 +29,10 @@ footer {
 .vote-button-container {
   cursor: pointer;
   z-index: 2;
-
   .vote-button-count { margin-top: -12px; }
-  span { font-size: larger; }
-  &:hover {
-    span{
-      font-size: x-large;
-      color: $state-info-text;
-    }
+  span {
+    font-size: x-large;
+    &:hover { color: $state-info-text; }
   }
 }
 

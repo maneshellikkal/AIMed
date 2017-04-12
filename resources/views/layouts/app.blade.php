@@ -11,8 +11,9 @@
     @stack('styles')
 
     <script>
-        window.Laravel = {!! json_encode([
+        window.AIMED = {!! json_encode([
             'csrfToken' => csrf_token(),
+            'userId' => auth()->check() ? auth()->id() : null,
         ]) !!};
     </script>
 </head>
@@ -25,14 +26,8 @@
     @include('layouts._footer')
 
     <script src="{{ mix('/js/app.js') }}"></script>
+
     @stack('scripts')
-    @if(auth()->check())
-    <script type="text/javascript">
-        $('.vote-button-container.clickable').click(function(){
-            $(this).siblings('form').submit();
-        });
-    </script>
-    @endif
     @include('layouts._errors')
 </body>
 </html>

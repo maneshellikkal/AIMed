@@ -29,11 +29,7 @@
             </div>
             <div class="col-lg-9">
                 <div class="pull-right">
-                    <form hidden action="{{ $dataset->path() }}/vote" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('POST') }}
-                    </form>
-                    <div class="vote-button-container clickable d-flex flex-column">
+                    <div class="vote-button-container clickable d-flex flex-column" data-action="{{ $dataset->path() }}/vote">
                         <div class="vote-button-caret px-2"><span class="fa fa-caret-up"></span></div>
                         <div class="vote-button-count px-2"><span>{{ $dataset->votes->count() }}</span></div>
                     </div>
