@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Filterable;
 use App\Traits\Ownable;
+use App\Traits\PopularScope;
 use App\Traits\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     use Sluggable, SluggableScopeHelpers;
-    use Ownable, Filterable;
+    use Ownable, Filterable, PopularScope;
+
+    protected $popularity_field = 'replies_count';
+
     /**
      * The attributes that are not mass assignable.
      * @var array

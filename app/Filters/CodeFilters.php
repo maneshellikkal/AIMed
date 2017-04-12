@@ -46,29 +46,4 @@ class CodeFilters extends Filters
             }
         });
     }
-
-    /**
-     * Order codes by popularity.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function popular ($value)
-    {
-        return $this->builder->orderByDesc('votes_count');
-    }
-
-    /**
-     * Trending codes this week.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function trending ($value)
-    {
-        return $this->builder->where('created_at', '>', Carbon::parse('-7  days'))
-                             ->orderByDesc('votes_count');
-    }
 }

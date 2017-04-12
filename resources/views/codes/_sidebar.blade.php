@@ -21,7 +21,7 @@
         </div>
         <ul class="nav stacked-tabs flex-column">
             <li class="nav-item">
-                <a class="nav-link{{ !request()->is('codes') || request('author') ? '' : ' active' }}"
+                <a class="nav-link{{ request()->is('codes') && request()->url() == request()->fullUrl() ? ' active' : '' }}"
                    href="/codes?{{ request('search') ? 'search='.request('search') : '' }}"><i class="fa fa-fw fa-code"></i> All Codes</a>
             </li>
             <li class="nav-item">
@@ -30,7 +30,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('popular') ? ' active' : '' }}"
-                   href="/codes?popular=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-fire text-danger"></i> Popular All Time</a>
+                   href="/codes?popular=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-magic text-warning"></i> Popular All Time</a>
             </li>
 
             @if(auth()->check())

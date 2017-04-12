@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Filterable;
+use App\Traits\PopularScope;
 use App\Traits\Votable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,7 +12,7 @@ use Laravel\Scout\Searchable;
 
 class TwitterFeed extends Model
 {
-    use Filterable, Searchable, Votable;
+    use Filterable, Searchable, Votable, PopularScope;
 
     protected $guarded = [];
 
@@ -23,36 +24,25 @@ class TwitterFeed extends Model
         'tags' => 'array',
     ];
 
+    public static function search(string $query, $callback = null)
+    {
+        static::$globalScopes = [];
+
+        $results = (new \Laravel\Scout\Builder(new static(), $query, $callback));
+
+        static::addGlobalScope('votesCount', function ($builder) {
+            return $builder->withCount('votes');
+        });
+
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
     public function toSearchableArray()
     {
         return array_only($this->toArray(), ['id', 'body', 'tags']);
-    }
-
-    /**
-     * Scope for trending news.
-     *
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function scopeTrending(Builder $query)
-    {
-        return $query->withCount('votes')
-                      ->where('created_at', '>', Carbon::parse('-7  days'))
-                      ->orderByDesc('votes_count');
-    }
-
-    /**
-     * Scope for popular news.
-     *
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function scopePopular(Builder $query)
-    {
-        return $query->withCount('votes')
-                             ->orderByDesc('votes_count');
     }
 
     /**

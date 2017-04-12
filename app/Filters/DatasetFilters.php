@@ -17,31 +17,6 @@ class DatasetFilters extends Filters
     protected $filters = ['featured', 'author', 'search', 'trending', 'popular'];
 
     /**
-     * Show only featured datasets.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function featured($value)
-    {
-        return $this->builder->featured();
-    }
-
-    /**
-     * Filter datasets by user.
-     *
-     * @param $username
-     *
-     * @return Builder
-     */
-    public function author($username)
-    {
-        $id = User::findByUsername($username, ['id'])->id ?? null;
-        return $id ? $this->builder->whereUserId($id) : $this->builder;
-    }
-
-    /**
      * Filter dataset by search query.
      *
      * @param $query
@@ -57,30 +32,5 @@ class DatasetFilters extends Filters
                 $query->orWhere(DB::raw('lower(name)'), 'like', '%'.strtolower($word).'%');
             }
         });
-    }
-
-    /**
-     * Order datasets by popularity.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function popular ($value)
-    {
-        return $this->builder->orderByDesc('votes_count');
-    }
-
-    /**
-     * Trending datasets this week.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function trending ($value)
-    {
-        return $this->builder->where('created_at', '>', Carbon::parse('-7  days'))
-                             ->orderByDesc('votes_count');
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Providers;
 
-use App\Category;
 use App\Code;
-use App\Dataset;
-use App\Observers\CodeObserver;
-use App\Observers\DatasetObserver;
-use App\Observers\ReplyObserver;
-use App\Observers\ThreadObserver;
+use App\Observers\TwitterFeedObserver;
 use App\Reply;
 use App\Thread;
+use App\Dataset;
+use App\Category;
+use App\Observers\CodeObserver;
+use App\Observers\ReplyObserver;
+use App\Observers\ThreadObserver;
+use App\Observers\DatasetObserver;
+use App\TwitterFeed;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Code::observe(CodeObserver::class);
         Thread::observe(ThreadObserver::class);
         Reply::observe(ReplyObserver::class);
+        TwitterFeed::observe(TwitterFeedObserver::class);
     }
 
     /**

@@ -11,18 +11,33 @@
     <div class="container">
         <div class="row justify-content-md-center mt-3">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
                         Filter
                     </div>
                     <ul class="nav stacked-tabs flex-column">
                         <li class="nav-item">
-                            <a class="nav-link{{ request('tailored') ? '' : ' active' }}"
+                            <a class="nav-link{{ request('medicine') ? '' : ' active' }}"
                                href="/news"><i class="fa fa-fw fa-globe"></i> Everything</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{{ request('tailored') ? ' active' : '' }}"
-                               href="/news?tailored=true"><i class="fa fa-fw fa-user-md"></i> Medicine</a>
+                            <a class="nav-link{{ request('medicine') ? ' active' : '' }}"
+                               href="/news?medicine=1"><i class="fa fa-fw fa-user-md"></i> Medicine</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Popularity
+                    </div>
+                    <ul class="nav stacked-tabs flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link{{ request('trending') ? ' active' : '' }}"
+                               href="/news?trending=1{{ request('medicine') ? '&medicine=1' : '' }}"><i class="fa fa-fw fa-fire text-danger"></i> Popular This Week</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{{ request('popular') ? ' active' : '' }}"
+                               href="/news?popular=1{{ request('medicine') ? '&medicine=1' : '' }}"><i class="fa fa-fw fa-magic text-warning"></i> Popular All Time</a>
                         </li>
                     </ul>
                 </div>

@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\Featureable;
 use App\Traits\Filterable;
 use App\Traits\Ownable;
+use App\Traits\PopularScope;
 use App\Traits\Publishable;
 use App\Traits\SluggableScopeHelpers;
 use App\Traits\Votable;
@@ -18,7 +19,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 class Dataset extends Model implements HasMedia, HasMediaConversions
 {
     use Sluggable, SluggableScopeHelpers, HasMediaTrait;
-    use Ownable, Featureable, Publishable, Filterable, Votable;
+    use Ownable, Featureable, Publishable, Filterable, Votable, PopularScope;
 
     /**
      * The attributes that are not mass assignable.

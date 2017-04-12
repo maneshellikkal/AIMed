@@ -39,7 +39,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('popular') ? ' active' : '' }}"
-                   href="/datasets?popular=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-fire text-danger"></i> Popular All Time</a>
+                   href="/datasets?popular=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-magic text-warning"></i> Popular All Time</a>
             </li>
             @if(auth()->check())
                 <li class="nav-item">
