@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Cache;
+use View;
 use App\Code;
 use App\Observers\TwitterFeedObserver;
 use App\Reply;
@@ -24,14 +26,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Schema::defaultStringLength(191);
+        View::composer(['threads.create', 'threads.edit'], function ($view) {
+            $categoryList = Cache::rememberForever('categoryList', function(){
+                return Category::orderBy('name')->pluck('id', 'name');
+            });
 
-        \View::composer(['threads.create', 'threads.edit'], function ($view) {
-            $view->with('categoryList', Category::orderBy('name')->pluck('id', 'name'));
+            $view->with('categoryList', $categoryList);
         });
 
-        \View::composer(['threads._sidebar'], function ($view) {
-            $view->with('categories', Category::orderBy('name')->get());
+        View::composer(['threads._sidebar'], function ($view) {
+            $categories = Cache::rememberForever('categories', function(){
+                return Category::orderBy('name')->get();
+            });
+
+            $view->with('categories', $categories);
         });
 
         Dataset::observe(DatasetObserver::class);
