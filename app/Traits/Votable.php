@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 trait Votable
 {
     /**
+     * Boot the model.
+     */
+    protected static function boot ()
+    {
+        parent::boot();
+        static::addGlobalScope('votesCount', function ($builder) {
+            return $builder->withCount('votes');
+        });
+    }
+
+    /**
      * A model can be voted.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

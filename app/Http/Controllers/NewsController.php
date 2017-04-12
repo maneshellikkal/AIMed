@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\TwitterFeed;
 
 class NewsController extends Controller

@@ -26,11 +26,13 @@
 
     <script src="{{ mix('/js/app.js') }}"></script>
     @stack('scripts')
+    @if(auth()->check())
     <script type="text/javascript">
         $('.vote-button-container.clickable').click(function(){
             $(this).siblings('form').submit();
         });
     </script>
+    @endif
     @include('layouts._errors')
 </body>
 </html>

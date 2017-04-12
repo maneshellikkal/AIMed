@@ -18,11 +18,11 @@
                     <ul class="nav stacked-tabs flex-column">
                         <li class="nav-item">
                             <a class="nav-link{{ request('tailored') ? '' : ' active' }}"
-                               href="/news">Everything</a>
+                               href="/news"><i class="fa fa-fw fa-globe"></i> Everything</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link{{ request('tailored') ? ' active' : '' }}"
-                               href="/news?tailored=true">Medicine</a>
+                               href="/news?tailored=true"><i class="fa fa-fw fa-user-md"></i> Medicine</a>
                         </li>
                     </ul>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use DB;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class CodeFilters extends Filters
@@ -13,7 +14,7 @@ class CodeFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['author', 'search'];
+    protected $filters = ['author', 'search', 'trending', 'popular'];
 
     /**
      * Filter code by user.
@@ -44,5 +45,30 @@ class CodeFilters extends Filters
                 $query->orWhere(DB::raw('lower(name)'), 'like', '%'.strtolower($word).'%');
             }
         });
+    }
+
+    /**
+     * Order codes by popularity.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function popular ($value)
+    {
+        return $this->builder->orderByDesc('votes_count');
+    }
+
+    /**
+     * Trending codes this week.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function trending ($value)
+    {
+        return $this->builder->where('created_at', '>', Carbon::parse('-7  days'))
+                             ->orderByDesc('votes_count');
     }
 }

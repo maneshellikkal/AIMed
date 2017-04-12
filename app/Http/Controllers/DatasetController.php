@@ -34,7 +34,6 @@ class DatasetController extends Controller
                            ->latest()
                            ->paginate()
                            ->appends($request->all());
-
         return view('datasets.index', compact('datasets'));
     }
 
