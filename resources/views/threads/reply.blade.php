@@ -1,11 +1,12 @@
+<?php $thread = $thread ?? $reply->thread; ?>
 <div class="card py-2">
     <div class="card-block">
         <div class="media">
             <div class="d-flex flex-column align-items-center mr-3">
                 <img class="mb-1" src="{{ $reply->creator->gravatar }}" alt="{{ $reply->creator->name }}">
                 @if(!($embeded ?? false))
-                @can('select-best-answer', $reply->thread)
-                    @if($reply->thread->isNotAnswered())
+                @can('select-best-answer', $thread)
+                    @if($thread->isNotAnswered())
                         <div>
                             <form method="POST" action="{{ $reply->path() }}">
                                 {!! csrf_field() !!}

@@ -30,7 +30,7 @@ class CodeController extends Controller
     {
         $codes = Code::filter($filters)
                      ->publishedExceptOf(auth()->id())
-                     ->with('creator', 'dataset')
+                     ->with('creator', 'dataset.media')
                      ->latest()
                      ->paginate()
                      ->appends($request->all());
@@ -86,6 +86,8 @@ class CodeController extends Controller
         if($code->isNotPublished()){
             $this->authorize($code);
         }
+
+        $code->load('dataset.media');
 
         return view('codes.show', compact('code'));
     }

@@ -75,9 +75,11 @@ class ThreadController extends Controller
      */
     public function show ($categorySlug, Thread $thread)
     {
+        $thread->load('creator', 'category');
+
         return view('threads.show', [
             'thread'  => $thread,
-            'replies' => $thread->replies()->paginate(20),
+            'replies' => $thread->replies()->with('creator')->paginate(20),
             'best_reply' => $thread->replies()->where('best_answer', true)->first()
         ]);
     }
@@ -125,7 +127,7 @@ class ThreadController extends Controller
      */
     protected function getThreads (Category $category, ThreadFilters $filters)
     {
-        $threads = Thread::filter($filters)->latest();
+        $threads = Thread::with('category', 'creator')->filter($filters)->latest();
         if ($category->exists) {
             $threads->where('category_id', $category->id);
         }

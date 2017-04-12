@@ -20,7 +20,7 @@
                 <div class="pull-right">
                     <div class="vote-button-container clickable d-flex flex-column" data-action="{{ $code->path() }}/vote">
                         <div class="vote-button-caret px-2"><span class="fa fa-caret-up"></span></div>
-                        <div class="vote-button-count px-2"><span>{{ $code->votes->count() }}</span></div>
+                        <div class="vote-button-count px-2"><span>{{ $code->votes_count }}</span></div>
                     </div>
                 </div>
                 <h1 class="display-3">{{ $code->name }}</h1>

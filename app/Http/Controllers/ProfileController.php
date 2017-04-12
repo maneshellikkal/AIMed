@@ -16,8 +16,8 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        $datasets = $user->datasets()->published()->paginate(5);
-        $codes = $user->codes()->published()->paginate(5, ['*'], 'codes_page');
+        $datasets = $user->datasets()->with('creator', 'media')->published()->paginate(5);
+        $codes = $user->codes()->with('creator', 'dataset.media')->published()->paginate(5, ['*'], 'codes_page');
 
         return view('profile.show', compact('user', 'datasets', 'codes'));
     }

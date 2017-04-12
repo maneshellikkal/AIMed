@@ -17,7 +17,7 @@
                         @endcan
                         <h1 class="display-4">{{ $thread->name }}</h1>
                         <small class="text-muted">
-                            Published {{ $thread->created_at->diffForHumans() }} by
+                            Published in <a href="{{ $thread->category->path() }}">{{ $thread->category->name }}</a> {{ $thread->created_at->diffForHumans() }} by
                             <a class="btn px-0" href="{{ $thread->creator->path() }}">
                                 <img class="rounded-circle" src="{{ $thread->creator->gravatar }}" style="max-height: 25px;">
                                 {{ $thread->creator->name }}
@@ -43,9 +43,16 @@
                     </div>
                 </div>
 
-                @each('threads.reply', $replies , 'reply')
+                <div id="thread-replies">
+                    @foreach($replies as $reply)
+                        @include('threads.reply', [
+                            'thread' => $thread,
+                            'reply' => $reply,
+                        ])
+                    @endforeach
+                </div>
 
-                {{ $replies->links() }}
+                {{ $replies->fragment('thread-replies')->links() }}
 
                 @if (auth()->check())
                     <form method="POST" action="{{ $thread->path() . '/replies' }}" class="mt-3">
