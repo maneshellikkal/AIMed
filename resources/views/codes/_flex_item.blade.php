@@ -3,7 +3,7 @@
         <div class="align-self-center mr-2">
             <div class="vote-button-container d-flex flex-column">
                 <div class="vote-button-caret px-2"><span class="fa fa-caret-up"></span></div>
-                <div class="vote-button-count px-2"><span>{{ $code->votes->count() }}</span></div>
+                <div class="vote-button-count px-2"><span>{{ $code->votes_count }}</span></div>
             </div>
         </div>
         <div class="d-flex flex-row">

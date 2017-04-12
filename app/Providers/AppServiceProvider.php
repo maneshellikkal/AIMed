@@ -51,5 +51,9 @@ class AppServiceProvider extends ServiceProvider
         if (! class_exists('Aimed')) {
             class_alias('App\Aimed', 'Aimed');
         }
+
+        if($this->app->isLocal()){
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }
