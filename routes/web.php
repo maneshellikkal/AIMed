@@ -30,6 +30,7 @@ Route::get('d/{dataset}', 'DatasetController@show');
 Route::get('d/{dataset}/edit', 'DatasetController@edit');
 Route::put('d/{dataset}', 'DatasetController@update');
 Route::post('d/{dataset}/file', 'DatasetFileController@upload');
+Route::delete('d/{dataset}/{id}', 'DatasetFileController@delete');
 Route::delete('d/{dataset}', 'DatasetController@destroy');
 Route::get('d/{dataset}/publish', 'PublishDatasetController@toggle');
 Route::get('d/{dataset}/feature', 'FeatureDatasetController@toggle');

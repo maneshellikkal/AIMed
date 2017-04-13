@@ -22,3 +22,7 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.AIMED.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
+
+window.$.ajaxSetup({
+    headers: { 'X-CSRF-TOKEN': window.AIMED.csrfToken }
+});

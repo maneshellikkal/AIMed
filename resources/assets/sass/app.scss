@@ -39,3 +39,7 @@ footer {
 button.btn:hover {
   cursor: pointer;
 }
+
+.list-group-item h4, .list-group-item p, .user-content, h1.display-3, h1.display-4 {
+  word-break: break-all;
+}

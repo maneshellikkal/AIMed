@@ -21,7 +21,7 @@
                             <label for="body" class="col-md-12 form-control-label">Your Reply</label>
 
                             <div class="col-md-12">
-                                <textarea name="body" id="body" class="form-control">{{ old('body', $reply->body) }}</textarea>
+                                <textarea name="body" id="body" class="form-control" data-markdown>{{ old('body', $reply->body) }}</textarea>
 
                                 @if ($errors->has('body'))
                                     <p class="form-text text-muted text-danger">

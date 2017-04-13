@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('./utils');
 
 $('.vote-button-container.clickable').click(function(){
     let container = $(this);

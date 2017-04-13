@@ -11,8 +11,8 @@
                 <img class="img-fluid" src="{{ $dataset->getFirstMediaUrl('default', 'thumb') }}">
             </div>
         </div>
-        <div class="align-self-center pl-5 w-50">
-            <h5>{{ $dataset->name }}</h5>
+        <div class="align-self-center pl-5 mr-3 w-50">
+            <h4>{{ $dataset->name }}</h4>
             <p class="lead">{{ $dataset->overview }}</p>
             <small>By {{ $dataset->creator->name }}</small>
         </div>
