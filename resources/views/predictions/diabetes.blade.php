@@ -74,7 +74,7 @@
             <label for="age" class="col-4 col-form-label text-right">Age</label>
 
             <div class="col-6">
-                <input id="age" type="number" class="form-control" name="age" value="{{ old('age') }}" required>
+                <input placeholder="45" id="age" type="number" class="form-control" name="age" value="{{ old('age') }}" required>
 
                 @if ($errors->has('age'))
                     <p class="form-text text-muted text-danger">
@@ -88,7 +88,7 @@
             <label for="pregnant" class="col-4 col-form-label text-right">No of times Pregnant</label>
 
             <div class="col-6">
-                <input id="pregnant" type="number" class="form-control" name="pregnant" value="{{ old('pregnant') }}" required>
+                <input placeholder="2" id="pregnant" type="number" class="form-control" name="pregnant" value="{{ old('pregnant') }}" required>
 
                 @if ($errors->has('pregnant'))
                     <p class="form-text text-muted text-danger">
@@ -99,10 +99,16 @@
         </div>
 
         <div class="form-group mt-2 row{{ $errors->has('plasma_glucose_concentration') ? ' has-danger' : '' }}">
-            <label for="plasma_glucose_concentration" class="col-4 col-form-label text-right">Plasma Glucose Concentration</label>
+            <label for="plasma_glucose_concentration" class="col-4 col-form-label text-right">
+                2-hr Glucose Tolerance Test (in mg/dL)
+                <a target="_blank" href="https://goo.gl/pftSRy"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
-                <input id="plasma_glucose_concentration" type="number" class="form-control" name="plasma_glucose_concentration" value="{{ old('plasma_glucose_concentration') }}" required>
+                <input placeholder="120" id="plasma_glucose_concentration" type="number" class="form-control" name="plasma_glucose_concentration" value="{{ old('plasma_glucose_concentration') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally below 140 mg/dL</em>
+                </p>
 
                 @if ($errors->has('plasma_glucose_concentration'))
                     <p class="form-text text-muted text-danger">
@@ -112,10 +118,16 @@
             </div>
         </div>
         <div class="form-group mt-2 row{{ $errors->has('diastolic_bp') ? ' has-danger' : '' }}">
-            <label for="diastolic_bp" class="col-4 col-form-label text-right">Diastolic BP</label>
+            <label for="diastolic_bp" class="col-4 col-form-label text-right">
+                Diastolic Blood Pressure (in mmHg)
+                <a target="_blank" href="https://goo.gl/LBtbi4"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="diastolic_bp" type="number" class="form-control" name="diastolic_bp" value="{{ old('diastolic_bp') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally below 80 mmHg</em>
+                </p>
 
                 @if ($errors->has('diastolic_bp'))
                     <p class="form-text text-muted text-danger">
@@ -125,10 +137,16 @@
             </div>
         </div>
         <div class="form-group mt-2 row{{ $errors->has('tsft') ? ' has-danger' : '' }}">
-            <label for="tsft" class="col-4 col-form-label text-right">Triceps Skin Fold Thickness</label>
+            <label for="tsft" class="col-4 col-form-label text-right">
+                Triceps Skin Fold Thickness
+                <a target="_blank" href="https://goo.gl/HtfIUf"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="tsft" type="number" class="form-control" name="tsft" value="{{ old('tsft') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally 23 mm</em>
+                </p>
 
                 @if ($errors->has('tsft'))
                     <p class="form-text text-muted text-danger">
@@ -138,10 +156,16 @@
             </div>
         </div>
         <div class="form-group mt-2 row{{ $errors->has('serum_insulin') ? ' has-danger' : '' }}">
-            <label for="serum_insulin" class="col-4 col-form-label text-right">2-hr Serum Insulin (μU/ml)</label>
+            <label for="serum_insulin" class="col-4 col-form-label text-right">
+                2-hr Serum Insulin (μU/ml)
+                <a target="_blank" href="https://goo.gl/nkWyLd"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="serum_insulin" type="number" class="form-control" name="serum_insulin" value="{{ old('serum_insulin') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally 16-166μU/ml</em>
+                </p>
 
                 @if ($errors->has('serum_insulin'))
                     <p class="form-text text-muted text-danger">
@@ -152,10 +176,16 @@
         </div>
 
         <div class="form-group mt-2 row{{ $errors->has('bmi') ? ' has-danger' : '' }}">
-            <label for="bmi" class="col-4 col-form-label text-right">Body Mass Index</label>
+            <label for="bmi" class="col-4 col-form-label text-right">
+                Body Mass Index
+                <a target="_blank" href="https://goo.gl/xBaFUa"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="bmi" type="number" step="0.0001" class="form-control" name="bmi" value="{{ old('bmi') }}" required>
+                <p class="form-text text-muted">
+                    <em>18.5 to 24.9 is considered to be healthy</em>
+                </p>
 
                 @if ($errors->has('bmi'))
                     <p class="form-text text-muted text-danger">
