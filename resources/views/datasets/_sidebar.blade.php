@@ -26,14 +26,21 @@
         </div>
         <ul class="nav stacked-tabs flex-column">
             <li class="nav-item">
-                <a class="nav-link{{ !request()->is('datasets') || request('featured') || request('author')  ? '' : ' active' }}"
-                   href="/datasets?{{ request('search') ? 'search='.request('search') : '' }}"><i class="fa fa-database"></i> All Datasets</a>
+                <a class="nav-link{{ request()->is('datasets') && request()->url() == request()->fullUrl()  ? ' active' : '' }}"
+                   href="/datasets?{{ request('search') ? 'search='.request('search') : '' }}"><i class="fa fa-fw fa-database"></i> All Datasets</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link{{ request('featured') ? ' active' : '' }}"
-                   href="/datasets?featured=true{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fire text-danger"></i> Featured Datasets</a>
+                   href="/datasets?featured=true{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-bolt text-warning"></i> Featured Datasets</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link{{ request('trending') ? ' active' : '' }}"
+                   href="/datasets?trending=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-fire text-danger"></i> Popular This Week</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{{ request('popular') ? ' active' : '' }}"
+                   href="/datasets?popular=1{{ request('search') ? '&search='.request('search') : '' }}"><i class="fa fa-fw fa-magic text-warning"></i> Popular All Time</a>
+            </li>
             @if(auth()->check())
                 <li class="nav-item">
                     <a class="nav-link{{ request('author') ? ' active' : '' }}"

@@ -9,7 +9,7 @@ class DatasetFileController extends Controller
 {
     public function __construct ()
     {
-        $this->middleware('can:upload-file,dataset')->only('upload');
+        $this->middleware('can:upload-file,dataset')->only(['upload', 'delete']);
     }
 
     public function upload (Dataset $dataset, Request $request)
@@ -24,6 +24,18 @@ class DatasetFileController extends Controller
                          ->preservingOriginal()
                          ->toMediaCollection('files');
 
-        return $media->getUrl();
+        return view('datasets._file_list_item', ['dataset' => $dataset, 'file' => $media]);
+    }
+
+    public function delete (Dataset $dataset, int $id, Request $request)
+    {
+        $dataset->deleteMedia($id);
+
+        if($request->ajax()){
+            return 'ok';
+        }
+
+        alert()->success('File Deleted');
+        return back();
     }
 }

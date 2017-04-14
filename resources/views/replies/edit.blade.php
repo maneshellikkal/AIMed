@@ -13,7 +13,7 @@
             @include('threads._sidebar')
             <div class="col-md-9">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ $reply->path() }}/edit" class="card-block">
+                    <form role="form" method="POST" action="{{ $reply->path() }}" class="card-block">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
 
@@ -21,7 +21,7 @@
                             <label for="body" class="col-md-12 form-control-label">Your Reply</label>
 
                             <div class="col-md-12">
-                                <textarea name="body" id="body" class="form-control">{{ old('body', $reply->body) }}</textarea>
+                                <textarea name="body" id="body" class="form-control" data-markdown>{{ old('body', $reply->body) }}</textarea>
 
                                 @if ($errors->has('body'))
                                     <p class="form-text text-muted text-danger">

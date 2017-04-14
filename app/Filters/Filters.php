@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -63,5 +64,54 @@ abstract class Filters
     public function getFilters()
     {
         return $this->request->intersect($this->filters);
+    }
+
+    /**
+     * Filter datasets by user.
+     *
+     * @param $username
+     *
+     * @return Builder
+     */
+    public function author($username)
+    {
+        $id = User::findByUsername($username, ['id'])->id ?? null;
+        return $id ? $this->builder->whereUserId($id) : $this->builder;
+    }
+
+    /**
+     * Show only featured datasets.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function featured($value)
+    {
+        return $this->builder->featured();
+    }
+
+    /**
+     * Order codes by popularity.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function popular ($value)
+    {
+        return $this->builder->popular();
+    }
+
+    /**
+     * Trending codes this week.
+     *
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function trending ($value)
+    {
+        return $this->builder->trending();
     }
 }

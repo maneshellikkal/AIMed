@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use DB;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class DatasetFilters extends Filters
@@ -13,32 +14,7 @@ class DatasetFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['featured', 'author', 'search'];
-
-    /**
-     * Show only featured datasets.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function featured($value)
-    {
-        return $this->builder->featured();
-    }
-
-    /**
-     * Filter datasets by user.
-     *
-     * @param $username
-     *
-     * @return Builder
-     */
-    public function author($username)
-    {
-        $id = User::findByUsername($username, ['id'])->id ?? null;
-        return $id ? $this->builder->whereUserId($id) : $this->builder;
-    }
+    protected $filters = ['featured', 'author', 'search', 'trending', 'popular'];
 
     /**
      * Filter dataset by search query.

@@ -6,7 +6,6 @@ use App\Dataset;
 use App\Filters\DatasetFilters;
 use App\Http\Requests\PublishDatasetRequest;
 use App\Http\Requests\UpdateDatasetRequest;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class DatasetController extends Controller
@@ -30,7 +29,7 @@ class DatasetController extends Controller
     {
         $datasets = Dataset::filter($filters)
                            ->publishedExceptOf(auth()->id())
-                           ->with('creator')
+                           ->with('creator', 'media')
                            ->latest()
                            ->paginate()
                            ->appends($request->all());
@@ -81,8 +80,9 @@ class DatasetController extends Controller
             $this->authorize($dataset);
         }
 
-        $dataset->load('creator');
-        $codes = $dataset->codes()->published()->latest()->paginate();
+        $dataset->load('media', 'creator');
+
+        $codes = $dataset->codes()->with('dataset.media', 'creator')->published()->latest()->paginate();
 
         return view('datasets.show', compact('dataset', 'codes'));
     }
@@ -96,6 +96,8 @@ class DatasetController extends Controller
      */
     public function edit (Dataset $dataset)
     {
+        $dataset->load('media');
+
         return view('datasets.edit', compact('dataset'));
     }
 

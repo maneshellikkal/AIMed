@@ -16,20 +16,6 @@ class ThreadFilters extends Filters
     protected $filters = ['author', 'contributor', 'trending', 'popular', 'answered', 'search'];
 
     /**
-     * Filter threads by user.
-     *
-     * @param $username
-     *
-     * @return Builder
-     */
-    public function author ($username)
-    {
-        $id = User::findByUsername($username, ['id'])->id ?? null;
-
-        return $id ? $this->builder->whereUserId($id) : $this->builder;
-    }
-
-    /**
      * Filter threads by contributor.
      *
      * @param $username
@@ -45,31 +31,6 @@ class ThreadFilters extends Filters
                                        function ($query) use ($id) {
                                            $query->whereUserId($id);
                                        }) : $this->builder;
-    }
-
-    /**
-     * Order threads by popularity.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function popular ($value)
-    {
-        return $this->builder->orderByDesc('replies_count');
-    }
-
-    /**
-     * Trending threads this week.
-     *
-     * @param $value
-     *
-     * @return Builder
-     */
-    public function trending ($value)
-    {
-        return $this->builder->where('created_at', '>', Carbon::parse('-7  days'))
-                             ->orderByDesc('replies_count');
     }
 
     /**

@@ -71,11 +71,18 @@
                                 </div>
                             </div>
 
+                            <hr/>
+
                             <div class="form-group row{{ $errors->has('image') ? ' has-danger' : '' }}">
                                 <label for="image" class="col-md-12 form-control-label">Dataset Image</label>
-
                                 <div class="col-md-12">
-                                    <input id="image" type="file" class="form-control-file" name="image">
+                                    <input id="image" type="file" class="form-control-file" name="image" accept="image/jpeg, image/png">
+                                    @if($dataset->hasMedia())
+                                    <div>
+                                        <em class="d-block">Current Image</em>
+                                        <img src="{{ $dataset->getFirstMediaUrl() }}" style="max-width: 100px;">
+                                    </div>
+                                    @endif
 
                                     @if ($errors->has('image'))
                                         <p class="form-text text-muted text-danger">
@@ -85,13 +92,37 @@
                                 </div>
                             </div>
                         </form>
+
+                        <hr/>
+
                         <div class="form-group row">
                             <label class="col-md-12 form-control-label">Dataset Files</label>
                             <div class="col-md-12">
-                                <form action="{{ $dataset->path() }}/file"
-                                      class="dropzone">
-                                    {{ csrf_field() }}
-                                </form>
+                                <table class="table table-bordered" id="dataset-file-list" data-model="DatasetFiles">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th>Type</th>
+                                            <th>Size</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($dataset->getMedia('files') as $file)
+                                            @include('datasets._file_list_item')
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4">
+                                                <form action="{{ $dataset->path() }}/file"
+                                                      class="dropzone" id="dataset-files">
+                                                    {!! csrf_field() !!}
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
 
@@ -134,3 +165,19 @@
 
 @include('layouts._dropzone')
 @include('layouts._markdown_editor')
+
+@push('scripts')
+<script type="text/javascript">
+    window.DatasetFiles = {};
+
+    window.DatasetFiles.changeButton = function(button) {
+        button.attr('disabled', 'true');
+        button.find('i').addClass('fa-spin');
+        button.closest('form').submit();
+    };
+
+    window.DatasetFiles.remove = function(form) {
+        form.parents('tr').remove();
+    };
+</script>
+@endpush

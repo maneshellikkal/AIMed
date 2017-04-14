@@ -17,7 +17,7 @@
                         @endcan
                         <h1 class="display-4">{{ $thread->name }}</h1>
                         <small class="text-muted">
-                            Published {{ $thread->created_at->diffForHumans() }} by
+                            Published in <a href="{{ $thread->category->path() }}">{{ $thread->category->name }}</a> {{ $thread->created_at->diffForHumans() }} by
                             <a class="btn px-0" href="{{ $thread->creator->path() }}">
                                 <img class="rounded-circle" src="{{ $thread->creator->gravatar }}" style="max-height: 25px;">
                                 {{ $thread->creator->name }}
@@ -43,20 +43,37 @@
                     </div>
                 </div>
 
-                @each('threads.reply', $replies , 'reply')
+                <div id="thread-replies">
+                    @foreach($replies as $reply)
+                        @include('threads.reply', [
+                            'thread' => $thread,
+                            'reply' => $reply,
+                        ])
+                    @endforeach
+                </div>
 
-                {{ $replies->links() }}
+                {{ $replies->fragment('thread-replies')->links() }}
 
                 @if (auth()->check())
-                    <form method="POST" action="{{ $thread->path() . '/replies' }}" class="mt-3">
-                        {{ csrf_field() }}
+                    <div id="accordion" role="tablist">
+                        <div class="card mt-3">
+                            <div class="card-header" role="tab" id="leave-reply">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#reply-form" aria-controls="reply-form">
+                                    Leave a Reply
+                                </a>
+                            </div>
+                            <div class="card-block collapse" id="reply-form" role="tabpanel" aria-labelledby="leave-reply">
+                                <form method="POST" action="{{ $thread->path() . '/replies' }}">
+                                    {{ csrf_field() }}
 
-                        <div class="form-group">
-                            <textarea name="body" id="body" class="form-control" placeholder="Have something to say?"
-                                      rows="5"></textarea>
+                                    <div class="form-group">
+                                        <textarea name="body" id="body" class="form-control" data-markdown placeholder="Have something to say?"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Reply</button>
+                                </form>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-default">Reply</button>
-                    </form>
+                    </div>
                 @else
                     <p class="text-center my-2">
                         Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.
@@ -66,3 +83,5 @@
         </div>
     </div>
 @endsection
+
+@include('layouts._markdown_editor')

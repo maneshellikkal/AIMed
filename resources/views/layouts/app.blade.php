@@ -11,8 +11,9 @@
     @stack('styles')
 
     <script>
-        window.Laravel = {!! json_encode([
+        window.AIMED = {!! json_encode([
             'csrfToken' => csrf_token(),
+            'userId' => auth()->check() ? auth()->id() : null,
         ]) !!};
     </script>
 </head>
@@ -25,6 +26,7 @@
     @include('layouts._footer')
 
     <script src="{{ mix('/js/app.js') }}"></script>
+
     @stack('scripts')
     @include('layouts._errors')
 </body>

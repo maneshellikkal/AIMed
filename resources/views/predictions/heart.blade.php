@@ -74,7 +74,7 @@
             <label for="age" class="col-4 col-form-label text-right">Age</label>
 
             <div class="col-6">
-                <input id="age" type="number" min="1" max="100" class="form-control" name="age" value="{{ old('age') }}" required autofocus>
+                <input id="age" type="number" min="1" max="100" class="form-control" name="age" value="{{ old('age') }}" required autofocus placeholder="eg. 45">
 
                 @if ($errors->has('age'))
                     <p class="form-text text-muted text-danger">
@@ -103,7 +103,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('cp') ? ' has-danger' : '' }}">
-            <label for="cp" class="col-4 col-form-label text-right">Chest Pain</label>
+            <label for="cp" class="col-4 col-form-label text-right">
+                Chest Pain
+                <a target="_blank" href="https://goo.gl/bX82rw"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <select required class="form-control" name="cp" id="cp">
@@ -123,10 +126,16 @@
         </div>
 
         <div class="form-group row{{ $errors->has('resting_bp') ? ' has-danger' : '' }}">
-            <label for="resting_bp" class="col-4 col-form-label text-right">Resting Blood Pressure in mmHg</label>
+            <label for="resting_bp" class="col-4 col-form-label text-right">
+                Resting Systolic Blood Pressure (in mmHg)
+                <a target="_blank" href="https://goo.gl/LwzOH6"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
-                <input id="resting_bp" type="number" min="1" class="form-control" name="resting_bp" value="{{ old('resting_bp') }}" required>
+                <input placeholder="" id="resting_bp" type="number" min="1" class="form-control" name="resting_bp" value="{{ old('resting_bp') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally less than 120 mmHg</em>
+                </p>
 
                 @if ($errors->has('resting_bp'))
                     <p class="form-text text-muted text-danger">
@@ -137,10 +146,16 @@
         </div>
 
         <div class="form-group row{{ $errors->has('serum_cholesterol') ? ' has-danger' : '' }}">
-            <label for="serum_cholesterol" class="col-4 col-form-label text-right">Serum Cholesterol in mg/dl</label>
+            <label for="serum_cholesterol" class="col-4 col-form-label text-right">
+                Serum Cholesterol (in mg/dL)
+                <a target="_blank" href="https://goo.gl/krOgsD"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="serum_cholesterol" type="number" class="form-control" name="serum_cholesterol" value="{{ old('serum_cholesterol') }}" required>
+                <p class="form-text text-muted">
+                    <em>Ideally below 200 mg/dL</em>
+                </p>
 
                 @if ($errors->has('serum_cholesterol'))
                     <p class="form-text text-muted text-danger">
@@ -151,10 +166,16 @@
         </div>
 
         <div class="form-group row{{ $errors->has('fasting_blood_sugar') ? ' has-danger' : '' }}">
-            <label for="fasting_blood_sugar" class="col-4 col-form-label text-right">Fasting Blood Sugar in mg/dl</label>
+            <label for="fasting_blood_sugar" class="col-4 col-form-label text-right">
+                Fasting Blood Sugar (in mg/dL)
+                <a target="_blank" href="https://goo.gl/pufr55"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="fasting_blood_sugar" type="number" class="form-control" name="fasting_blood_sugar" value="{{ old('fasting_blood_sugar') }}" required>
+                <p class="form-text text-muted">
+                    <em>Normally below 100 mg/dL</em>
+                </p>
 
                 @if ($errors->has('fasting_blood_sugar'))
                     <p class="form-text text-muted text-danger">
@@ -165,14 +186,18 @@
         </div>
 
         <div class="form-group row{{ $errors->has('resting_ecg') ? ' has-danger' : '' }}">
-            <label for="resting_ecg" class="col-4 col-form-label text-right">Resting ECG Results</label>
+            <label for="resting_ecg" class="col-4 col-form-label text-right">
+                Resting ECG Results
+                <a target="_blank" href="https://goo.gl/ZSy4Pm"><i class="fa fa-question-circle-o"> </i></a>
+                <a target="_blank" href="https://goo.gl/ZqI6rY"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <select required class="form-control" name="resting_ecg" id="resting_ecg">
                     <option value="">Select</option>
                     <option value="0"{{ old('resting_ecg') === 0 ? ' selected' : '' }}>Normal</option>
                     <option value="1"{{ old('resting_ecg') === 1 ? ' selected' : '' }}>Having ST-T wave abnormality</option>
-                    <option value="2"{{ old('resting_ecg') === 2 ? ' selected' : '' }}>Showing probable or definite left ventricular hypertropy by Estes' Criteria</option>
+                    <option value="2"{{ old('resting_ecg') === 2 ? ' selected' : '' }}>Showing probable or definite Left Ventricular Hypertrophy by Estes' Criteria</option>
                 </select>
 
                 @if ($errors->has('resting_ecg'))
@@ -184,7 +209,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('max_heart_rate') ? ' has-danger' : '' }}">
-            <label for="max_heart_rate" class="col-4 col-form-label text-right">Maximum heart rate achieved</label>
+            <label for="max_heart_rate" class="col-4 col-form-label text-right">
+                Maximum heart rate achieved
+                <a target="_blank" href="https://goo.gl/lrR3fQ"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="max_heart_rate" type="number" class="form-control" name="max_heart_rate" value="{{ old('max_heart_rate') }}" required>
@@ -198,7 +226,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('exercise_induced_angina') ? ' has-danger' : '' }}">
-            <label for="exercise_induced_angina" class="col-4 col-form-label text-right">Exercise Induced Angina</label>
+            <label for="exercise_induced_angina" class="col-4 col-form-label text-right">
+                Exercise Induced Angina
+                <a target="_blank" href="https://goo.gl/huWR8R"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <select required class="form-control" name="exercise_induced_angina" id="exercise_induced_angina">
@@ -230,7 +261,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('st_slope') ? ' has-danger' : '' }}">
-            <label for="st_slope" class="col-4 col-form-label text-right">Slope of the peak exercise ST segment</label>
+            <label for="st_slope" class="col-4 col-form-label text-right">
+                Slope of the peak exercise ST segment
+                <a target="_blank" href="https://goo.gl/dmejz6"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <select required class="form-control" name="st_slope" id="st_slope">
@@ -249,7 +283,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('number_of_vessels') ? ' has-danger' : '' }}">
-            <label for="number_of_vessels" class="col-4 col-form-label text-right">Number of Major vessels colored by Fluroscopy</label>
+            <label for="number_of_vessels" class="col-4 col-form-label text-right">
+                Number of Major vessels colored by Fluoroscopy
+                <a target="_blank" href="https://goo.gl/3TuetS"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <input id="number_of_vessels" type="number" min="0" max="3" class="form-control" name="number_of_vessels" value="{{ old('number_of_vessels') }}" required>
@@ -263,7 +300,10 @@
         </div>
 
         <div class="form-group row{{ $errors->has('thallium_scan_results') ? ' has-danger' : '' }}">
-            <label for="thallium_scan_results" class="col-4 col-form-label text-right">Results from Thallium Heart Scan</label>
+            <label for="thallium_scan_results" class="col-4 col-form-label text-right">
+                Results from Thallium Heart Scan
+                <a target="_blank" href="https://goo.gl/7kQQNV"><i class="fa fa-question-circle-o"> </i></a>
+            </label>
 
             <div class="col-6">
                 <select required class="form-control" name="thallium_scan_results" id="thallium_scan_results">

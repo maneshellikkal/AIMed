@@ -44,27 +44,24 @@ class ReplyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param string $categorySlug
-     * @param Thread $thread
      * @param Reply  $reply
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit (string $categorySlug, Thread $thread, Reply $reply)
+    public function edit (Reply $reply)
     {
+        $thread = $reply->thread;
         return view('replies.edit', compact('thread', 'reply'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param string $categorySlug
-     * @param Thread $thread
-     * @param Reply  $reply
+     * @param Reply $reply
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update (string $categorySlug, Thread $thread, Reply $reply)
+    public function update (Reply $reply)
     {
         $this->validate(request(), ['body' => 'required']);
 
@@ -73,7 +70,7 @@ class ReplyController extends Controller
         ]);
 
         alert()->success('Success');
-        return redirect($thread->path());
+        return redirect($reply->thread->path());
     }
 
     /**

@@ -1,8 +1,11 @@
 <div class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex justify-content-start">
-        {{--<div class="pr-2">--}}
-        {{--<img class="img-responsive" src="https://twitter.com/{{ $feed->author_screen_name }}/profile_image?size=bigger" style="height: 100px;">--}}
-        {{--</div>--}}
+        <div>
+            <div class="vote-button-container clickable d-flex flex-column" data-action="{{ $feed->path() }}/vote">
+                <div class="vote-button-caret px-2"><span class="fa fa-caret-up"></span></div>
+                <div class="vote-button-count px-2"><span>{{ $feed->votes_count }}</span></div>
+            </div>
+        </div>
         <div class="px-2">
             <p class="lead">{!! makeLinksClickable($feed->body, $feed->tags)  !!}</p>
             <ul class="list-inline">

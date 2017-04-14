@@ -30,9 +30,11 @@ Route::get('d/{dataset}', 'DatasetController@show');
 Route::get('d/{dataset}/edit', 'DatasetController@edit');
 Route::put('d/{dataset}', 'DatasetController@update');
 Route::post('d/{dataset}/file', 'DatasetFileController@upload');
+Route::delete('d/{dataset}/{id}', 'DatasetFileController@delete');
 Route::delete('d/{dataset}', 'DatasetController@destroy');
 Route::get('d/{dataset}/publish', 'PublishDatasetController@toggle');
 Route::get('d/{dataset}/feature', 'FeatureDatasetController@toggle');
+Route::post('d/{dataset}/vote', 'VoteController@dataset');
 
 // Code Related Routes
 Route::get('codes', 'CodeController@index');
@@ -42,9 +44,11 @@ Route::get('c/{code}', 'CodeController@show');
 Route::get('c/{code}/edit', 'CodeController@edit');
 Route::put('c/{code}', 'CodeController@update');
 Route::delete('c/{code}', 'CodeController@destroy');
+Route::post('c/{code}/vote', 'VoteController@code');
 
 // News Related Routes
 Route::get('news', 'NewsController@index');
+Route::post('news/{twitter_feed}/vote', 'VoteController@news');
 
 // Forum Related Routes
 Route::get('discuss', 'ThreadController@index');
@@ -56,8 +60,8 @@ Route::put('t/{category}/{thread}', 'ThreadController@update');
 Route::get('t/{category}', 'ThreadController@index');
 Route::post('t/{category}/{thread}/replies', 'ReplyController@store');
 Route::put('t/{category}/{thread}/{reply}', 'ReplyController@bestAnswer');
-Route::get('t/{category}/{thread}/{reply}/edit', 'ReplyController@edit');
-Route::put('t/{category}/{thread}/{reply}/edit', 'ReplyController@update');
+Route::get('replies/{reply}/edit', 'ReplyController@edit');
+Route::put('replies/{reply}', 'ReplyController@update');
 
 // Prediction Related Routes
 Route::get('predict/heart', 'HeartDiseasePredictionController@form');

@@ -25,7 +25,7 @@
                     @endif
                     @if($user->linkedin_username)
                     <li class="list-inline-item">
-                        <a class="btn btn-primary" href="https://github.com/{{ $user->linkedin_username }}" target="_blank">
+                        <a class="btn btn-primary" href="https://linkedin.com/in/{{ $user->linkedin_username }}" target="_blank">
                             <i class="fa fa-linkedin"></i> Linkedin
                         </a>
                     </li>

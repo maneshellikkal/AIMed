@@ -53,4 +53,17 @@ class CodePolicy extends BasePolicy
     {
         return false;
     }
+
+    /**
+     * Determine whether the user can vote the code.
+     *
+     * @param User    $user
+     * @param Code $code
+     *
+     * @return bool
+     */
+    public function vote(User $user, Code $code)
+    {
+        return true;
+    }
 }

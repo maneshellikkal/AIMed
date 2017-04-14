@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use DB;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class CodeFilters extends Filters
@@ -13,7 +14,7 @@ class CodeFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['author', 'search'];
+    protected $filters = ['author', 'search', 'trending', 'popular'];
 
     /**
      * Filter code by user.
