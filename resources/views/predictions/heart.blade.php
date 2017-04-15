@@ -74,7 +74,7 @@
             <label for="age" class="col-4 col-form-label text-right">Age</label>
 
             <div class="col-6">
-                <input id="age" type="number" min="1" max="100" class="form-control" name="age" value="{{ old('age') }}" required autofocus placeholder="eg. 45">
+                <input id="age" type="number" min="1" max="100" class="form-control" name="age" value="{{ old('age') }}" required autofocus placeholder="45">
 
                 @if ($errors->has('age'))
                     <p class="form-text text-muted text-danger">
