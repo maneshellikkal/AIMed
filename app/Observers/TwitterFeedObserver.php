@@ -43,4 +43,18 @@ class TwitterFeedObserver
             $feed->update(['medicine_related' => true]);
         }
     }
+
+    /**
+     * Listen to the TwitterFeed saving event.
+     *
+     * @param TwitterFeed $feed
+     *
+     * @return void
+     */
+    public function saving(TwitterFeed $feed)
+    {
+        if (TwitterFeed::search(implode(' ', $this->keywords))->where('id', $feed->id)->first()) {
+            $feed->medicine_related = true;
+        }
+    }
 }
