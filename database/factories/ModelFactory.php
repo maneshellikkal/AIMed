@@ -19,8 +19,16 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name'           => $faker->name,
         'username'       => $faker->unique()->word,
         'email'          => $faker->unique()->safeEmail,
+        'activated'      => true,
         'password'       => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Activation::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => function () { return factory(App\User::class)->create(['activated' => false])->id; },
+        'token'   => str_random(64),
     ];
 });
 
@@ -48,7 +56,7 @@ $factory->define(App\Code::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Category::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->words(2, true),
+        'name'        => $faker->words(2, true),
         'description' => $faker->words(10, true),
     ];
 });

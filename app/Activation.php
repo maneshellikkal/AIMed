@@ -56,12 +56,15 @@ class Activation extends Model
 
     public static function deleteExpiredActivations ()
     {
-        self::where('created_at', '<', Carbon::now()->subHours(config('settings.user.activation_period')))->delete();
+        self::where('created_at', '<', Carbon::now()->subHours(config('settings.user.activation.valid_hours')))->delete();
     }
 
     public static function getActivationByToken ($token)
     {
-        return self::where('token', $token)->first();
+        return self::where('token', $token)
+                   ->where('created_at', '>=',
+                       Carbon::now()->subHours(config('settings.user.activation.valid_hours')))
+                   ->first();
     }
 
     public static function deleteActivationToken ($token)
