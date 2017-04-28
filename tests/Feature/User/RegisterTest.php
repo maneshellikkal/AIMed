@@ -11,7 +11,8 @@ class RegisterTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    public function test_i_should_see_the_register_page_only_if_i_am_not_logged_in ()
+    /** @test */
+    public function authenticated_users_may_not_create_account ()
     {
         $this->get('/register')
              ->assertStatus(200);
@@ -21,28 +22,89 @@ class RegisterTest extends TestCase
              ->assertStatus(302);
     }
 
-    public function test_i_should_be_on_home_page_after_registering()
+    /** @test */
+    public function confirmation_message_should_be_displayed_on_registration ()
     {
-        $user     = make('App\User');
-        $response = $this->register($user);
-        $response->assertRedirect('/');
+        $this->register()
+             ->assertSessionHas('info', 'You need to confirm your email address before logging in. We have sent you an email.');
     }
 
-    public function test_i_should_see_user_in_database_after_registering ()
+    /** @test */
+    function registration_requires_valid_name ()
     {
-        $user = make('App\User');
-        $this->register($user);
-        $this->assertDatabaseHas('users', ['email' => $user->email]);
+        $this->register(['name' => null])
+             ->assertSessionHasErrors('name');
+
+        $this->register(['name' => str_random(300)])
+             ->assertSessionHasErrors('name');
     }
 
-    public function register ($user)
+    /** @test */
+    function registration_requires_valid_unique_username ()
     {
-        return $this->post('/register', [
-            'name'                  => $user->name,
-            'username'              => $user->username,
-            'email'                 => $user->email,
-            'password'              => 'secret',
-            'password_confirmation' => 'secret',
-        ]);
+        $this->register(['username' => null])
+             ->assertSessionHasErrors('username');
+
+        $this->register(['username' => str_random(3)])
+             ->assertSessionHasErrors('username');
+
+        $this->register(['username' => str_random(300)])
+             ->assertSessionHasErrors('username');
+
+        $user = create('App\User');
+        $this->register(['username' => $user->username])
+             ->assertSessionHasErrors('username');
+    }
+
+    /** @test */
+    function registration_requires_valid_username ()
+    {
+        $this->register(['email' => null])
+             ->assertSessionHasErrors('email');
+
+        $this->register(['email' => str_random(10)])
+             ->assertSessionHasErrors('email');
+
+        $user = create('App\User');
+        $this->register(['email' => $user->email])
+             ->assertSessionHasErrors('email');
+    }
+
+    /** @test */
+    function registration_requires_valid_password ()
+    {
+        $this->register([], '')
+             ->assertSessionHasErrors('password');
+
+        $this->register([], str_random(5))
+             ->assertSessionHasErrors('password');
+    }
+
+    /** @test */
+    function password_confirmation_must_match ()
+    {
+        $this->register([], 'anotherPassword')
+             ->assertSessionHasErrors('password');
+
+        $this->register([], str_random(5))
+             ->assertSessionHasErrors('password');
+    }
+
+    /** @test */
+    public function newsletter_should_be_subscribed_on_registration ()
+    {
+        $email = 'test@example.com';
+        $this->register(['email' => $email]);
+
+        $user = User::whereEmail($email)->first();
+
+        $this->assertEquals(1, $user->newsletter);
+    }
+
+    protected function register($overrides = [], $password = 'secret')
+    {
+        $user = make('App\User', $overrides);
+
+        return $this->post('/register', $user->toArray() + ['password' => $password, 'password_confirmation' => 'secret']);
     }
 }

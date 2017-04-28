@@ -13,7 +13,7 @@ class PasswordResetTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions, MailTracking;
 
     /** @test */
-    public function authenticated_users_should_not_be_allowed_to_request_reset_token ()
+    public function authenticated_users_may_not_request_reset_token ()
     {
         $this->get('/password/reset')
              ->assertSee('Reset Password');
@@ -24,7 +24,7 @@ class PasswordResetTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_users_should_not_be_allowed_to_reset_password ()
+    public function authenticated_users_may_not_reset_password ()
     {
         $this->get('/password/reset/token')
              ->assertSee('Reset Password');

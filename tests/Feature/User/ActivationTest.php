@@ -15,7 +15,7 @@ class ActivationTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions, MailTracking;
     
     /** @test */
-    public function authenticated_users_should_not_be_allowed_to_verify_account ()
+    public function authenticated_users_may_not_verify_account ()
     {
 
         $this->get('/activation/test')

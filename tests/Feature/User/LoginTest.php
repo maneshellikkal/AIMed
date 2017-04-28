@@ -11,7 +11,7 @@ class LoginTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    public function authenticated_users_should_not_be_allowed_to_login ()
+    public function authenticated_users_may_not_login ()
     {
         $this->get('/login')
              ->assertStatus(200);
