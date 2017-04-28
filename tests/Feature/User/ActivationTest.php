@@ -57,7 +57,6 @@ class ActivationTest extends TestCase
             'password_confirmation' => 'secret',
         ]);
 
-        $response->assertSessionHas('info', 'You need to confirm your email address before logging in. We have sent you an email.');
         $this->assertEmailWasSent();
         $this->assertEmailsSentCount(1);
         $this->assertEmailTo($user->email);
