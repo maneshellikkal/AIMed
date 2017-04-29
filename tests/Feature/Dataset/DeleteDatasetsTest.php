@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DeleteDatasetsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     private $user;
     private $dataset;
 

@@ -3,12 +3,13 @@
 namespace Tests\Feature\Dataset;
 
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReadDatasetsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     protected $dataset;
 
     public function setUp ()

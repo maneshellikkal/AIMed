@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PublishDatasetsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
     private $user;
     private $dataset;
 
