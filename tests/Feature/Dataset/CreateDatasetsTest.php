@@ -48,6 +48,9 @@ class CreateDatasetsTest extends TestCase
 
         $this->publishDataset(['name' => str_random(51)])
              ->assertSessionHasErrors('name');
+
+        $this->publishDataset(['name' => str_random(20)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
@@ -61,6 +64,9 @@ class CreateDatasetsTest extends TestCase
 
         $this->publishDataset(['overview' => str_random(81)])
              ->assertSessionHasErrors('overview');
+
+        $this->publishDataset(['overview' => str_random(30)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
@@ -71,6 +77,9 @@ class CreateDatasetsTest extends TestCase
 
         $this->publishDataset(['description' => str_random(20001)])
              ->assertSessionHasErrors('description');
+
+        $this->publishDataset(['description' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     protected function publishDataset($overrides = [])

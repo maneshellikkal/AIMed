@@ -44,7 +44,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function view_popular_datasets ()
+    public function view_popular_codes ()
     {
         $this->signIn();
 
