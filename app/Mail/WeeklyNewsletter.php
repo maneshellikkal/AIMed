@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 
-class WeeklyNewsletter extends Mailable
+class WeeklyNewsletter extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     /**
