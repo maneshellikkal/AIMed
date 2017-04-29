@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Notifications\SendActivationEmail;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\MailTracking;
 use Tests\TestCase;
-use Mockery;
+use Notification;
 
 class ActivationTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions, MailTracking;
+    use DatabaseMigrations, DatabaseTransactions;
     
     /** @test */
     public function authenticated_users_may_not_verify_account ()
@@ -29,27 +29,28 @@ class ActivationTest extends TestCase
     /** @test */
     public function activation_token_should_be_sent_during_login ()
     {
+        Notification::fake();
+
         $user     = create('App\User', ['activated' => false]);
 
-        $response = $this->post('/login',
+        $this->post('/login',
             [
                 'username' => $user->username,
                 'password' => 'secret'
             ]
         );
 
-        $response->assertSessionHas('info', 'You need to confirm your email address before logging in. We have sent you an email.');
-        $this->assertEmailWasSent();
-        $this->assertEmailsSentCount(1);
-        $this->assertEmailTo($user->email);
+        Notification::assertSentTo($user, SendActivationEmail::class);
     }
 
     /** @test */
     public function activation_token_should_be_sent_during_registration ()
     {
+        Notification::fake();
+
         $user = make('App\User');
 
-        $response = $this->post('/register', [
+        $this->post('/register', [
             'name'                  => $user->name,
             'username'              => $user->username,
             'email'                 => $user->email,
@@ -57,9 +58,11 @@ class ActivationTest extends TestCase
             'password_confirmation' => 'secret',
         ]);
 
-        $this->assertEmailWasSent();
-        $this->assertEmailsSentCount(1);
-        $this->assertEmailTo($user->email);
+        $user = User::findByUsername($user->username);
+
+        $this->assertEquals(0, $user->activated);
+
+        Notification::assertSentTo($user, SendActivationEmail::class);
     }
 
     /** @test */
@@ -69,7 +72,7 @@ class ActivationTest extends TestCase
         $email = $activation->user->email;
 
         $this->get('/activation/'. $activation->token)
-             ->assertSessionHas('success', 'Your e-mail has been verified.');
+             ->assertSessionHas('success');
 
         $this->assertDatabaseHas('users', ['email' => $email, 'activated' => true]);
     }
@@ -81,7 +84,7 @@ class ActivationTest extends TestCase
         $email = $activation->user->email;
 
         $this->get('/activation/'. $activation->token)
-             ->assertSessionMissing('success', 'Your e-mail has been verified.');
+             ->assertSessionMissing('success');
 
         $this->assertDatabaseHas('users', ['email' => $email, 'activated' => false]);
     }

@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
+use Illuminate\Auth\Notifications\ResetPassword;
+use Notification;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\MailTracking;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions, MailTracking;
+    use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
     public function authenticated_users_may_not_request_reset_token ()
@@ -44,14 +45,14 @@ class PasswordResetTest extends TestCase
     /** @test */
     public function valid_emails_should_receive_tokens ()
     {
+        Notification::fake();
+
         $user = create('App\User');
 
         $this->post('/password/email', ['email' => $user->email])
              ->assertSessionHas('status', 'We have e-mailed your password reset link!');
 
-        $this->assertEmailWasSent();
-        $this->assertEmailsSentCount(1);
-        $this->assertEmailTo($user->email);
+        Notification::assertSentTo($user, ResetPassword::class);
     }
 
     /** @test */

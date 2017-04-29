@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -26,7 +26,7 @@ class RegisterTest extends TestCase
     public function confirmation_message_should_be_displayed_on_registration ()
     {
         $this->register()
-             ->assertSessionHas('info', 'You need to confirm your email address before logging in. We have sent you an email.');
+             ->assertSessionHas('info');
     }
 
     /** @test */
@@ -90,21 +90,10 @@ class RegisterTest extends TestCase
              ->assertSessionHasErrors('password');
     }
 
-    /** @test */
-    public function newsletter_should_be_subscribed_on_registration ()
-    {
-        $email = 'test@example.com';
-        $this->register(['email' => $email]);
-
-        $user = User::whereEmail($email)->first();
-
-        $this->assertEquals(1, $user->newsletter);
-    }
-
     protected function register($overrides = [], $password = 'secret')
     {
         $user = make('App\User', $overrides);
 
-        return $this->post('/register', $user->toArray() + ['password' => $password, 'password_confirmation' => 'secret']);
+        return $this->post('/register', ['password' => $password, 'password_confirmation' => 'secret'] + $user->toArray());
     }
 }

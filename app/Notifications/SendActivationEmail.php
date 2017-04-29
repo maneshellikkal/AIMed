@@ -7,8 +7,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class SendActivationEmail extends Notification
+class SendActivationEmail extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * @var string
      */
