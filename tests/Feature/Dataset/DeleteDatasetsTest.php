@@ -21,7 +21,7 @@ class DeleteDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_delete_any_dataset ()
+    public function unauthenticated_users_may_not_delete_any_dataset ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -30,7 +30,7 @@ class DeleteDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_delete_any_dataset ()
+    public function users_other_than_admin_may_not_delete_any_dataset ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 

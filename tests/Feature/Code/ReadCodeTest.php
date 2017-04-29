@@ -19,14 +19,14 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function view_all_codes ()
+    public function anyone_can_view_published_codes ()
     {
         $this->get('/codes')
              ->assertSee($this->code->name);
     }
 
     /** @test */
-    public function view_trending_codes ()
+    public function anyone_can_view_trending_codes ()
     {
         $this->signIn();
 
@@ -44,7 +44,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function view_popular_codes ()
+    public function anyone_can_view_popular_codes ()
     {
         $this->signIn();
 
@@ -60,7 +60,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_may_view_own_codes ()
+    public function authenticated_users_may_view_their_codes ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -75,7 +75,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_code_in_all ()
+    public function unpublished_codes_should_not_be_visible ()
     {
         $code = create('App\Code', ['published' => false]);
         $this->get('/codes')
@@ -83,7 +83,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_code_in_trending ()
+    public function trending_codes_should_not_include_unpublished_codes ()
     {
         $this->signIn();
 
@@ -98,14 +98,14 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function view_single_code ()
+    public function a_code_must_be_viewable ()
     {
         $this->get($this->code->path())
              ->assertSee($this->code->name);
     }
 
     /** @test */
-    public function any_user_cannot_view_unpublished_code ()
+    public function users_may_not_view_unpublished_code ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $code = create('App\Code', ['published' => false]);
@@ -113,7 +113,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function owner_can_view_unpublished_codes ()
+    public function owners_may_view_unpublished_codes ()
     {
         $user = create('App\User');
         $code = create('App\Code', ['published' => false, 'user_id' => $user->id]);
@@ -128,7 +128,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_view_unpublished_codes ()
+    public function admin_may_view_unpublished_codes ()
     {
         $code = create('App\Code', ['published' => false]);
 

@@ -57,7 +57,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    public function registration_requires_valid_username ()
+    public function registration_requires_valid_unique_email ()
     {
         $this->register(['email' => null])
              ->assertSessionHasErrors('email');
@@ -81,7 +81,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    public function password_confirmation_must_match ()
+    public function registration_requires_a_password_confirmation ()
     {
         $this->register([], 'anotherPassword')
              ->assertSessionHasErrors('password');

@@ -20,7 +20,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_edit_codes ()
+    public function unauthenticated_users_may_not_edit_codes ()
     {
         $this->get($this->code->path() . '/edit')
              ->assertRedirect('/login');
@@ -30,7 +30,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_view_edit_code_page ()
+    public function authenticated_users_other_than_creator_and_admin_may_not_view_edit_code_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -40,7 +40,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_edit_code ()
+    public function authenticated_users_other_than_creator_and_admin_may_not_edit_code ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -74,7 +74,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_a_valid_name ()
+    public function a_code_requires_a_valid_name_on_update ()
     {
         $this->updateCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -90,7 +90,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description_on_update ()
     {
         $this->updateCode(['description' => null])
              ->assertSessionHasErrors('description');
@@ -103,7 +103,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_a_valid_code ()
+    public function a_code_requires_a_valid_code_on_update ()
     {
         $this->updateCode(['code' => null])
              ->assertSessionHasErrors('code');
@@ -116,7 +116,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_valid_publish_boolean ()
+    public function a_code_requires_valid_publish_value_on_update ()
     {
         $this->updateCode(['publish' => 'string'])
              ->assertSessionHasErrors('publish');

@@ -12,7 +12,7 @@ class ReadNewsTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    public function read_all_news ()
+    public function anyone_can_view_news ()
     {
         $allNews = create('App\TwitterFeed', [], 5);
 
@@ -24,7 +24,7 @@ class ReadNewsTest extends TestCase
     }
 
     /** @test */
-    public function read_medicine_related_news ()
+    public function anyone_can_view_medical_news ()
     {
         $news = create('App\TwitterFeed');
         $medicineNews = create('App\TwitterFeed', ['medicine_related' => true]);
@@ -36,7 +36,7 @@ class ReadNewsTest extends TestCase
     }
 
     /** @test */
-    public function view_trending_news ()
+    public function anyone_can_view_trending_news ()
     {
         $this->signIn();
 
@@ -54,7 +54,7 @@ class ReadNewsTest extends TestCase
     }
 
     /** @test */
-    public function view_popular_news ()
+    public function anyone_can_view_popular_news ()
     {
         $this->signIn();
 

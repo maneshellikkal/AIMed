@@ -20,7 +20,7 @@ class PublishDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_publish_any_dataset ()
+    public function unauthenticated_users_may_not_publish_any_dataset ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
@@ -29,7 +29,7 @@ class PublishDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_publish_any_dataset ()
+    public function users_other_than_admin_may_not_mark_any_dataset_as_published ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
@@ -39,7 +39,7 @@ class PublishDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function admin_may_publish_any_dataset ()
+    public function admin_may_mark_any_dataset_as_published ()
     {
         $this->signIn($this->createAdmin());
 

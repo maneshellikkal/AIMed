@@ -23,7 +23,7 @@ class UpdateReplyTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_edit_replies ()
+    public function unauthenticated_users_may_not_edit_replies ()
     {
         $this->get($this->reply->path() . '/edit')
              ->assertRedirect('/login');
@@ -33,7 +33,7 @@ class UpdateReplyTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_view_edit_reply_page ()
+    public function users_other_than_creator_may_not_view_edit_reply_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -43,7 +43,7 @@ class UpdateReplyTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_edit_reply ()
+    public function users_other_than_creator_may_not_edit_reply ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -65,7 +65,17 @@ class UpdateReplyTest extends TestCase
     }
 
     /** @test */
-    public function a_reply_requires_a_valid_body()
+    public function admin_may_not_edit_reply ()
+    {
+        $this->disableExceptionHandling()->signIn($this->createAdmin());
+
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+        $this->put($this->reply->path());
+    }
+
+    /** @test */
+    public function a_reply_requires_a_valid_body_on_update ()
     {
         $this->updateReply(['body' => null])
              ->assertSessionHasErrors('body');

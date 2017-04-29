@@ -46,7 +46,7 @@ class NewsletterTest extends TestCase
     }
 
     /** @test */
-    public function users_may_unsubscribe_to_newsletter ()
+    public function users_may_un_subscribe_to_newsletter ()
     {
         $user = create('App\User');
 

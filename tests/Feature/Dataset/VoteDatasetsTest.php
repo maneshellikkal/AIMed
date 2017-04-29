@@ -20,7 +20,7 @@ class VoteDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_vote_dataset ()
+    public function unauthenticated_users_may_not_vote_for_dataset ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -29,7 +29,7 @@ class VoteDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_vote_or_abstain_dataset ()
+    public function authenticated_users_may_vote_for_a_dataset_but_only_once ()
     {
         $this->signIn($this->user);
 

@@ -11,7 +11,7 @@ class CreateCodeTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    public function guests_may_not_create_codes ()
+    public function unauthenticated_users_may_not_create_codes ()
     {
         $dataset = create('App\Dataset');
         $this->get("/c/{$dataset->slug}/publish")
@@ -33,7 +33,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_create_codes ()
+    public function authenticated_user_may_create_codes ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -54,7 +54,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_a_valid_name ()
+    public function a_code_requires_a_valid_name_for_creation ()
     {
         $this->publishCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -70,7 +70,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description_for_creation ()
     {
         $this->publishCode(['description' => null])
              ->assertSessionHasErrors('description');
@@ -83,7 +83,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_valid_code ()
+    public function a_code_requires_valid_code_for_creation ()
     {
         $this->publishCode(['code' => null])
              ->assertSessionHasErrors('code');
@@ -96,7 +96,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_valid_dataset ()
+    public function a_code_requires_valid_dataset_for_creation ()
     {
         $this->publishCode(['dataset_id' => 0])
              ->assertSessionHasErrors('dataset_id');
@@ -111,7 +111,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    public function a_code_requires_valid_publish_boolean ()
+    public function a_code_requires_valid_publish_value_for_creation ()
     {
         $this->publishCode(['publish' => 'string'])
              ->assertSessionHasErrors('publish');

@@ -20,7 +20,7 @@ class DeleteDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_delete_any_discussion ()
+    public function unauthenticated_users_may_not_delete_any_discussion ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -29,7 +29,7 @@ class DeleteDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_delete_any_discussion ()
+    public function users_other_than_creator_or_admin_may_not_delete_any_discussion ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 

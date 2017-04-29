@@ -21,7 +21,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_edit_discussions ()
+    public function unauthenticated_users_may_not_edit_discussions ()
     {
         $this->get($this->discussion->path() . '/edit')
              ->assertRedirect('/login');
@@ -31,7 +31,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_view_edit_discussion_page ()
+    public function users_other_than_admin_and_creator_may_not_view_edit_discussion_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -41,7 +41,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_edit_discussion ()
+    public function users_other_than_admin_and_creator_may_not_edit_discussion ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -75,7 +75,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_a_valid_name()
+    public function a_discussion_requires_a_valid_name_on_update ()
     {
         $this->updateDiscussion(['name' => null])
              ->assertSessionHasErrors('name');
@@ -88,7 +88,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_a_valid_body()
+    public function a_discussion_requires_a_valid_body_on_update ()
     {
         $this->updateDiscussion(['body' => null])
              ->assertSessionHasErrors('body');
@@ -101,7 +101,7 @@ class UpdateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_valid_category ()
+    public function a_discussion_requires_valid_category_on_update ()
     {
         $this->signIn($this->user)
              ->put($this->discussion->path(), ['category_id' => 0] + $this->discussion->toArray())
