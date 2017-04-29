@@ -61,6 +61,18 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
+    public function admin_may_edit_code ()
+    {
+        $this->disableExceptionHandling()->signIn($this->createAdmin());
+
+        $this->get($this->code->path() . '/edit')
+             ->assertStatus(200);
+
+        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->put($this->code->path());
+    }
+
+    /** @test */
     public function a_code_requires_a_valid_name ()
     {
         $this->updateCode(['name' => null])
@@ -71,6 +83,9 @@ class UpdateCodeTest extends TestCase
 
         $this->updateCode(['name' => str_random(51)])
              ->assertSessionHasErrors('name');
+
+        $this->updateCode(['name' => str_random(20)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
@@ -81,6 +96,9 @@ class UpdateCodeTest extends TestCase
 
         $this->updateCode(['description' => str_random(20001)])
              ->assertSessionHasErrors('description');
+
+        $this->updateCode(['description' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
@@ -91,13 +109,19 @@ class UpdateCodeTest extends TestCase
 
         $this->updateCode(['code' => str_random(50001)])
              ->assertSessionHasErrors('code');
+
+        $this->updateCode(['code' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    public function a_code_requires_a_valid_publish_bool ()
+    public function a_code_requires_valid_publish_boolean ()
     {
         $this->updateCode(['publish' => 'string'])
              ->assertSessionHasErrors('publish');
+
+        $this->updateCode(['publish' => true])
+             ->assertSessionMissing('errors');
     }
 
     protected function updateCode ($overrides = [])
