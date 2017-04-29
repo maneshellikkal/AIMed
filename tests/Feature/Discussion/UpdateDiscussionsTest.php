@@ -10,8 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UpdateDiscussionsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    private $user;
-    private $discussion;
+    protected $user;
+    protected $discussion;
 
     public function setUp ()
     {

@@ -9,8 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class VoteCodesTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    private $user;
-    private $code;
+    protected $user;
+    protected $code;
 
     public function setUp ()
     {

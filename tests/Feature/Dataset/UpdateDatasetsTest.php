@@ -10,8 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class UpdateDatasetsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    private $user;
-    private $dataset;
+    protected $user;
+    protected $dataset;
 
     public function setUp ()
     {

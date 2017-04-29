@@ -17,7 +17,6 @@ class ActivationTest extends TestCase
     /** @test */
     public function authenticated_users_may_not_verify_account ()
     {
-
         $this->get('/activation/test')
              ->assertStatus(404);
 

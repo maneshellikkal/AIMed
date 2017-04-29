@@ -10,9 +10,9 @@ class UpdateReplyTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $user;
-    private $discussion;
-    private $reply;
+    protected $user;
+    protected $discussion;
+    protected $reply;
 
     public function setUp ()
     {

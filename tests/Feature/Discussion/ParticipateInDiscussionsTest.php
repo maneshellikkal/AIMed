@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ParticipateInDiscussionsTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+    protected $user;
+    protected $discussion;
 
     public function setUp ()
     {

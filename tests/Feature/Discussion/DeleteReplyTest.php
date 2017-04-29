@@ -10,8 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class DeleteReplyTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    private $user;
-    private $reply;
+    protected $user;
+    protected $reply;
 
     public function setUp ()
     {
