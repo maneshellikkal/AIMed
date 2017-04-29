@@ -54,10 +54,45 @@ class ParticipateInDiscussionsTest extends TestCase
              ->assertSessionMissing('errors');
     }
 
+    /** @test */
+    public function guests_may_not_select_best_reply()
+    {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+        $this->disableExceptionHandling()
+             ->selectBestReply();
+    }
+
+    /** @test */
+    public function any_user_may_not_select_best_reply()
+    {
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+        $this->disableExceptionHandling()
+             ->signIn()
+             ->selectBestReply();
+    }
+
+    /** @test */
+    public function owner_may_select_best_reply()
+    {
+        $this->disableExceptionHandling()
+             ->signIn($this->user)
+             ->selectBestReply(['thread_id' => $this->discussion->id]);
+
+        $this->assertDatabaseHas('threads', ['id' => $this->discussion->id, 'answered' => true]);
+    }
+
+    protected function selectBestReply($overrides = [])
+    {
+        $reply = create('App\Reply', $overrides);
+        return $this->post($reply->path());
+    }
+
     protected function leaveReply($overrides = [])
     {
         $this->signIn();
-        $discussion = make('App\Reply', $overrides);
-        return $this->post($this->discussion->path().'/replies', $discussion->toArray());
+        $reply = make('App\Reply', $overrides);
+        return $this->post($this->discussion->path().'/replies', $reply->toArray());
     }
 }

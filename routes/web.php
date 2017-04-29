@@ -60,7 +60,7 @@ Route::put('t/{category}/{thread}', 'ThreadController@update');
 Route::delete('t/{category}/{thread}', 'ThreadController@destroy');
 Route::get('t/{category}', 'ThreadController@index');
 Route::post('t/{category}/{thread}/replies', 'ReplyController@store');
-Route::put('t/{category}/{thread}/{reply}', 'ReplyController@bestAnswer');
+Route::post('replies/{reply}', 'ReplyController@bestAnswer');
 Route::get('replies/{reply}/edit', 'ReplyController@edit');
 Route::put('replies/{reply}', 'ReplyController@update');
 Route::delete('replies/{reply}', 'ReplyController@destroy');

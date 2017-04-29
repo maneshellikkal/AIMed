@@ -13,7 +13,7 @@ class ReplyController extends Controller
     public function __construct()
     {
         $this->middleware('can:add-reply,thread')->only('store');
-        $this->middleware('can:select-best-answer,thread')->only('bestAnswer');
+        $this->middleware('can:select-best-answer,reply')->only('bestAnswer');
         $this->middleware('can:update,reply')->only(['edit', 'update']);
         $this->middleware('can:delete,reply')->only('destroy');
     }
@@ -93,17 +93,15 @@ class ReplyController extends Controller
     /**
      * Select the best reply for a thread.
      *
-     * @param string $categorySlug
-     * @param Thread $thread
      * @param Reply  $reply
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function bestAnswer(string $categorySlug, Thread $thread, Reply $reply)
+    public function bestAnswer(Reply $reply)
     {
-        $thread->selectBestReply($reply);
+        $reply->thread->selectBestReply($reply);
 
         alert()->success('Success');
-        return redirect($thread->path());
+        return redirect($reply->thread->path());
     }
 }
