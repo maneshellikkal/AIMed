@@ -39,6 +39,10 @@ class TwitterFeedObserver
      */
     public function created (TwitterFeed $feed)
     {
+        if(env('APP_ENV') == 'testing'){
+            return;
+        }
+
         if (TwitterFeed::search(implode(' ', $this->keywords))->where('id', $feed->id)->first()) {
             $feed->update(['medicine_related' => true]);
         }
@@ -53,6 +57,10 @@ class TwitterFeedObserver
      */
     public function saving(TwitterFeed $feed)
     {
+        if(env('APP_ENV') == 'testing'){
+            return;
+        }
+
         if (TwitterFeed::search(implode(' ', $this->keywords))->where('id', $feed->id)->first()) {
             $feed->medicine_related = true;
         }

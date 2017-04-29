@@ -16,12 +16,19 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name'           => $faker->name,
-        'username'       => str_random(10),
-        'email'          => $faker->unique()->safeEmail,
-        'activated'      => true,
-        'password'       => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name'              => $faker->name,
+        'username'          => str_random(10),
+        'email'             => $faker->unique()->safeEmail,
+        'occupation'        => $faker->words(2, true),
+        'github_username'   => $faker->userName,
+        'twitter_username'  => $faker->userName,
+        'linkedin_username' => $faker->userName,
+        'website'           => $faker->url,
+        'dob'               => $faker->date(),
+        'activated'         => true,
+        'newsletter'        => true,
+        'password'          => $password ?: $password = bcrypt('secret'),
+        'remember_token'    => str_random(10),
     ];
 });
 
@@ -77,5 +84,20 @@ $factory->define(App\Reply::class, function (Faker\Generator $faker) {
         'thread_id'   => function () { return factory(App\Thread::class)->create()->id; },
         'body'        => $faker->paragraphs(3, true),
         'best_answer' => false,
+    ];
+});
+
+$factory->define(App\TwitterFeed::class, function (Faker\Generator $faker) {
+    return [
+        'twitter_id'         => $faker->randomNumber(5),
+        'body'               => $faker->sentence(6),
+        'media'              => $faker->imageUrl(),
+        'user_id'            => $faker->randomNumber(5),
+        'author_name'        => $faker->name,
+        'author_screen_name' => $faker->userName,
+        'author_verified'    => $faker->boolean(30),
+        'tags'               => $faker->words(3),
+        'twitter_timestamp'  => time(),
+        'medicine_related'  => false,
     ];
 });
