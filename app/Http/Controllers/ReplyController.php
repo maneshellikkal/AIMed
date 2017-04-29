@@ -15,6 +15,7 @@ class ReplyController extends Controller
         $this->middleware('can:add-reply,thread')->only('store');
         $this->middleware('can:select-best-answer,thread')->only('bestAnswer');
         $this->middleware('can:update,reply')->only(['edit', 'update']);
+        $this->middleware('can:delete,reply')->only('destroy');
     }
 
     /**
@@ -27,7 +28,7 @@ class ReplyController extends Controller
      */
     public function store($channelSlug, Thread $thread)
     {
-        $this->validate(request(), ['body' => 'required']);
+        $this->validate(request(), ['body' => 'required|max:5000']);
 
         $reply = $thread->addReply([
             'body' => request('body'),
@@ -63,7 +64,7 @@ class ReplyController extends Controller
      */
     public function update (Reply $reply)
     {
-        $this->validate(request(), ['body' => 'required']);
+        $this->validate(request(), ['body' => 'required|max:5000']);
 
         $reply->update([
             'body'        => request('body'),
@@ -71,6 +72,22 @@ class ReplyController extends Controller
 
         alert()->success('Success');
         return redirect($reply->thread->path());
+    }
+
+    /**
+     * Delete the specified resource.
+     *
+     * @param Reply $reply
+     *
+     * @return mixed
+     */
+    public function destroy(Reply $reply)
+    {
+        $thread = $reply->thread;
+
+        $reply->delete();
+
+        return redirect($thread->path())->withSuccess('Reply Deleted');
     }
 
     /**

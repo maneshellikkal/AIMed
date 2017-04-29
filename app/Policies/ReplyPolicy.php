@@ -42,6 +42,6 @@ class ReplyPolicy
      */
     public function delete(User $user, Reply $reply)
     {
-        return false;
+        return $user->isAdmin() || $reply->isOwnedBy($user);
     }
 }
