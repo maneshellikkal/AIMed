@@ -13,8 +13,9 @@ class ReplyController extends Controller
     public function __construct()
     {
         $this->middleware('can:add-reply,thread')->only('store');
-        $this->middleware('can:select-best-answer,thread')->only('bestAnswer');
+        $this->middleware('can:select-best-answer,reply')->only('bestAnswer');
         $this->middleware('can:update,reply')->only(['edit', 'update']);
+        $this->middleware('can:delete,reply')->only('destroy');
     }
 
     /**
@@ -27,7 +28,7 @@ class ReplyController extends Controller
      */
     public function store($channelSlug, Thread $thread)
     {
-        $this->validate(request(), ['body' => 'required']);
+        $this->validate(request(), ['body' => 'required|max:5000']);
 
         $reply = $thread->addReply([
             'body' => request('body'),
@@ -63,7 +64,7 @@ class ReplyController extends Controller
      */
     public function update (Reply $reply)
     {
-        $this->validate(request(), ['body' => 'required']);
+        $this->validate(request(), ['body' => 'required|max:5000']);
 
         $reply->update([
             'body'        => request('body'),
@@ -74,19 +75,33 @@ class ReplyController extends Controller
     }
 
     /**
+     * Delete the specified resource.
+     *
+     * @param Reply $reply
+     *
+     * @return mixed
+     */
+    public function destroy(Reply $reply)
+    {
+        $thread = $reply->thread;
+
+        $reply->delete();
+
+        return redirect($thread->path())->withSuccess('Reply Deleted');
+    }
+
+    /**
      * Select the best reply for a thread.
      *
-     * @param string $categorySlug
-     * @param Thread $thread
      * @param Reply  $reply
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function bestAnswer(string $categorySlug, Thread $thread, Reply $reply)
+    public function bestAnswer(Reply $reply)
     {
-        $thread->selectBestReply($reply);
+        $reply->thread->selectBestReply($reply);
 
         alert()->success('Success');
-        return redirect($thread->path());
+        return redirect($reply->thread->path());
     }
 }

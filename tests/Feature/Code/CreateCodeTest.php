@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Dataset;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CreateCodeTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    function guests_may_not_create_codes ()
+    public function guests_may_not_create_codes ()
     {
         $dataset = create('App\Dataset');
         $this->get("/c/{$dataset->slug}/publish")
@@ -21,7 +22,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function an_user_may_not_create_code_for_unpublished_datasets ()
+    public function authenticated_user_may_not_create_code_for_unpublished_datasets ()
     {
         $dataset = create('App\Dataset', ['published' => false]);
 
@@ -32,7 +33,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_create_codes ()
+    public function an_authenticated_user_can_create_codes ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -53,7 +54,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_name ()
+    public function a_code_requires_a_valid_name ()
     {
         $this->publishCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -63,30 +64,39 @@ class CreateCodeTest extends TestCase
 
         $this->publishCode(['name' => str_random(51)])
              ->assertSessionHasErrors('name');
+
+        $this->publishCode(['name' => str_random(20)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description ()
     {
         $this->publishCode(['description' => null])
              ->assertSessionHasErrors('description');
 
         $this->publishCode(['description' => str_random(20001)])
              ->assertSessionHasErrors('description');
+
+        $this->publishCode(['description' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_valid_code ()
+    public function a_code_requires_valid_code ()
     {
         $this->publishCode(['code' => null])
              ->assertSessionHasErrors('code');
 
         $this->publishCode(['code' => str_random(50001)])
              ->assertSessionHasErrors('code');
+
+        $this->publishCode(['code' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_valid_dataset ()
+    public function a_code_requires_valid_dataset ()
     {
         $this->publishCode(['dataset_id' => 0])
              ->assertSessionHasErrors('dataset_id');
@@ -97,7 +107,17 @@ class CreateCodeTest extends TestCase
 
         $dataset = create('App\Dataset');
         $this->publishCode(['dataset_id' => $dataset->id])
-             ->assertSessionMissing('dataset_id');
+             ->assertSessionMissing('errors');
+    }
+
+    /** @test */
+    public function a_code_requires_valid_publish_boolean ()
+    {
+        $this->publishCode(['publish' => 'string'])
+             ->assertSessionHasErrors('publish');
+
+        $this->publishCode(['publish' => true])
+             ->assertSessionMissing('errors');
     }
 
     protected function publishCode ($overrides = [])

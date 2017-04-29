@@ -30,10 +30,6 @@ class TwitterFeed extends Model
 
         $results = (new \Laravel\Scout\Builder(new static(), $query, $callback));
 
-        static::addGlobalScope('votesCount', function ($builder) {
-            return $builder->withCount('votes');
-        });
-
         return $results;
     }
 

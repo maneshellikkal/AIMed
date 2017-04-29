@@ -196,7 +196,12 @@
         </div>
 
         <div class="form-group mt-2 row{{ $errors->has('dpf') ? ' has-danger' : '' }}">
-            <label for="dpf" class="col-4 col-form-label text-right">Diabetes Pedigree Function</label>
+            <label for="dpf" class="col-4 col-form-label text-right">
+                Diabetes Pedigree Function
+                <a href="javascript:;" data-toggle="modal" data-target="#diabetesPedigreeFunctionModal">
+                    <i class="fa fa-question-circle-o"> </i>
+                </a>
+            </label>
 
             <div class="col-6">
                 <input id="dpf" type="number" step="0.0001" class="form-control" name="dpf" value="{{ old('dpf') }}" required>
@@ -217,5 +222,43 @@
             </div>
         </div>
     </form>
+    <div class="modal fade" id="diabetesPedigreeFunctionModal" tabindex="-1" role="dialog" aria-labelledby="diabetesPedigreeFunctionModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="diabetesPedigreeFunctionModalTitle">Diabetes Pedigree Function</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>The DPF Function uses information from parents, grandparents, full and half siblings, full and half aunts and uncles and first cousins.</p>
+                                <p>It provides a measure of the expected genetic influence of affected and unaffected relatives on the patient's eventual diabetes risk. It is calculated using:</p>
+                                <p>$$DPF = @{{\sum_{i}{K_i} (88-ADM_i) + 20} \over {\sum_{j}{K_j} (ALC_j - 14) + 50}}$$</p>
+                                <p>
+                                    <em>Where</em>
+                                    <span class="d-block">${K_x\quad}$ is the percent of genes shared by the ${relative_x}$ and</span>
+                                    <span class="d-block">${\qquad}$${\qquad}$equals 0.500 when the ${relative_x}$ is a parent or full sibling</span>
+                                    <span class="d-block">${\qquad}$${\qquad}$equals 0.250 when the ${relative_x}$ is a half sibling, grandparent, aunt or uncle, and</span>
+                                    <span class="d-block">${\qquad}$${\qquad}$equals 0.125 when the ${relative_x}$ is a half aunt, half uncle or first cousin</span>
+                                    <span class="d-block">${ADM_i\quad}$ is the age in years of ${relative_i}$ when diabetes was diagnosed</span>
+                                    <span class="d-block">${ADM_j\quad}$ is the age in years of ${relative_j}$ at the last diabetic examination (prior to patient's examination)</span>
+                                </p>
+                                <a href="https://goo.gl/GuUSgh" target="_blank" class="btn btn-link">Source</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     @endcomponent
 @endsection
+
+@include('layouts._mathjax')

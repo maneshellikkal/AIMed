@@ -11,7 +11,6 @@
                             <div class="d-inline-block">
                                 <form method="POST" action="{{ $reply->path() }}">
                                     {!! csrf_field() !!}
-                                    {!! method_field('PUT') !!}
 
                                     <button type="submit" class="btn btn-sm btn-success text-white" title="Did this answer your question?">
                                         <i class="fa fa-fw fa-thumbs-up"></i>

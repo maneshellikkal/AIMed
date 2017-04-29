@@ -70,12 +70,23 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
+                                <div class="pull-right">
+                                    @can('delete', $thread)
+                                        <a href="#" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-thread-form').submit();">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                    @endcan
+                                </div>
                                 <button type="submit" class="btn btn-primary">
                                     Update Discussion
                                 </button>
                                 <a href="{{ $thread->path() }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
+                    </form>
+                    <form hidden id="delete-thread-form" action="{{ $thread->path() }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
                     </form>
                 </div>
             </div>

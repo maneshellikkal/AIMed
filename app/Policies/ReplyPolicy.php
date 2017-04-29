@@ -42,6 +42,18 @@ class ReplyPolicy
      */
     public function delete(User $user, Reply $reply)
     {
-        return false;
+        return $user->isAdmin() || $reply->isOwnedBy($user);
+    }
+
+    /**
+     * Determine whether the user can select best answer.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Reply  $reply
+     * @return mixed
+     */
+    public function selectBestAnswer(User $user, Reply $reply)
+    {
+        return $reply->thread->isOwnedBy($user);
     }
 }

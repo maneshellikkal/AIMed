@@ -20,12 +20,17 @@ class SaveTweet
     public function handle (TweetRetrieved $event)
     {
         $body = $event->tweet['text'];
+
+        if(TwitterFeed::whereBody($body)->count()){
+            return;
+        }
+
         $media = $event->tweet['entities']['media'][0]['media_url'] ?? null;
         $tags = array_pluck($event->tweet['entities']['hashtags'] ?? [], 'text');
         if($event->tweet['truncated']) {
             $body = $event->tweet['extended_tweet']['full_text'];
             $media = $event->tweet['extended_tweet']['entities']['media'][0]['media_url'] ?? null;
-            $tags= array_pluck($event->tweet['extended_tweet']['entities']['hashtags'] ?? [], 'text');
+            $tags = array_pluck($event->tweet['extended_tweet']['entities']['hashtags'] ?? [], 'text');
         }
 
         if($rt = $event->tweet['retweeted_status'] ?? false) {
@@ -35,7 +40,6 @@ class SaveTweet
         TwitterFeed::create([
             'twitter_id' => $event->tweet['id_str'],
             'body' => $body,
-            'data' => json_encode($event->tweet),
             'user_id' => $event->tweet['user']['id_str'],
             'author_name' => $event->tweet['user']['name'],
             'author_screen_name' => $event->tweet['user']['screen_name'],

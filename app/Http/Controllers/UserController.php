@@ -34,10 +34,13 @@ class UserController extends Controller
 
     public function update (User $user, Request $request)
     {
+        $isAdmin = auth()->user()->isAdmin();
+        $user = $isAdmin ? $user : auth()->user();
+
         $this->validate($request, [
             'name'              => 'required|max:255',
-            'username'          => 'sometimes|alpha_num|min:4|max:30|unique:users',
-            'email'             => 'sometimes|email|max:255|unique:users',
+            'username'          => 'sometimes|alpha_num|min:4|max:30|unique:users,username,'.$user->id,
+            'email'             => 'sometimes|email|max:255|unique:users,email,'.$user->id,
             'dob'               => 'nullable|date|before:' . Carbon::parse('- 16 years')->toDateTimeString(),
             'occupation'        => 'nullable|string|max:255',
             'organization'      => 'nullable|string|max:255',
@@ -46,9 +49,6 @@ class UserController extends Controller
             'website'           => 'nullable|active_url|max:255',
             'newsletter'        => 'boolean',
         ]);
-
-        $isAdmin = auth()->user()->isAdmin();
-        $user = $isAdmin ? $user : auth()->user();
 
         $user->update([
             'name'              => $request->input('name'),

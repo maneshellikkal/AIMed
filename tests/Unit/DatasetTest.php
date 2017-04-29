@@ -17,7 +17,7 @@ class DatasetTest extends TestCase
     }
 
     /** @test */
-    function a_dataset_can_make_a_string_path ()
+    public function a_dataset_can_make_a_string_path ()
     {
         $this->assertEquals(
             "/d/{$this->dataset->slug}", $this->dataset->path()
@@ -25,13 +25,13 @@ class DatasetTest extends TestCase
     }
 
     /** @test */
-    function a_dataset_has_a_creator ()
+    public function a_dataset_has_a_creator ()
     {
         $this->assertInstanceOf('App\User', $this->dataset->creator);
     }
 
     /** @test */
-    function a_dataset_has_codes ()
+    public function a_dataset_has_codes ()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->dataset->codes);
     }

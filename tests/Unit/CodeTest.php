@@ -18,7 +18,7 @@ class CodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_can_make_a_string_path ()
+    public function a_code_can_make_a_string_path ()
     {
         $this->assertEquals(
             "/c/{$this->code->slug}", $this->code->path()
@@ -26,13 +26,13 @@ class CodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_has_a_creator ()
+    public function a_code_has_a_creator ()
     {
         $this->assertInstanceOf('App\User', $this->code->creator);
     }
 
     /** @test */
-    function a_code_belongs_to_a_dataset ()
+    public function a_code_belongs_to_a_dataset ()
     {
         $this->assertInstanceOf('App\Dataset', $this->code->dataset);
     }

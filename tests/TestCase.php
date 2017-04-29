@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use App\Role;
+use App\User;
 use App\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -20,6 +22,14 @@ abstract class TestCase extends BaseTestCase
         $user = $user ?: create('App\User');
         $this->actingAs($user);
         return $this;
+    }
+
+    protected function createAdmin()
+    {
+        $admin = create('App\User');
+        $role = Role::create(['name' => 'Admin']);
+        $admin->attachRole($role);
+        return User::find($admin->id);
     }
 
     protected function disableExceptionHandling()

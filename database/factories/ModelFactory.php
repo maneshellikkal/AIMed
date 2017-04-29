@@ -16,11 +16,26 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name'           => $faker->name,
-        'username'       => $faker->unique()->word,
-        'email'          => $faker->unique()->safeEmail,
-        'password'       => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name'              => $faker->name,
+        'username'          => str_random(10),
+        'email'             => $faker->unique()->safeEmail,
+        'occupation'        => $faker->words(2, true),
+        'github_username'   => $faker->userName,
+        'twitter_username'  => $faker->userName,
+        'linkedin_username' => $faker->userName,
+        'website'           => 'http://'.$faker->freeEmailDomain,
+        'dob'               => $faker->date('Y-m-d', '-17 years'),
+        'activated'         => true,
+        'newsletter'        => true,
+        'password'          => $password ?: $password = bcrypt('secret'),
+        'remember_token'    => str_random(10),
+    ];
+});
+
+$factory->define(App\Activation::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => function () { return factory(App\User::class)->create(['activated' => false])->id; },
+        'token'   => str_random(64),
     ];
 });
 
@@ -48,7 +63,7 @@ $factory->define(App\Code::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Category::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->words(2, true),
+        'name'        => $faker->words(2, true),
         'description' => $faker->words(10, true),
     ];
 });
@@ -69,5 +84,20 @@ $factory->define(App\Reply::class, function (Faker\Generator $faker) {
         'thread_id'   => function () { return factory(App\Thread::class)->create()->id; },
         'body'        => $faker->paragraphs(3, true),
         'best_answer' => false,
+    ];
+});
+
+$factory->define(App\TwitterFeed::class, function (Faker\Generator $faker) {
+    return [
+        'twitter_id'         => $faker->randomNumber(5),
+        'body'               => $faker->sentence(6),
+        'media'              => $faker->imageUrl(),
+        'user_id'            => $faker->randomNumber(5),
+        'author_name'        => $faker->name,
+        'author_screen_name' => $faker->userName,
+        'author_verified'    => $faker->boolean(30),
+        'tags'               => $faker->words(3),
+        'twitter_timestamp'  => time(),
+        'medicine_related'  => false,
     ];
 });

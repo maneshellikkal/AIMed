@@ -118,6 +118,20 @@ class ThreadController extends Controller
     }
 
     /**
+     * Delete the specified resource.
+     *
+     * @param Thread $thread
+     *
+     * @return mixed
+     */
+    public function destroy(string $categorySlug, Thread $thread)
+    {
+        $thread->delete();
+
+        return redirect('/discuss')->withSuccess('Discussion Deleted');
+    }
+
+    /**
      * Fetch all relevant threads.
      *
      * @param Category      $category

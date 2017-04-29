@@ -51,6 +51,11 @@ class ThreadPolicy extends BasePolicy
      */
     public function delete(User $user, Thread $thread)
     {
-        return false;
+        return $thread->isOwnedBy($user);
+    }
+
+    public function addReply(User $user, Thread $thread)
+    {
+        return true;
     }
 }

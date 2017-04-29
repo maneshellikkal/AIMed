@@ -1,17 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UpdateCodeTest extends TestCase
 {
-    use DatabaseMigrations;
-    private $user;
-    private $code;
+    use DatabaseMigrations, DatabaseTransactions;
+    protected $user;
+    protected $code;
 
-    function setUp ()
+    public function setUp ()
     {
         parent::setUp();
         $this->user    = create('App\User');
@@ -19,7 +20,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function guests_may_not_edit_codes ()
+    public function guests_may_not_edit_codes ()
     {
         $this->get($this->code->path() . '/edit')
              ->assertRedirect('/login');
@@ -29,7 +30,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function any_authenticated_user_may_not_view_edit_code_page ()
+    public function any_authenticated_user_may_not_view_edit_code_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -39,7 +40,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function any_authenticated_user_may_not_edit_code ()
+    public function any_authenticated_user_may_not_edit_code ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -49,7 +50,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function creator_may_edit_code ()
+    public function creator_may_edit_code ()
     {
         $this->disableExceptionHandling()->signIn($this->user);
 
@@ -61,7 +62,19 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_name ()
+    public function admin_may_edit_code ()
+    {
+        $this->disableExceptionHandling()->signIn($this->createAdmin());
+
+        $this->get($this->code->path() . '/edit')
+             ->assertStatus(200);
+
+        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->put($this->code->path());
+    }
+
+    /** @test */
+    public function a_code_requires_a_valid_name ()
     {
         $this->updateCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -71,33 +84,45 @@ class UpdateCodeTest extends TestCase
 
         $this->updateCode(['name' => str_random(51)])
              ->assertSessionHasErrors('name');
+
+        $this->updateCode(['name' => str_random(20)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description ()
     {
         $this->updateCode(['description' => null])
              ->assertSessionHasErrors('description');
 
         $this->updateCode(['description' => str_random(20001)])
              ->assertSessionHasErrors('description');
+
+        $this->updateCode(['description' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_a_valid_code ()
+    public function a_code_requires_a_valid_code ()
     {
         $this->updateCode(['code' => null])
              ->assertSessionHasErrors('code');
 
         $this->updateCode(['code' => str_random(50001)])
              ->assertSessionHasErrors('code');
+
+        $this->updateCode(['code' => str_random(1000)])
+             ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function a_code_requires_a_valid_publish_bool ()
+    public function a_code_requires_valid_publish_boolean ()
     {
         $this->updateCode(['publish' => 'string'])
              ->assertSessionHasErrors('publish');
+
+        $this->updateCode(['publish' => true])
+             ->assertSessionMissing('errors');
     }
 
     protected function updateCode ($overrides = [])
