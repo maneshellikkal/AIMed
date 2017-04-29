@@ -32,7 +32,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    function a_creator_can_view_unpublished_codes ()
+    public function a_creator_can_view_unpublished_codes ()
     {
         $user = create('App\User');
         $code = create('App\Code', ['published' => false, 'user_id' => $user->id]);
@@ -43,14 +43,14 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    function an_user_can_view_published_code ()
+    public function an_user_can_view_published_code ()
     {
         $this->get($this->code->path())
              ->assertSee($this->code->name);
     }
 
     /** @test */
-    function an_user_cannot_view_unpublished_code ()
+    public function an_user_cannot_view_unpublished_code ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $code = create('App\Code', ['published' => false]);
@@ -58,7 +58,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    function a_creator_can_view_unpublished_code ()
+    public function a_creator_can_view_unpublished_code ()
     {
         $user = create('App\User');
         $code = create('App\Code', ['published' => false, 'user_id' => $user->id]);
@@ -69,7 +69,7 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_view_their_own_codes ()
+    public function an_authenticated_user_can_view_their_own_codes ()
     {
         $user = create('App\User');
         $this->signIn($user);

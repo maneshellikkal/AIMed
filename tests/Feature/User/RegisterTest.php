@@ -30,7 +30,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function registration_requires_valid_name ()
+    public function registration_requires_valid_name ()
     {
         $this->register(['name' => null])
              ->assertSessionHasErrors('name');
@@ -40,7 +40,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function registration_requires_valid_unique_username ()
+    public function registration_requires_valid_unique_username ()
     {
         $this->register(['username' => null])
              ->assertSessionHasErrors('username');
@@ -57,7 +57,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function registration_requires_valid_username ()
+    public function registration_requires_valid_username ()
     {
         $this->register(['email' => null])
              ->assertSessionHasErrors('email');
@@ -71,7 +71,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function registration_requires_valid_password ()
+    public function registration_requires_valid_password ()
     {
         $this->register([], '')
              ->assertSessionHasErrors('password');
@@ -81,7 +81,7 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function password_confirmation_must_match ()
+    public function password_confirmation_must_match ()
     {
         $this->register([], 'anotherPassword')
              ->assertSessionHasErrors('password');

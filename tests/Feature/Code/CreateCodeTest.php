@@ -10,7 +10,7 @@ class CreateCodeTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function guests_may_not_create_codes ()
+    public function guests_may_not_create_codes ()
     {
         $dataset = create('App\Dataset');
         $this->get("/c/{$dataset->slug}/publish")
@@ -21,7 +21,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function an_user_may_not_create_code_for_unpublished_datasets ()
+    public function an_user_may_not_create_code_for_unpublished_datasets ()
     {
         $dataset = create('App\Dataset', ['published' => false]);
 
@@ -32,7 +32,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_create_codes ()
+    public function an_authenticated_user_can_create_codes ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -53,7 +53,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_name ()
+    public function a_code_requires_a_valid_name ()
     {
         $this->publishCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -66,7 +66,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description ()
     {
         $this->publishCode(['description' => null])
              ->assertSessionHasErrors('description');
@@ -76,7 +76,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_valid_code ()
+    public function a_code_requires_valid_code ()
     {
         $this->publishCode(['code' => null])
              ->assertSessionHasErrors('code');
@@ -86,7 +86,7 @@ class CreateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_valid_dataset ()
+    public function a_code_requires_valid_dataset ()
     {
         $this->publishCode(['dataset_id' => 0])
              ->assertSessionHasErrors('dataset_id');

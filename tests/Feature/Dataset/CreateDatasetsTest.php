@@ -10,7 +10,7 @@ class CreateDatasetsTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function guests_may_not_create_datasets ()
+    public function guests_may_not_create_datasets ()
     {
         $this->get('/datasets/publish')
             ->assertRedirect('/login');
@@ -20,7 +20,7 @@ class CreateDatasetsTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_create_datasets ()
+    public function authenticated_user_may_create_datasets ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -37,7 +37,7 @@ class CreateDatasetsTest extends TestCase
     }
 
     /** @test */
-    function a_dataset_requires_a_valid_name()
+    public function a_dataset_requires_a_valid_name()
     {
         $this->publishDataset(['name' => null])
              ->assertSessionHasErrors('name');
@@ -50,7 +50,7 @@ class CreateDatasetsTest extends TestCase
     }
 
     /** @test */
-    function a_dataset_requires_a_valid_overview()
+    public function a_dataset_requires_a_valid_overview()
     {
         $this->publishDataset(['overview' => null])
              ->assertSessionHasErrors('overview');
@@ -63,7 +63,7 @@ class CreateDatasetsTest extends TestCase
     }
 
     /** @test */
-    function a_dataset_requires_a_valid_description()
+    public function a_dataset_requires_a_valid_description()
     {
         $this->publishDataset(['description' => null])
              ->assertSessionHasErrors('description');

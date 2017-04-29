@@ -4,8 +4,8 @@ namespace Tests\Feature\User;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Newsletter;
+use Tests\TestCase;
 
 class NewsletterTest extends TestCase
 {
@@ -14,44 +14,50 @@ class NewsletterTest extends TestCase
     /** @test */
     public function newsletter_should_be_subscribed_on_registration ()
     {
-        Newsletter::shouldReceive('subscribeOrUpdate');
-        $username = 'test';
-        $this->register(['username' => $username]);
+        $email = 'test@example.com';
+
+        Newsletter::shouldReceive('subscribeOrUpdate')
+                  ->once()
+                  ->with($email)
+                  ->andReturn(true);
+
+        $this->post('/register',
+            [
+                'password' => 'secret',
+                'password_confirmation' => 'secret',
+                'email' => $email,
+            ] + make('App\User')->toArray());
     }
 
     /** @test */
-    function users_may_subscribe_to_newsletter ()
+    public function users_may_subscribe_to_newsletter ()
     {
-        Newsletter::shouldReceive('subscribeOrUpdate');
         $user = create('App\User');
+
+        Newsletter::shouldReceive('subscribeOrUpdate')
+                  ->once()
+                  ->with($user->email)
+                  ->andReturn(true);
 
         $this->signIn($user);
 
-        $this->updateProfile($user, ['newsletter' => true])
+        $this->put(sprintf('/u/%s/edit', $user->username), $user->fill(['newsletter' => true])->toArray())
              ->assertSessionMissing('errors');
     }
 
     /** @test */
-    function users_may_unsubscribe_to_newsletter ()
+    public function users_may_unsubscribe_to_newsletter ()
     {
-        Newsletter::shouldReceive('unsubscribe');
         $user = create('App\User');
+
+        Newsletter::shouldReceive('unsubscribe')
+                  ->once()
+                  ->with($user->email)
+                  ->andReturn(true);
 
         $this->signIn($user);
 
-        $this->updateProfile($user, ['newsletter' => false])
+        $this->put(sprintf('/u/%s/edit', $user->username), array_except($user->toArray(), 'newsletter'))
              ->assertSessionMissing('errors');
-    }
-
-    protected function updateProfile($user, $overrides = [])
-    {
-        return $this->put(sprintf('/u/%s/edit', $user->username), $overrides + $user->toArray());
-    }
-
-    protected function register($overrides = [], $password = 'secret')
-    {
-        $user = make('App\User', $overrides);
-
-        return $this->post('/register', ['password' => $password, 'password_confirmation' => 'secret'] + $user->toArray());
     }
 }

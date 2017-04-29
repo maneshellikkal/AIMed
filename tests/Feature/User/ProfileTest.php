@@ -3,8 +3,6 @@
 namespace Tests\Feature\User;
 
 use App\Events\UserUpdated;
-use App\Role;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -93,7 +91,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_name_is_required ()
+    public function a_valid_name_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -106,7 +104,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function username_may_not_be_changed ()
+    public function username_may_not_be_changed ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -116,7 +114,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function email_may_not_be_changed ()
+    public function email_may_not_be_changed ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -126,7 +124,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_date_of_birth_is_required ()
+    public function a_valid_date_of_birth_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -145,7 +143,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_occupation_is_required ()
+    public function a_valid_occupation_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -158,7 +156,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_github_username_is_required ()
+    public function a_valid_github_username_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -171,7 +169,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_linkedin_username_is_required ()
+    public function a_valid_linkedin_username_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -184,7 +182,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_website_is_required ()
+    public function a_valid_website_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -200,7 +198,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function a_valid_newsletter_value_is_required ()
+    public function a_valid_newsletter_value_is_required ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -213,7 +211,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function admin_may_update_any_profile ()
+    public function admin_may_update_any_profile ()
     {
         $this->signIn($this->createAdmin());
 
@@ -229,7 +227,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function admin_may_change_username ()
+    public function admin_may_change_username ()
     {
         $this->signIn($this->createAdmin());
 
@@ -242,7 +240,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    function admin_may_change_email ()
+    public function admin_may_change_email ()
     {
         $this->signIn($this->createAdmin());
 
@@ -289,13 +287,5 @@ class ProfileTest extends TestCase
     protected function changePassword($user, $password = 'secret', $password_confirmation = 'secret')
     {
         return $this->put(sprintf('/u/%s/password', $user->username), compact('password', 'password_confirmation'));
-    }
-
-    protected function createAdmin()
-    {
-        $admin = create('App\User');
-        $role = Role::create(['name' => 'Admin']);
-        $admin->attachRole($role);
-        return User::find($admin->id);
     }
 }

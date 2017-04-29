@@ -11,7 +11,7 @@ class UpdateCodeTest extends TestCase
     private $user;
     private $code;
 
-    function setUp ()
+    public function setUp ()
     {
         parent::setUp();
         $this->user    = create('App\User');
@@ -19,7 +19,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function guests_may_not_edit_codes ()
+    public function guests_may_not_edit_codes ()
     {
         $this->get($this->code->path() . '/edit')
              ->assertRedirect('/login');
@@ -29,7 +29,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function any_authenticated_user_may_not_view_edit_code_page ()
+    public function any_authenticated_user_may_not_view_edit_code_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -39,7 +39,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function any_authenticated_user_may_not_edit_code ()
+    public function any_authenticated_user_may_not_edit_code ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -49,7 +49,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function creator_may_edit_code ()
+    public function creator_may_edit_code ()
     {
         $this->disableExceptionHandling()->signIn($this->user);
 
@@ -61,7 +61,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_name ()
+    public function a_code_requires_a_valid_name ()
     {
         $this->updateCode(['name' => null])
              ->assertSessionHasErrors('name');
@@ -74,7 +74,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_description ()
+    public function a_code_requires_a_valid_description ()
     {
         $this->updateCode(['description' => null])
              ->assertSessionHasErrors('description');
@@ -84,7 +84,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_code ()
+    public function a_code_requires_a_valid_code ()
     {
         $this->updateCode(['code' => null])
              ->assertSessionHasErrors('code');
@@ -94,7 +94,7 @@ class UpdateCodeTest extends TestCase
     }
 
     /** @test */
-    function a_code_requires_a_valid_publish_bool ()
+    public function a_code_requires_a_valid_publish_bool ()
     {
         $this->updateCode(['publish' => 'string'])
              ->assertSessionHasErrors('publish');

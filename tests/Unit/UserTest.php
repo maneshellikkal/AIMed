@@ -18,7 +18,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_make_a_string_path ()
+    public function a_user_can_make_a_string_path ()
     {
         $this->assertEquals(
             "/u/{$this->user->username}", $this->user->path()
@@ -26,7 +26,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function a_user_has_datasets ()
+    public function a_user_has_datasets ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->user->datasets
@@ -34,7 +34,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function a_user_has_codes ()
+    public function a_user_has_codes ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->user->codes
