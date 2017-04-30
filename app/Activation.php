@@ -21,7 +21,8 @@ class Activation extends Model
     protected $guarded = [];
 
     /**
-     * Activation belongs to an user.
+     * Activation belongs to a user.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user ()

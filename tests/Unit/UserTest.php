@@ -8,7 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
+
     protected $user;
 
     public function setUp ()
@@ -18,15 +19,15 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_make_a_string_path ()
+    public function a_user_has_many_activations()
     {
-        $this->assertEquals(
-            "/u/{$this->user->username}", $this->user->path()
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->activations
         );
     }
 
     /** @test */
-    public function a_user_has_datasets ()
+    public function a_user_has_many_datasets ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->user->datasets
@@ -34,10 +35,42 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_has_codes ()
+    public function a_user_has_many_codes ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->user->codes
+        );
+    }
+
+    /** @test */
+    public function a_user_has_many_threads ()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->threads
+        );
+    }
+
+    /** @test */
+    public function a_user_has_many_replies ()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->replies
+        );
+    }
+
+    /** @test */
+    public function a_user_has_many_votes ()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->votes
+        );
+    }
+
+    /** @test */
+    public function a_user_has_many_roles ()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $this->user->roles
         );
     }
 }
