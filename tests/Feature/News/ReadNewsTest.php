@@ -3,9 +3,9 @@
 namespace Tests\Feature\News;
 
 use Carbon\Carbon;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ReadNewsTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ReadNewsTest extends TestCase
 
         $response = $this->get('/news');
 
-        foreach($allNews as $news) {
+        foreach ($allNews as $news) {
             $response->assertSee($news->body);
         }
     }
@@ -26,7 +26,7 @@ class ReadNewsTest extends TestCase
     /** @test */
     public function anyone_can_view_medical_news ()
     {
-        $news = create('App\TwitterFeed');
+        $news         = create('App\TwitterFeed');
         $medicineNews = create('App\TwitterFeed', ['medicine_related' => true]);
 
         $response = $this->get('/news?medicine=1');
@@ -59,11 +59,11 @@ class ReadNewsTest extends TestCase
         $this->signIn();
 
         $allNews = create('App\TwitterFeed', [], 30)->random(3);
-        foreach($allNews as $news) {
+        foreach ($allNews as $news) {
             $news->vote();
         }
 
-        foreach($allNews as $news) {
+        foreach ($allNews as $news) {
             $this->get('/news?popular=1')
                  ->assertSee($news->body);
         }

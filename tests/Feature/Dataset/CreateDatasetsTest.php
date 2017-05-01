@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateDatasetsTest extends TestCase
 {
@@ -14,10 +14,10 @@ class CreateDatasetsTest extends TestCase
     public function unauthenticated_users_may_not_create_datasets ()
     {
         $this->get('/datasets/publish')
-            ->assertRedirect('/login');
+             ->assertRedirect('/login');
 
         $this->post('/datasets')
-            ->assertRedirect('/login');
+             ->assertRedirect('/login');
     }
 
     /** @test */
@@ -30,9 +30,9 @@ class CreateDatasetsTest extends TestCase
         $this->post('/datasets', $dataset->toArray());
 
         $this->assertDatabaseHas('datasets', [
-            'name' => $dataset->name,
-            'overview' => $dataset->overview,
-            'user_id' => $user->id,
+            'name'      => $dataset->name,
+            'overview'  => $dataset->overview,
+            'user_id'   => $user->id,
             'published' => false,
         ]);
     }
@@ -82,10 +82,11 @@ class CreateDatasetsTest extends TestCase
              ->assertSessionMissing('errors');
     }
 
-    protected function publishDataset($overrides = [])
+    protected function publishDataset ($overrides = [])
     {
         $this->signIn();
         $dataset = make('App\Dataset', $overrides);
+
         return $this->post('/datasets', $dataset->toArray());
     }
 }

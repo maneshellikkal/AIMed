@@ -24,7 +24,7 @@ class LoginTest extends TestCase
     /** @test */
     public function invalid_credentials_should_not_work_for_login ()
     {
-        $user     = create('App\User');
+        $user = create('App\User');
 
         $response = $this->post('/login',
             [
@@ -43,7 +43,7 @@ class LoginTest extends TestCase
     /** @test */
     public function email_activation_pending_users_may_not_login ()
     {
-        $user     = create('App\User', ['activated' => false]);
+        $user = create('App\User', ['activated' => false]);
 
         $response = $this->post('/login',
             [
@@ -52,13 +52,14 @@ class LoginTest extends TestCase
             ]
         );
 
-        $response->assertSessionHas('info', 'You need to confirm your email address before logging in. We have sent you an email.');
+        $response->assertSessionHas('info',
+            'You need to confirm your email address before logging in. We have sent you an email.');
     }
 
     /** @test */
     public function valid_credentials_should_be_logged_in ()
     {
-        $user     = create('App\User');
+        $user = create('App\User');
 
         $response = $this->post('/login',
             [

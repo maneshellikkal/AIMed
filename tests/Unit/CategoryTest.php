@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $category;
 
     public function setUp ()
@@ -20,14 +19,14 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function a_category_has_many_threads()
+    public function a_category_has_many_threads ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection',
-                $this->category->threads
+            $this->category->threads
         );
 
-        foreach($this->category->threads as $thread){
+        foreach ($this->category->threads as $thread) {
             $this->assertInstanceOf('App\Thread', $thread);
         }
     }

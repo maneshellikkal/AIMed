@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ReplyTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $reply;
 
     public function setUp ()
@@ -19,7 +18,7 @@ class ReplyTest extends TestCase
     }
 
     /** @test */
-    public function a_reply_belongs_to_a_user()
+    public function a_reply_belongs_to_a_user ()
     {
         $this->assertInstanceOf(
             'App\User', $this->reply->creator
@@ -27,7 +26,7 @@ class ReplyTest extends TestCase
     }
 
     /** @test */
-    public function a_reply_belongs_belongs_to_a_thread()
+    public function a_reply_belongs_belongs_to_a_thread ()
     {
         $this->assertInstanceOf(
             'App\Thread', $this->reply->thread

@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ActivationTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $activation;
 
     public function setUp ()
@@ -19,7 +18,7 @@ class ActivationTest extends TestCase
     }
 
     /** @test */
-    public function an_activation_belongs_to_a_user()
+    public function an_activation_belongs_to_a_user ()
     {
         $this->assertInstanceOf(
             'App\User', $this->activation->user

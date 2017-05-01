@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Discussion;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ParticipateInDiscussionsTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ParticipateInDiscussionsTest extends TestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->user    = create('App\User');
+        $this->user       = create('App\User');
         $this->discussion = create('App\Thread', ['user_id' => $this->user->id]);
     }
 
@@ -27,7 +27,7 @@ class ParticipateInDiscussionsTest extends TestCase
 
         $this->expectException('Illuminate\Auth\AuthenticationException');
         $this->disableExceptionHandling()
-             ->post($this->discussion->path().'/replies');
+             ->post($this->discussion->path() . '/replies');
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function users_other_than_creator_may_not_select_best_reply()
+    public function users_other_than_creator_may_not_select_best_reply ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
@@ -74,7 +74,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function owner_may_select_best_reply()
+    public function owner_may_select_best_reply ()
     {
         $this->disableExceptionHandling()
              ->signIn($this->user)
@@ -84,7 +84,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function admin_may_not_select_best_reply()
+    public function admin_may_not_select_best_reply ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
@@ -93,16 +93,18 @@ class ParticipateInDiscussionsTest extends TestCase
              ->selectBestReply();
     }
 
-    protected function selectBestReply($overrides = [])
+    protected function selectBestReply ($overrides = [])
     {
         $reply = create('App\Reply', $overrides);
+
         return $this->post($reply->path());
     }
 
-    protected function leaveReply($overrides = [])
+    protected function leaveReply ($overrides = [])
     {
         $this->signIn();
         $reply = make('App\Reply', $overrides);
-        return $this->post($this->discussion->path().'/replies', $reply->toArray());
+
+        return $this->post($this->discussion->path() . '/replies', $reply->toArray());
     }
 }

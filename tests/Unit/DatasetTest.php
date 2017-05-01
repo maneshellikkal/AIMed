@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class DatasetTest extends TestCase
 {
@@ -18,8 +18,9 @@ class DatasetTest extends TestCase
         $this->fakeVotes();
     }
 
-    protected function fakeVotes($times = 10) {
-        for($i = 1; $i <= $times; $i++){
+    protected function fakeVotes ($times = 10)
+    {
+        for ($i = 1; $i <= $times; $i++) {
             $this->dataset->votes()->create(['user_id' => create('App\User')->id]);
         }
     }
@@ -39,7 +40,7 @@ class DatasetTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $this->dataset->codes
         );
 
-        foreach($this->dataset->codes as $code){
+        foreach ($this->dataset->codes as $code) {
             $this->assertInstanceOf('App\Code', $code);
         }
     }
@@ -51,7 +52,7 @@ class DatasetTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $this->dataset->votes
         );
 
-        foreach($this->dataset->votes as $vote){
+        foreach ($this->dataset->votes as $vote) {
             $this->assertInstanceOf('App\Vote', $vote);
         }
     }

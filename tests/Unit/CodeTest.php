@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CodeTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $code;
 
     public function setUp ()
@@ -19,8 +18,9 @@ class CodeTest extends TestCase
         $this->fakeVotes();
     }
 
-    protected function fakeVotes($times = 10) {
-        for($i = 1; $i <= $times; $i++){
+    protected function fakeVotes ($times = 10)
+    {
+        for ($i = 1; $i <= $times; $i++) {
             $this->code->votes()->create(['user_id' => create('App\User')->id]);
         }
     }
@@ -48,7 +48,7 @@ class CodeTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $this->code->votes
         );
 
-        foreach($this->code->votes as $vote){
+        foreach ($this->code->votes as $vote) {
             $this->assertInstanceOf('App\Vote', $vote);
         }
     }

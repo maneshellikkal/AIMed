@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\User;
 
-use Illuminate\Auth\Notifications\ResetPassword;
-use Notification;
 use App\User;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Notification;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -58,9 +58,9 @@ class PasswordResetTest extends TestCase
     /** @test */
     public function valid_tokens_should_reset_password ()
     {
-        $user = create('App\User');
+        $user     = create('App\User');
         $password = $user->password;
-        $token = \Password::broker()->createToken($user);
+        $token    = \Password::broker()->createToken($user);
 
         $this->reset($token, $user->email);
 
@@ -72,9 +72,9 @@ class PasswordResetTest extends TestCase
     /** @test */
     public function password_must_be_confirmed_for_resetting ()
     {
-        $user = create('App\User');
+        $user     = create('App\User');
         $password = $user->password;
-        $token = \Password::broker()->createToken($user);
+        $token    = \Password::broker()->createToken($user);
 
         $this->reset($token, $user->email, ['password' => 'newPassword'])
              ->assertSessionHasErrors();
@@ -87,7 +87,7 @@ class PasswordResetTest extends TestCase
     /** @test */
     public function invalid_tokens_should_not_reset_password ()
     {
-        $user = create('App\User');
+        $user     = create('App\User');
         $password = $user->password;
 
         $this->reset(str_random(64), $user->email)
@@ -98,14 +98,14 @@ class PasswordResetTest extends TestCase
         $this->assertEquals($user->password, $password);
     }
 
-    protected function reset($token, $email, $overrides = [])
+    protected function reset ($token, $email, $overrides = [])
     {
         $data = [
-            'token' => $token,
-            'email' => $email,
-            'password' => $overrides['password'] ?? 'secret',
-            'password_confirmation' => $overrides['password_confirmation'] ?? 'secret',
-        ] + $overrides;
+                    'token'                 => $token,
+                    'email'                 => $email,
+                    'password'              => $overrides['password'] ?? 'secret',
+                    'password_confirmation' => $overrides['password_confirmation'] ?? 'secret',
+                ] + $overrides;
 
         return $this->post('/password/reset', $data);
     }

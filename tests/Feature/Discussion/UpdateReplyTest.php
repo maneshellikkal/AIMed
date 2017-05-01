@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Discussion;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UpdateReplyTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $user;
     protected $discussion;
     protected $reply;
@@ -17,9 +16,9 @@ class UpdateReplyTest extends TestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->user    = create('App\User');
-        $this->discussion    = create('App\Thread');
-        $this->reply = create('App\Reply', ['user_id' => $this->user->id, 'thread_id' => $this->discussion->id ]);
+        $this->user       = create('App\User');
+        $this->discussion = create('App\Thread');
+        $this->reply      = create('App\Reply', ['user_id' => $this->user->id, 'thread_id' => $this->discussion->id]);
     }
 
     /** @test */

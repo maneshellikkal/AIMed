@@ -7,13 +7,13 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Notification;
+use Tests\TestCase;
 
 class ActivationTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    
+
     /** @test */
     public function authenticated_users_may_not_verify_account ()
     {
@@ -30,7 +30,7 @@ class ActivationTest extends TestCase
     {
         Notification::fake();
 
-        $user     = create('App\User', ['activated' => false]);
+        $user = create('App\User', ['activated' => false]);
 
         $this->post('/login',
             [
@@ -68,9 +68,9 @@ class ActivationTest extends TestCase
     public function valid_token_should_verify_account ()
     {
         $activation = create('App\Activation');
-        $email = $activation->user->email;
+        $email      = $activation->user->email;
 
-        $this->get('/activation/'. $activation->token)
+        $this->get('/activation/' . $activation->token)
              ->assertSessionHas('success');
 
         $this->assertDatabaseHas('users', ['email' => $email, 'activated' => true]);
@@ -79,10 +79,11 @@ class ActivationTest extends TestCase
     /** @test */
     public function expired_tokens_should_not_verify_account ()
     {
-        $activation = create('App\Activation', ['created_at' => Carbon::now()->subHours(config('settings.user.activation.valid_hours') + 1)]);
-        $email = $activation->user->email;
+        $activation = create('App\Activation',
+            ['created_at' => Carbon::now()->subHours(config('settings.user.activation.valid_hours') + 1)]);
+        $email      = $activation->user->email;
 
-        $this->get('/activation/'. $activation->token)
+        $this->get('/activation/' . $activation->token)
              ->assertSessionMissing('success');
 
         $this->assertDatabaseHas('users', ['email' => $email, 'activated' => false]);

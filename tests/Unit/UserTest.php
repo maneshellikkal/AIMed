@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-
     protected $user;
 
     public function setUp ()
@@ -27,7 +26,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_has_many_activations()
+    public function a_user_has_many_activations ()
     {
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->user->activations

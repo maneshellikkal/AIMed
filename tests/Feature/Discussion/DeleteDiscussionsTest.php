@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Discussion;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class DeleteDiscussionsTest extends TestCase
 {
@@ -15,7 +15,7 @@ class DeleteDiscussionsTest extends TestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->user    = create('App\User');
+        $this->user       = create('App\User');
         $this->discussion = create('App\Thread', ['user_id' => $this->user->id]);
     }
 

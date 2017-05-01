@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UpdateCodeTest extends TestCase
 {
@@ -15,8 +15,8 @@ class UpdateCodeTest extends TestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->user    = create('App\User');
-        $this->code = create('App\Code', ['user_id' => $this->user->id ]);
+        $this->user = create('App\User');
+        $this->code = create('App\Code', ['user_id' => $this->user->id]);
     }
 
     /** @test */

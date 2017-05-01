@@ -18,7 +18,7 @@ class ProfileTest extends TestCase
         $user = create('App\User');
 
         $this->get(sprintf('/u/%s', $user->username))
-            ->assertSee($user->name);
+             ->assertSee($user->name);
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class ProfileTest extends TestCase
 
         $response = $this->get(sprintf('/u/%s', $user->username));
 
-        foreach($datasets as $dataset){
+        foreach ($datasets as $dataset) {
             $response->assertSee($dataset->name);
         }
     }
@@ -44,7 +44,7 @@ class ProfileTest extends TestCase
 
         $response = $this->get(sprintf('/u/%s', $user->username));
 
-        foreach($codes as $code){
+        foreach ($codes as $code) {
             $response->assertSee($code->name);
         }
     }
@@ -218,7 +218,7 @@ class ProfileTest extends TestCase
         $user = create('App\User');
 
         $this->get(sprintf('/u/%s/edit', $user->username))
-            ->assertSee($user->email);
+             ->assertSee($user->email);
 
         $this->updateProfile($user->fill(['name' => 'new name']))
              ->assertSessionMissing('errors');
@@ -279,12 +279,12 @@ class ProfileTest extends TestCase
         $this->changePassword($user, 'password')->assertSessionHasErrors('password');
     }
 
-    protected function updateProfile($user, $overrides = [])
+    protected function updateProfile ($user, $overrides = [])
     {
         return $this->put(sprintf('/u/%s/edit', $user->username), $overrides + $user->toArray());
     }
 
-    protected function changePassword($user, $password = 'secret', $password_confirmation = 'secret')
+    protected function changePassword ($user, $password = 'secret', $password_confirmation = 'secret')
     {
         return $this->put(sprintf('/u/%s/password', $user->username), compact('password', 'password_confirmation'));
     }

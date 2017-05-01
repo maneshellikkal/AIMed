@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\User;
 
-use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -90,10 +89,11 @@ class RegisterTest extends TestCase
              ->assertSessionHasErrors('password');
     }
 
-    protected function register($overrides = [], $password = 'secret')
+    protected function register ($overrides = [], $password = 'secret')
     {
         $user = make('App\User', $overrides);
 
-        return $this->post('/register', ['password' => $password, 'password_confirmation' => 'secret'] + $user->toArray());
+        return $this->post('/register',
+            ['password' => $password, 'password_confirmation' => 'secret'] + $user->toArray());
     }
 }

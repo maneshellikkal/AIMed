@@ -3,9 +3,9 @@
 namespace Tests\Feature\Dataset;
 
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReadDatasetsTest extends TestCase
 {
@@ -60,11 +60,11 @@ class ReadDatasetsTest extends TestCase
         $this->signIn();
 
         $datasets = create('App\Dataset', [], 30)->random(3);
-        foreach($datasets as $dataset) {
+        foreach ($datasets as $dataset) {
             $dataset->vote();
         }
 
-        foreach($datasets as $dataset) {
+        foreach ($datasets as $dataset) {
             $this->get('/datasets?popular=1')
                  ->assertSee($dataset->name);
         }
@@ -77,11 +77,11 @@ class ReadDatasetsTest extends TestCase
         $this->signIn($user);
 
         $dataset = create('App\Dataset');
-        $this->get('/datasets?author='.$user->username)
+        $this->get('/datasets?author=' . $user->username)
              ->assertDontSee($dataset->name);
 
         $dataset = create('App\Dataset', ['user_id' => $user->id]);
-        $this->get('/datasets?author='.$user->username)
+        $this->get('/datasets?author=' . $user->username)
              ->assertSee($dataset->name);
     }
 
@@ -136,7 +136,7 @@ class ReadDatasetsTest extends TestCase
     public function a_dataset_must_list_all_of_its_codes ()
     {
         $codes = create('App\Code', ['dataset_id' => $this->dataset->id], 5);
-        foreach($codes as $code){
+        foreach ($codes as $code) {
             $this->get($this->dataset->path())
                  ->assertSee($code->name);
         }
@@ -153,7 +153,7 @@ class ReadDatasetsTest extends TestCase
     /** @test */
     public function owner_may_view_unpublished_datasets ()
     {
-        $user = create('App\User');
+        $user    = create('App\User');
         $dataset = create('App\Dataset', ['published' => false, 'user_id' => $user->id]);
 
         $this->signIn($user);
@@ -176,12 +176,12 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function anyone_can_search_for_datasets()
+    public function anyone_can_search_for_datasets ()
     {
         $dataset = create('App\Dataset');
         create('App\Dataset', [], 30);
 
-        $this->get('/datasets?search='.substr($dataset->name, 0, 5))
-            ->assertSee($dataset->name);
+        $this->get('/datasets?search=' . $dataset->name)
+             ->assertSee($dataset->name);
     }
 }

@@ -3,9 +3,9 @@
 namespace Tests\Feature\Dataset;
 
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReadCodeTest extends TestCase
 {
@@ -49,11 +49,11 @@ class ReadCodeTest extends TestCase
         $this->signIn();
 
         $codes = create('App\Code', [], 30)->random(3);
-        foreach($codes as $code) {
+        foreach ($codes as $code) {
             $code->vote();
         }
 
-        foreach($codes as $code) {
+        foreach ($codes as $code) {
             $this->get('/codes?popular=1')
                  ->assertSee($code->name);
         }
@@ -66,11 +66,11 @@ class ReadCodeTest extends TestCase
         $this->signIn($user);
 
         $code = create('App\Code');
-        $this->get('/codes?author='.$user->username)
+        $this->get('/codes?author=' . $user->username)
              ->assertDontSee($code->name);
 
         $code = create('App\Code', ['user_id' => $user->id]);
-        $this->get('/codes?author='.$user->username)
+        $this->get('/codes?author=' . $user->username)
              ->assertSee($code->name);
     }
 
@@ -139,13 +139,13 @@ class ReadCodeTest extends TestCase
     }
 
     /** @test */
-    public function unpublished_code_should_not_be_listed_under_datasets()
+    public function unpublished_code_should_not_be_listed_under_datasets ()
     {
         $dataset = create('App\Dataset');
-        $code = create('App\Code', ['dataset_id' => $dataset->id]);
+        $code    = create('App\Code', ['dataset_id' => $dataset->id]);
 
         $this->get($dataset->path())
-            ->assertSee($code->name);
+             ->assertSee($code->name);
 
         $code = create('App\Code', ['dataset_id' => $dataset->id, 'published' => false]);
 
@@ -159,7 +159,7 @@ class ReadCodeTest extends TestCase
         $code = create('App\Code');
         create('App\Code', [], 30);
 
-        $this->get('/codes?search='.substr($code->name, 0, 5))
+        $this->get('/codes?search=' . $code->name)
              ->assertSee($code->name);
     }
 }
