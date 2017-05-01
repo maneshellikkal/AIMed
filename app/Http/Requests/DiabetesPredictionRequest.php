@@ -26,12 +26,12 @@ class DiabetesPredictionRequest extends FormRequest
         return [
             'age' => 'required|integer|between:1,100',
             'pregnant' => 'required|integer|min:0|max:40',
-            'plasma_glucose_concentration' => 'required|integer|min:0',
-            'diastolic_bp' => 'required|integer|min:0',
-            'tsft' => 'required|integer|min:0',
-            'serum_insulin' => 'required|integer|min:0',
-            'bmi' => 'required|integer|min:0',
-            'dpf' => 'required|integer|min:0',
+            'plasma_glucose_concentration' => 'required|numeric|min:0',
+            'diastolic_bp' => 'required|numeric|min:0',
+            'tsft' => 'required|numeric|min:0',
+            'serum_insulin' => 'required|numeric|min:0',
+            'bmi' => 'required|numeric|min:0',
+            'dpf' => 'required|numeric|min:0',
         ];
     }
 }
