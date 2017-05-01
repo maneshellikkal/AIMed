@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Code;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DeleteCodesTest extends TestCase
 {
@@ -15,7 +15,7 @@ class DeleteCodesTest extends TestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->user    = create('App\User');
+        $this->user = create('App\User');
         $this->code = create('App\Code', ['user_id' => $this->user->id]);
     }
 

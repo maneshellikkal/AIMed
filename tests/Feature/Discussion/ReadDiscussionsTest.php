@@ -3,9 +3,9 @@
 namespace Tests\Feature\Discussion;
 
 use Carbon\Carbon;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ReadDiscussionsTest extends TestCase
 {
@@ -45,12 +45,12 @@ class ReadDiscussionsTest extends TestCase
     public function anyone_can_view_popular_discussions ()
     {
         $discussions = create('App\Thread', [], 30)->random(3);
-        foreach($discussions as $discussion) {
+        foreach ($discussions as $discussion) {
             create('App\Reply', ['thread_id' => $discussion->id], rand(1, 10));
         }
 
         $response = $this->get('/discuss?popular=1');
-        foreach($discussions as $discussion) {
+        foreach ($discussions as $discussion) {
             $response->assertSee($discussion->name);
         }
     }
@@ -80,11 +80,11 @@ class ReadDiscussionsTest extends TestCase
         $this->signIn($user);
 
         $discussion = create('App\Thread');
-        $this->get('/discuss?author='.$user->username)
+        $this->get('/discuss?author=' . $user->username)
              ->assertDontSee($discussion->name);
 
         $discussion = create('App\Thread', ['user_id' => $user->id]);
-        $this->get('/discuss?author='.$user->username)
+        $this->get('/discuss?author=' . $user->username)
              ->assertSee($discussion->name);
     }
 
@@ -95,17 +95,17 @@ class ReadDiscussionsTest extends TestCase
         $this->signIn($user);
 
         $discussion = create('App\Thread');
-        $this->get('/discuss?contributor='.$user->username)
+        $this->get('/discuss?contributor=' . $user->username)
              ->assertDontSee($discussion->name);
 
         $discussion = create('App\Thread', ['user_id' => $user->id]);
-        $this->get('/discuss?contributor='.$user->username)
+        $this->get('/discuss?contributor=' . $user->username)
              ->assertSee($discussion->name);
 
         $replies = create('App\Reply', ['user_id' => $user->id], 5);
 
-        $response = $this->get('/discuss?contributor='.$user->username);
-        foreach($replies as $reply){
+        $response = $this->get('/discuss?contributor=' . $user->username);
+        foreach ($replies as $reply) {
             $response->assertSee($reply->thread->name);
         }
     }
@@ -120,9 +120,9 @@ class ReadDiscussionsTest extends TestCase
     /** @test */
     public function a_discussion_must_show_its_replies ()
     {
-        $replies = create('App\Reply', ['thread_id' => $this->discussion->id], 5);
+        $replies  = create('App\Reply', ['thread_id' => $this->discussion->id], 5);
         $response = $this->get($this->discussion->path());
-        foreach($replies as $reply) {
+        foreach ($replies as $reply) {
             $response->assertSee($reply->body_html);
         }
     }
@@ -133,15 +133,15 @@ class ReadDiscussionsTest extends TestCase
         $discussion = create('App\Thread');
         create('App\Thread', [], 30);
 
-        $this->get('/discuss?search='.substr($discussion->name, 0, 5))
+        $this->get('/discuss?search=' . $discussion->name)
              ->assertSee($discussion->name);
     }
 
     /** @test */
     function anyone_can_filter_threads_according_to_a_category ()
     {
-        $category = create('App\Category');
-        $threadInCategory = create('App\Thread', ['category_id' => $category->id]);
+        $category            = create('App\Category');
+        $threadInCategory    = create('App\Thread', ['category_id' => $category->id]);
         $threadNotInCategory = create('App\Thread');
         $this->get($category->path())
              ->assertSee($threadInCategory->name)

@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Discussion;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateDiscussionsTest extends TestCase
 {
@@ -31,9 +30,9 @@ class CreateDiscussionsTest extends TestCase
         $this->post('/discuss', $discussion->toArray());
 
         $this->assertDatabaseHas('threads', [
-            'name' => $discussion->name,
-            'body' => $discussion->body,
-            'user_id' => $user->id,
+            'name'        => $discussion->name,
+            'body'        => $discussion->body,
+            'user_id'     => $user->id,
             'category_id' => $discussion->category_id,
         ]);
     }
@@ -75,10 +74,11 @@ class CreateDiscussionsTest extends TestCase
              ->assertSessionMissing('errors');
     }
 
-    protected function startDiscussion($overrides = [])
+    protected function startDiscussion ($overrides = [])
     {
         $this->signIn();
         $discussion = make('App\Thread', $overrides);
+
         return $this->post('/discuss', $discussion->toArray());
     }
 }

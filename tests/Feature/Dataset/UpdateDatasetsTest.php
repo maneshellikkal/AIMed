@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Dataset;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UpdateDatasetsTest extends TestCase
 {

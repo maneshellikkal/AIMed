@@ -23,9 +23,9 @@ class NewsletterTest extends TestCase
 
         $this->post('/register',
             [
-                'password' => 'secret',
+                'password'              => 'secret',
                 'password_confirmation' => 'secret',
-                'email' => $email,
+                'email'                 => $email,
             ] + make('App\User')->toArray());
     }
 
