@@ -29,6 +29,9 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('newsletter:weekly')
                   ->weekly();
+
+         $schedule->command('twitter:clear')
+             ->hourly();
     }
 
     /**
