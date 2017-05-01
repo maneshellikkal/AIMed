@@ -22,7 +22,7 @@ class ActivationTest extends TestCase
     public function an_activation_belongs_to_a_user()
     {
         $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Model', $this->activation->user
+            'App\User', $this->activation->user
         );
     }
 }

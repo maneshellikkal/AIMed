@@ -16,6 +16,13 @@ class NewsTest extends TestCase
     {
         parent::setUp();
         $this->news = create('App\TwitterFeed');
+        $this->fakeVotes();
+    }
+
+    protected function fakeVotes($times = 10) {
+        for($i = 1; $i <= $times; $i++){
+            $this->news->votes()->create(['user_id' => create('App\User')->id]);
+        }
     }
 
     /** @test */
@@ -24,5 +31,9 @@ class NewsTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->news->votes
         );
+
+        foreach($this->news->votes as $vote){
+            $this->assertInstanceOf('App\Vote', $vote);
+        }
     }
 }

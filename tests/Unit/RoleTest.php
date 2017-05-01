@@ -16,6 +16,10 @@ class RoleTest extends TestCase
     {
         parent::setUp();
         $this->role = create('App\Role');
+        $users = create('App\User', [], 5);
+        foreach($users as $user) {
+            $user->attachRole($this->role);
+        }
     }
 
     /** @test */
@@ -24,5 +28,9 @@ class RoleTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $this->role->users
         );
+
+        foreach($this->role->users as $user){
+            $this->assertInstanceOf('App\User', $user);
+        }
     }
 }

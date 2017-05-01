@@ -22,7 +22,7 @@ class ReplyTest extends TestCase
     public function a_reply_belongs_to_a_user()
     {
         $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Model', $this->reply->creator
+            'App\User', $this->reply->creator
         );
     }
 
@@ -30,7 +30,7 @@ class ReplyTest extends TestCase
     public function a_reply_belongs_belongs_to_a_thread()
     {
         $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Model', $this->reply->thread
+            'App\Thread', $this->reply->thread
         );
     }
 }
