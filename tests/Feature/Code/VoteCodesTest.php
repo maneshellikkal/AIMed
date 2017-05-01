@@ -20,7 +20,7 @@ class VoteCodesTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_vote_code ()
+    public function unauthenticated_users_may_not_vote_for_a_code ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -29,7 +29,7 @@ class VoteCodesTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_vote_or_abstain_code ()
+    public function authenticated_users_may_vote_for_a_code_but_only_once ()
     {
         $this->signIn($this->user);
 

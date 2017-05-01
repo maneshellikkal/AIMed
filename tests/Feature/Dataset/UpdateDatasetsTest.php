@@ -21,7 +21,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_edit_datasets ()
+    public function unauthenticated_users_may_not_edit_datasets ()
     {
         $this->get($this->dataset->path() . '/edit')
              ->assertRedirect('/login');
@@ -34,7 +34,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_see_edit_dataset_page ()
+    public function users_other_than_creator_or_admin_may_not_see_edit_dataset_page ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -44,7 +44,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_edit_dataset ()
+    public function users_other_than_creator_or_admin_may_not_edit_dataset ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -54,7 +54,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function any_authenticated_user_may_not_upload_file ()
+    public function users_other_than_creator_or_admin_may_not_upload_file_to_dataset ()
     {
         $this->disableExceptionHandling()->signIn();
 
@@ -88,7 +88,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function creator_may_upload_files ()
+    public function creator_may_upload_up_to_20_files ()
     {
         $this->disableExceptionHandling()->signIn($this->user);
 
@@ -102,7 +102,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function admin_may_upload_files ()
+    public function admin_may_upload_up_to_20_files ()
     {
         $this->disableExceptionHandling()->signIn($this->createAdmin());
 
@@ -116,7 +116,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function a_dataset_requires_a_valid_name ()
+    public function a_dataset_requires_a_valid_name_on_update ()
     {
         $this->updateDataset(['name' => null])
              ->assertSessionHasErrors('name');
@@ -129,7 +129,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function a_dataset_requires_a_valid_overview ()
+    public function a_dataset_requires_a_valid_overview_on_update ()
     {
         $this->updateDataset(['overview' => null])
              ->assertSessionHasErrors('overview');
@@ -142,7 +142,7 @@ class UpdateDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function a_dataset_requires_a_valid_description ()
+    public function a_dataset_requires_a_valid_description_on_update ()
     {
         $this->updateDataset(['description' => null])
              ->assertSessionHasErrors('description');
@@ -172,68 +172,6 @@ class UpdateDatasetsTest extends TestCase
         $this->updateDataset(['image' => UploadedFile::fake()->image('file.png')]);
 
         $this->assertDatabaseHas('datasets', ['id' => $this->dataset->id, 'published' => true]);
-    }
-
-    /** @test */
-    public function guests_may_not_publish_any_dataset ()
-    {
-        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
-
-        $this->disableExceptionHandling()
-             ->get($this->dataset->path() . '/publish');
-    }
-
-    /** @test */
-    public function any_user_may_not_publish_any_dataset ()
-    {
-        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
-
-        $this->disableExceptionHandling()
-             ->signIn($this->user)
-             ->get($this->dataset->path() . '/publish');
-    }
-
-    /** @test */
-    public function admin_may_publish_any_dataset ()
-    {
-        $this->signIn($this->createAdmin());
-
-        $this->get($this->dataset->path() . '/publish');
-        $this->assertDatabaseHas('datasets', ['id' => $this->dataset->id, 'published' => true]);
-
-        $this->get($this->dataset->path() . '/publish');
-        $this->assertDatabaseHas('datasets', ['id' => $this->dataset->id, 'published' => false]);
-    }
-
-    /** @test */
-    public function guests_may_not_feature_any_dataset ()
-    {
-        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
-
-        $this->disableExceptionHandling()
-             ->get($this->dataset->path() . '/feature');
-    }
-
-    /** @test */
-    public function any_user_may_not_feature_any_dataset ()
-    {
-        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
-
-        $this->disableExceptionHandling()
-             ->signIn($this->user)
-             ->get($this->dataset->path() . '/feature');
-    }
-
-    /** @test */
-    public function admin_may_feature_any_dataset ()
-    {
-        $this->signIn($this->createAdmin());
-
-        $this->get($this->dataset->path() . '/feature');
-        $this->assertDatabaseHas('datasets', ['id' => $this->dataset->id, 'featured' => true]);
-
-        $this->get($this->dataset->path() . '/feature');
-        $this->assertDatabaseHas('datasets', ['id' => $this->dataset->id, 'featured' => false]);
     }
 
     protected function updateDataset ($overrides = [])

@@ -245,7 +245,7 @@
                                     <span class="d-block">${\qquad}$${\qquad}$equals 0.250 when the ${relative_x}$ is a half sibling, grandparent, aunt or uncle, and</span>
                                     <span class="d-block">${\qquad}$${\qquad}$equals 0.125 when the ${relative_x}$ is a half aunt, half uncle or first cousin</span>
                                     <span class="d-block">${ADM_i\quad}$ is the age in years of ${relative_i}$ when diabetes was diagnosed</span>
-                                    <span class="d-block">${ADM_j\quad}$ is the age in years of ${relative_j}$ at the last diabetic examination (prior to patient's examination)</span>
+                                    <span class="d-block">${ALC_j\quad}$ is the age in years of ${relative_j}$ at the last diabetic examination (prior to patient's examination)</span>
                                 </p>
                                 <a href="https://goo.gl/GuUSgh" target="_blank" class="btn btn-link">Source</a>
                             </div>

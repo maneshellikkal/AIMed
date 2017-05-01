@@ -20,7 +20,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_participate_in_discussions ()
+    public function unauthenticated_users_may_not_participate_in_discussions ()
     {
         $this->get($this->discussion->path())
              ->assertDontSee('Leave a Reply');
@@ -31,7 +31,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_may_leave_reply ()
+    public function authenticated_user_may_participate_in_discussions ()
     {
         $this->signIn();
         $this->get($this->discussion->path())
@@ -42,7 +42,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_reply_requires_a_valid_body()
+    public function a_reply_requires_a_valid_body_for_creation ()
     {
         $this->leaveReply(['body' => null])
              ->assertSessionHasErrors('body');
@@ -55,7 +55,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_select_best_reply()
+    public function unauthenticated_users_may_not_select_best_reply ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -64,7 +64,7 @@ class ParticipateInDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_select_best_reply()
+    public function users_other_than_creator_may_not_select_best_reply()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
@@ -81,6 +81,16 @@ class ParticipateInDiscussionsTest extends TestCase
              ->selectBestReply(['thread_id' => $this->discussion->id]);
 
         $this->assertDatabaseHas('threads', ['id' => $this->discussion->id, 'answered' => true]);
+    }
+
+    /** @test */
+    public function admin_may_not_select_best_reply()
+    {
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+        $this->disableExceptionHandling()
+             ->signIn($this->createAdmin())
+             ->selectBestReply();
     }
 
     protected function selectBestReply($overrides = [])

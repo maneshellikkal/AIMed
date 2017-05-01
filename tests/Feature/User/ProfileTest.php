@@ -91,7 +91,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_name_is_required ()
+    public function a_valid_name_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -104,7 +104,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function username_may_not_be_changed ()
+    public function username_may_not_be_changed_by_user ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -114,7 +114,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function email_may_not_be_changed ()
+    public function email_may_not_be_changed_by_user ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -124,7 +124,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_date_of_birth_is_required ()
+    public function a_valid_date_of_birth_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -143,7 +143,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_occupation_is_required ()
+    public function a_valid_occupation_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -156,7 +156,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_github_username_is_required ()
+    public function a_valid_github_username_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -169,7 +169,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_linkedin_username_is_required ()
+    public function a_valid_linkedin_username_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -182,7 +182,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_website_is_required ()
+    public function a_valid_website_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -198,7 +198,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_newsletter_value_is_required ()
+    public function a_valid_newsletter_value_is_required_to_update_profile ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -227,7 +227,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function admin_may_change_username ()
+    public function admin_may_change_anyones_username ()
     {
         $this->signIn($this->createAdmin());
 
@@ -240,7 +240,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function admin_may_change_email ()
+    public function admin_may_change_anyones_email ()
     {
         $this->signIn($this->createAdmin());
 
@@ -262,7 +262,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function a_valid_password_is_required ()
+    public function a_valid_password_is_required_to_change_password ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -271,7 +271,7 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function password_must_be_confirmed ()
+    public function password_must_be_confirmed_to_change_password ()
     {
         $user = create('App\User');
         $this->signIn($user);

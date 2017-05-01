@@ -21,7 +21,7 @@ class DeleteReplyTest extends TestCase
     }
 
     /** @test */
-    public function guests_may_not_delete_any_reply ()
+    public function unauthenticated_users_may_not_delete_any_reply ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -30,7 +30,7 @@ class DeleteReplyTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_delete_any_reply ()
+    public function users_other_than_creator_or_admin_may_not_delete_any_reply ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 

@@ -24,14 +24,14 @@ class HeartDiseasePredictionRequest extends FormRequest
     public function rules()
     {
         return [
-            'age' => 'required|integer|between:1,200',
+            'age' => 'required|integer|between:1,100',
             'sex' => 'required|integer|in:0,1',
             'cp' => 'required|integer|in:1,2,3,4',
-            'resting_bp' => 'required|integer|min:1',
-            'serum_cholesterol' => 'required|integer|min:1',
-            'fasting_blood_sugar' => 'required|integer|min:1',
+            'resting_bp' => 'required|integer|between:1,300',
+            'serum_cholesterol' => 'required|integer|between:1,700',
+            'fasting_blood_sugar' => 'required|integer|between:1,500',
             'resting_ecg' => 'required|integer|in:0,1,2',
-            'max_heart_rate' => 'required|integer|min:1',
+            'max_heart_rate' => 'required|integer|between:1,300',
             'exercise_induced_angina' => 'required|integer|in:0,1',
             'st_depression' => 'required|integer|min:0',
             'st_slope' => 'required|integer|in:1,2,3',

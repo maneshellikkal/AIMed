@@ -8,21 +8,14 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CodeTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
+
     protected $code;
 
     public function setUp ()
     {
         parent::setUp();
         $this->code = create('App\Code');
-    }
-
-    /** @test */
-    public function a_code_can_make_a_string_path ()
-    {
-        $this->assertEquals(
-            "/c/{$this->code->slug}", $this->code->path()
-        );
     }
 
     /** @test */
@@ -35,5 +28,11 @@ class CodeTest extends TestCase
     public function a_code_belongs_to_a_dataset ()
     {
         $this->assertInstanceOf('App\Dataset', $this->code->dataset);
+    }
+
+    /** @test */
+    public function a_code_has_many_votes ()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->code->votes);
     }
 }

@@ -64,6 +64,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A User may have multiple activation tokens.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activations()
+    {
+        return $this->hasMany(Activation::class);
+    }
+
+    /**
      * A User may have multiple datasets.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -101,6 +111,16 @@ class User extends Authenticatable
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * A User may have multiple votes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 
     /**

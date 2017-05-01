@@ -19,14 +19,14 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function view_all_datasets ()
+    public function anyone_can_view_published_datasets ()
     {
         $this->get('/datasets')
              ->assertSee($this->dataset->name);
     }
 
     /** @test */
-    public function view_featured_datasets ()
+    public function anyone_can_view_featured_datasets ()
     {
         $this->get('/datasets?featured=true')
              ->assertDontSee($this->dataset->name);
@@ -37,7 +37,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function view_trending_datasets ()
+    public function anyone_can_view_trending_datasets ()
     {
         $this->signIn();
 
@@ -55,7 +55,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function view_popular_datasets ()
+    public function anyone_can_view_popular_datasets ()
     {
         $this->signIn();
 
@@ -71,7 +71,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_may_view_own_datasets ()
+    public function authenticated_users_may_view_their_datasets ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -86,7 +86,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_dataset_in_all ()
+    public function unpublished_datasets_should_not_be_visible ()
     {
         $dataset = create('App\Dataset', ['published' => false]);
         $this->get('/datasets')
@@ -94,7 +94,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_dataset_in_featured ()
+    public function unpublished_datasets_should_not_be_listed_under_featured_datasets ()
     {
         $dataset = create('App\Dataset', ['published' => false, 'featured' => true]);
         $this->get('/datasets?featured=true')
@@ -102,7 +102,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_dataset_in_trending ()
+    public function unpublished_datasets_should_not_be_listed_under_trending_datasets ()
     {
         $this->signIn();
 
@@ -114,7 +114,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function cannot_view_unpublished_dataset_in_popular ()
+    public function unpublished_datasets_should_not_be_listed_under_popular_datasets ()
     {
         $this->signIn();
 
@@ -126,14 +126,14 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function view_a_single_dataset ()
+    public function a_dataset_must_be_viewable ()
     {
         $this->get($this->dataset->path())
              ->assertSee($this->dataset->name);
     }
 
     /** @test */
-    public function dataset_should_list_its_codes ()
+    public function a_dataset_must_list_all_of_its_codes ()
     {
         $codes = create('App\Code', ['dataset_id' => $this->dataset->id], 5);
         foreach($codes as $code){
@@ -143,7 +143,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function may_not_view_unpublished_dataset ()
+    public function users_may_not_view_unpublished_dataset ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
         $dataset = create('App\Dataset', ['published' => false]);
@@ -151,7 +151,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function owner_can_view_unpublished_datasets ()
+    public function owner_may_view_unpublished_datasets ()
     {
         $user = create('App\User');
         $dataset = create('App\Dataset', ['published' => false, 'user_id' => $user->id]);
@@ -165,7 +165,7 @@ class ReadDatasetsTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_view_unpublished_datasets ()
+    public function admin_may_view_unpublished_datasets ()
     {
         $dataset = create('App\Dataset', ['published' => false]);
 

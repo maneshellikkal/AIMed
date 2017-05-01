@@ -19,14 +19,14 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function view_all_discussions ()
+    public function anyone_can_view_discussions ()
     {
         $this->get('/discuss')
              ->assertSee($this->discussion->name);
     }
 
     /** @test */
-    public function view_trending_discussions ()
+    public function anyone_can_view_trending_discussions ()
     {
         $discussion = create('App\Thread', ['created_at' => Carbon::now()->subDays(10)]);
         create('App\Reply', ['thread_id' => $discussion->id], 5);
@@ -42,7 +42,7 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function view_popular_discussions ()
+    public function anyone_can_view_popular_discussions ()
     {
         $discussions = create('App\Thread', [], 30)->random(3);
         foreach($discussions as $discussion) {
@@ -56,7 +56,7 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function view_answered_discussions ()
+    public function anyone_can_view_answered_discussions ()
     {
         $discussion = create('App\Thread', ['answered' => true]);
 
@@ -65,7 +65,7 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function view_unanswered_discussions ()
+    public function anyone_can_view_unanswered_discussions ()
     {
         $discussion = create('App\Thread', ['answered' => false]);
 
@@ -74,7 +74,7 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_may_view_own_discussions ()
+    public function authenticated_user_may_view_their_discussions ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -111,14 +111,14 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function view_single_discussion ()
+    public function a_discussion_must_be_viewable ()
     {
         $this->get($this->discussion->path())
              ->assertSee($this->discussion->name);
     }
 
     /** @test */
-    public function discussion_should_include_replies ()
+    public function a_discussion_must_show_its_replies ()
     {
         $replies = create('App\Reply', ['thread_id' => $this->discussion->id], 5);
         $response = $this->get($this->discussion->path());
@@ -138,7 +138,7 @@ class ReadDiscussionsTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_filter_threads_according_to_a_category ()
+    function anyone_can_filter_threads_according_to_a_category ()
     {
         $category = create('App\Category');
         $threadInCategory = create('App\Thread', ['category_id' => $category->id]);

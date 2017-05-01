@@ -14,7 +14,7 @@ class PasswordResetTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    public function authenticated_users_may_not_request_reset_token ()
+    public function authenticated_users_may_not_request_password_reset_token ()
     {
         $this->get('/password/reset')
              ->assertSee('Reset Password');
@@ -36,14 +36,14 @@ class PasswordResetTest extends TestCase
     }
 
     /** @test */
-    public function valid_email_should_be_provided ()
+    public function password_reset_token_form_requires_valid_email ()
     {
         $this->post('/password/email', ['email' => 'test@example.com'])
              ->assertSessionHasErrors();
     }
 
     /** @test */
-    public function valid_emails_should_receive_tokens ()
+    public function valid_emails_should_receive_password_reset_tokens ()
     {
         Notification::fake();
 
@@ -70,7 +70,7 @@ class PasswordResetTest extends TestCase
     }
 
     /** @test */
-    public function password_must_be_confirmed ()
+    public function password_must_be_confirmed_for_resetting ()
     {
         $user = create('App\User');
         $password = $user->password;

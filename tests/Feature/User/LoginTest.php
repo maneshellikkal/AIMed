@@ -22,7 +22,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function invalid_credentials_should_not_work ()
+    public function invalid_credentials_should_not_work_for_login ()
     {
         $user     = create('App\User');
 
@@ -56,7 +56,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function valid_credentials_should_login ()
+    public function valid_credentials_should_be_logged_in ()
     {
         $user     = create('App\User');
 

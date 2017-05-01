@@ -12,7 +12,7 @@ class CreateDiscussionsTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     /** @test */
-    public function guests_may_not_create_discussions ()
+    public function unauthenticated_users_may_not_create_discussions ()
     {
         $this->get('/discuss/create')
              ->assertRedirect('/login');
@@ -22,7 +22,7 @@ class CreateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_may_create_discussions ()
+    public function authenticated_users_may_create_discussions ()
     {
         $user = create('App\User');
         $this->signIn($user);
@@ -39,7 +39,7 @@ class CreateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_a_valid_name()
+    public function a_discussion_requires_a_valid_name_for_creation ()
     {
         $this->startDiscussion(['name' => null])
              ->assertSessionHasErrors('name');
@@ -52,7 +52,7 @@ class CreateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_a_valid_body()
+    public function a_discussion_requires_a_valid_body_for_creation ()
     {
         $this->startDiscussion(['body' => null])
              ->assertSessionHasErrors('body');
@@ -65,7 +65,7 @@ class CreateDiscussionsTest extends TestCase
     }
 
     /** @test */
-    public function a_discussion_requires_valid_category ()
+    public function a_discussion_requires_valid_category_for_creation ()
     {
         $this->startDiscussion(['category_id' => 0])
              ->assertSessionHasErrors('category_id');

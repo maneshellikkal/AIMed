@@ -16,11 +16,11 @@ class DeleteCodesTest extends TestCase
     {
         parent::setUp();
         $this->user    = create('App\User');
-        $this->code = create('App\Code', ['user_id' => $this->user->id, 'published' => false]);
+        $this->code = create('App\Code', ['user_id' => $this->user->id]);
     }
 
     /** @test */
-    public function guests_may_not_delete_any_code ()
+    public function unauthenticated_users_may_not_delete_any_code ()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -29,7 +29,7 @@ class DeleteCodesTest extends TestCase
     }
 
     /** @test */
-    public function any_user_may_not_delete_any_code ()
+    public function users_other_than_admin_may_not_delete_code ()
     {
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
