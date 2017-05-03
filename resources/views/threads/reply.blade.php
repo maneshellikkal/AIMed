@@ -6,7 +6,7 @@
                 <img class="mb-1" src="{{ $reply->creator->gravatar }}" alt="{{ $reply->creator->name }}">
                 @if(!($embeded ?? false))
                     <div>
-                        @can('select-best-answer', $thread)
+                        @can('select-best-answer', $reply)
                             @if($thread->isNotAnswered())
                             <div class="d-inline-block">
                                 <form method="POST" action="{{ $reply->path() }}">
