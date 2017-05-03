@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center mt-3">
-            @can('edit', $dataset)
+            @can('update', $dataset)
                 <div class="col-lg-12 align-self-end">
                     <div class="pull-right">
                         <a class="btn btn-primary" href="{{ $dataset->path() }}/edit">Edit Dataset</a>

@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center mt-3">
-            @can('edit', $code)
+            @can('update', $code)
             <div class="col-12 align-self-end">
                 <a class="pull-right btn btn-primary" href="{{ $code->path() }}/edit">Edit Code</a>
             </div>

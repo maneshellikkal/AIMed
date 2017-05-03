@@ -10,7 +10,7 @@
             <div class="col-md-9">
                 <div class="card mb-3">
                     <div class="card-block">
-                        @can('edit', $thread)
+                        @can('update', $thread)
                         <div class="pull-right">
                             <a href="{{ $thread->path() }}/edit" class="btn btn-primary">Edit Thread</a>
                         </div>
