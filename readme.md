@@ -1,40 +1,53 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# AIMED
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[![Build Status](https://travis-ci.org/nikhil-pandey/AIMed.svg?branch=master)](https://travis-ci.org/nikhil-pandey/AIMed)
 
-## About Laravel
+## Introduction
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+This web application has the following features:
+- predict heart disease and diabetes.
+- create an account and login.
+- update their profile and password.
+- read the latest news from twitter.
+- publish and view published datasets by other members.
+- publish code and view published codes for a particular dataset.
+- participate in discussions.
+- upvote and downvote news, datasets and code.
+- subscribe or unsubscribe to newsletters. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+1. Clone the repository or download zip
+    ```bash
+    git clone https://github.com/nikhil-pandey/aimed
+    ```
+2. Install composer dependencies
+    ```bash
+    cd aimed
+    composer install –prefer-dist
+    ```
 
-## Learning Laravel
+3. Copy the `.env.example` file to `.env`
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+4. Set configurations in `.env`. Other than basic database and queue configurations you will need to provide Twitter API keys, Amazon S3 Storage API keys and Mail Chimp API keys.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+5. Generate App Key
+    ```bash
+    php artisan key:generate
+    ```
+6. Create database and populate test data.
+    ```bash
+    php artisan migrate
+    php artisan db:seed
+    ```
+## Screenshots
+![Imgur](https://i.imgur.com/3aIgEFx.png)
 
-## Contributing
+## Live Demo
+[Click Here](https://aimed.nikhil.com.np)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Read Full Report
+[Click Here](https://nikhil.com.np/downloads/aimed.pdf)
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+## [License](LICENSE)
+This project is open-sourced under the [MIT license](LICENSE)
