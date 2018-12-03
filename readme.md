@@ -24,7 +24,7 @@ This web application has the following features:
 2. Install composer dependencies
     ```bash
     cd aimed
-    composer install –prefer-dist
+    composer install --prefer-dist
     ```
 
 3. Copy the `.env.example` file to `.env`
