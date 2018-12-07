@@ -47,7 +47,7 @@ This web application has the following features:
 [Click Here](https://aimed.nikhil.com.np)
 
 ## Read Full Report
-[Click Here](https://nikhil.com.np/downloads/aimed.pdf)
+[Click Here](https://nikhil.com.np/storage/aimed.pdf)
 
 ## [License](LICENSE)
 This project is open-sourced under the [MIT license](LICENSE)
