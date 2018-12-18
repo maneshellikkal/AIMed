@@ -46,6 +46,9 @@ This web application has the following features:
 ## Live Demo
 [Click Here](https://aimed.nikhil.com.np)
 
+## ML
+[Machine Learning Portion](https://github.com/nikhil-pandey/fyp-ml)
+
 ## Read Full Report
 [Click Here](https://nikhil.com.np/storage/aimed.pdf)
 
